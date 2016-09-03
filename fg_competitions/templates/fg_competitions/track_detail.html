@@ -33,4 +33,8 @@
 {% endfor %}
 </table>
 
+{% if track.allow_submit %}
+<a href="{% url 'submission_create' track=track.pk %}">submit now</a>
+{% endif %}
+
 {% endblock %}

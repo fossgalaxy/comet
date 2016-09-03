@@ -90,6 +90,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'comet.wsgi.application'
 
 
+MEDIA_ROOT = os.path.join(VAR_DIR, "uploads")
+
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 

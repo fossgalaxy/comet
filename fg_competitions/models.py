@@ -68,6 +68,10 @@ class Submission(models.Model):
     ranking_rd = models.FloatField(default=350)
     velocity = models.FloatField(default=0.06)
 
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('submission_detail', kwargs={'pk':self.pk})
+
     def __str__(self):
         return self.name
 
@@ -86,6 +90,10 @@ class SubmissionUpload(models.Model):
 
     def __str__(self):
         return "{0}".format(self.upload)
+
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('submission_detail', kwargs={'pk':self.submission.pk})
 
     class Meta:
         ordering = ["-created"]

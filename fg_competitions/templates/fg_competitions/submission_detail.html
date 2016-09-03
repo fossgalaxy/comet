@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block head_title %}{{submission}}{% endblock %}
+
+{% block content %}
+<h1>{{submission}}</h1>
+<p class="lead">{{submission.description}}</p>
+
+<a href="{{submission.track.get_absolute_url}}">{{submission.track}}</a>
+
+<h2>Versions</h2>
+<ul>
+  {% for upload in submission.uploads.all %}
+  <li>{{upload}} {{upload.created}}</li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'submission_upload' submission=submission.pk %}">Upload new submission</a>
+
+{% endblock %}
