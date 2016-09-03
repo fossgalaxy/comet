@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     #'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
 
-    'fg_users'
+    'fg_users',
+    'fg_competitions'
 ]
 
 MIDDLEWARE = [
