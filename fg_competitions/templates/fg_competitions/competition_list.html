@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block head_title %}Competitions{% endblock %}
+
+{% block content %}
+<h1>Competition List</h1>
+
+<ul>
+{% for competition in competition_list %}
+<li><a href="{{competition.get_absolute_url}}">{{competition}}</a></li>
+{% empty %}
+<li>There are no competitions</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

@@ -17,6 +17,10 @@ class Competition(models.Model):
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
 
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('competition_detail', kwargs={'slug':self.slug})
+
     def __str__(self):
         return self.name
 
