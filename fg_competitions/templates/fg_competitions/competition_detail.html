@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block head_title %}{{competition}}{% endblock %}
+
+{% block content %}
+<h1>{{competition}}</h1>
+<p class="lead">{{competition.description}}</p>
+
+{% if competition.links.all %}
+<h2>Useful Links</h2>
+<ul>
+  {% for link in competition.links.all %}
+  <li><a href="{{link.url}}">{{link}}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}

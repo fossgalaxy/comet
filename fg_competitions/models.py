@@ -28,7 +28,7 @@ class Competition(models.Model):
 class CompetitionLink(models.Model):
     """A link to a document for the competition"""
     name = models.CharField(max_length=100)
-    competition = models.ForeignKey(Competition)
+    competition = models.ForeignKey(Competition, related_name="links")
     url = models.URLField()
 
     def __str__(self):
