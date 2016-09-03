@@ -44,6 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    # django rest framework
+    'rest_framework',
+    'corsheaders',
+
     # Authentication Plugins
     'allauth',
     'allauth.account',
@@ -59,6 +63,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -88,9 +93,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'comet.wsgi.application'
-
-
-MEDIA_ROOT = os.path.join(VAR_DIR, "uploads")
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -145,3 +147,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(VAR_DIR, "static")
+MEDIA_ROOT = os.path.join(VAR_DIR, "uploads")
+
+# CorsMiddleware
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'^/api/.*$'
+
+# Django Rest framework
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
