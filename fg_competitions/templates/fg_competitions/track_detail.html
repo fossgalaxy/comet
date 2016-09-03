@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block head_title %}{{competition}}{% endblock %}
+
+{% block content %}
+<h1>{{track}}</h1>
+<p class="lead">{{track.description}}</p>
+
+<a href="{{track.competition.get_absolute_url}}">{{track.competition}}</a>
+
+{% if track.allow_submit %}<p>Submissions Open</p>{% endif %}
+{% if track.allow_update %}<p>Editing of Submissions is permitted</p>{% endif %}
+
+<h2>Current Submissions</h2>
+{% for submission in track.submission_set.all %}
+  {{submission}}
+  {% empty %}
+  There are presently no submissions
+{% endfor %}
+
+{% endblock %}

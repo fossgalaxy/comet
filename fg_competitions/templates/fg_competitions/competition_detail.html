@@ -15,4 +15,11 @@
 </ul>
 {% endif %}
 
+<h2>Tracks</h2>
+<ul>
+  {% for track in competition.track_set.all %}
+  <li><a href="{{track.get_absolute_url}}">{{track}}</a></li>
+  {% endfor %}
+</ul>
+
 {% endblock %}

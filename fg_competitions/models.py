@@ -44,6 +44,10 @@ class Track(models.Model):
     allow_submit = models.BooleanField(default=True)
     allow_update = models.BooleanField(default=True)
 
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('track_detail', kwargs={'pk':self.pk})
+
     def __str__(self):
         return self.name
 
