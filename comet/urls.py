@@ -16,9 +16,21 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from rest_framework import routers
+from fg_competitions import rest_views
+
+router = routers.DefaultRouter()
+router.register(r'users', rest_views.UserViewSet)
+router.register(r'groups', rest_views.GroupViewSet)
+router.register(r'competition', rest_views.CompetitionViewSet)
+router.register(r'track', rest_views.TrackViewSet)
+router.register(r'submission', rest_views.SubmissionViewSet)
+router.register(r'upload', rest_views.UploadViewSet)
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('fg_users.urls')),
     url(r'^competitions/', include('fg_competitions.urls')),
-    url(r'^api/', include('rest_framework.urls'))
+    url(r'^api/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls'))
 ]

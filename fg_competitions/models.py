@@ -68,6 +68,10 @@ class Submission(models.Model):
     ranking_rd = models.FloatField(default=350)
     velocity = models.FloatField(default=0.06)
 
+    @property
+    def current_upload(self):
+        return self.uploads.first()
+
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
         return reverse('submission_detail', kwargs={'pk':self.pk})
