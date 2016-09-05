@@ -8,6 +8,14 @@
 {% for competition in competition_list %}
 <h2><a href="{{competition.get_absolute_url}}">{{competition}}</a></h2>
 <p>{{competition.description}}</p>
+
+<h3>Current Tracks</h3>
+<ul>
+{% for track in competition.track_set.all %}
+<li><a href="{{track.get_absolute_url}}">{{track}}</a></li>
+{% endfor %}
+</ul>
+
 {% empty %}
 <p class="muted">There are no competitions</p>
 {% endfor %}
