@@ -9,8 +9,9 @@
 <form method="post" action="#">
   {% csrf_token %}
 {{form}}
-<input type="submit" class="btn btn-primary" value="Register" />
 <input type="hidden" name="track" value="{{track.pk}}" />
+<input type="submit" class="btn btn-primary" value="Register" />
+<a href="{{ submission.get_absolute_url }}" class="btn btn-text">cancel</a>
 </form>
 
 {% endblock %}
