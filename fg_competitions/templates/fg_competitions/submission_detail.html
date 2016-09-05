@@ -3,6 +3,10 @@
 {% block head_title %}{{submission}}{% endblock %}
 
 {% block content %}
+{% if submission.owner == user and submission.track.allow_update %}
+<a class="btn btn-primary pull-right" href="{% url 'submission_upload' submission=submission.pk %}">Upload new submission</a>
+{% endif %}
+
 <h1>{{submission}}</h1>
 <p class="lead">{{submission.description}}</p>
 <p>Created by <a href="{{submission.owner.get_absolute_url}}">{{submission.owner}}</a> on {{submission.created}}</p>
@@ -38,8 +42,6 @@
 </table>
 
 
-{% if submission.owner == user and submission.track.allow_update %}
-<a class="btn btn-primary" href="{% url 'submission_upload' submission=submission.pk %}">Upload new submission</a>
-{% endif %}
+
 
 {% endblock %}
