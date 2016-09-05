@@ -1,0 +1,32 @@
+image: python:2.7-slim
+
+before_script:
+    - apt-get update -qq && apt-get install -y gcc gettext postgresql-client libpq-dev sqlite3 python-dev libjpeg-dev libfreetype6-dev zlib1g-dev
+    - pip install -r requirements.txt
+
+stages:
+    - validate
+    - test
+
+check:
+    stage: validate
+    script: 
+	    - python manage.py check
+    except:
+	- tags
+
+migrate:
+    stage: validate
+    script: 
+	    - python manage.py migrate
+    except:
+	- tags
+
+django_test:
+    stage: test
+    script: 
+            - python manage.py test
+    except:
+        - tags
+
+
