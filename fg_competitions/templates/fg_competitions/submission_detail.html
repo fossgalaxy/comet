@@ -18,13 +18,13 @@
   <thead>
   <tr>
     <th>Version</th>
-    <th>Date</th>
+    <th>Status</th>
     <th></th>
   </tr>
 </thead>
 <tbody>
     {% for upload in submission.uploads.all %}
-  <tr>
+  <tr {% if upload == submission.current_upload %}class="info"{% endif %}>
     <th>{{upload.created}}</th>
     <td>{{upload.get_status_display}}</td>
     <td></td>
