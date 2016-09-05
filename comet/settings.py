@@ -48,6 +48,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
+    # Templating
+    'bootstrap3',
+
     # Authentication Plugins
     'allauth',
     'allauth.account',

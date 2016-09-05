@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load account %}
+{% load account bootstrap3 %}
 
 {% block head_title %}{{competition}}{% endblock %}
 
@@ -8,7 +8,7 @@
 
 <form method="post" action="#" enctype="multipart/form-data" >
   {% csrf_token %}
-{{form}}
+{% bootstrap_form form %}
 <input type="hidden" name="submission" value="{{submission.pk}}" />
 
 <input type="submit" class="btn btn-primary" value="Upload Revision" />
