@@ -9,10 +9,10 @@
 <form method="post" action="#" enctype="multipart/form-data" >
   {% csrf_token %}
 {{form}}
-<input type="submit" class="btn btn-primary" />
 <input type="hidden" name="submission" value="{{submission.pk}}" />
-</form>
 
-<a href="{{ submission.get_absolute_url }}">cancel</a>
+<input type="submit" class="btn btn-primary" value="Upload Revision" />
+<a href="{{ submission.get_absolute_url }}" class="btn btn-text">cancel</a>
+</form>
 
 {% endblock %}

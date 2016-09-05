@@ -9,7 +9,7 @@
 <form method="post" action="#">
   {% csrf_token %}
 {{form}}
-<input type="submit" class="btn btn-primary" />
+<input type="submit" class="btn btn-primary" value="Register" />
 <input type="hidden" name="track" value="{{track.pk}}" />
 </form>
 
