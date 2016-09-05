@@ -3,7 +3,7 @@
 {% block head_title %}Competitions{% endblock %}
 
 {% block content %}
-<h1>Competition List</h1>
+<h1 class="sr-only">Competition List</h1>
 
 {% for competition in competition_list %}
 <h2><a href="{{competition.get_absolute_url}}">{{competition}}</a></h2>
