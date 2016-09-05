@@ -34,6 +34,7 @@ Editing of existing submissions not allowed</p>{% endif %}</li>
     </tr>
   </thead>
 
+<tbody>
 {% for submission in track.submission_set.all %}
   <tr>
     <th><a href="{{submission.get_absolute_url}}">{{submission}}</a></th>
@@ -41,8 +42,11 @@ Editing of existing submissions not allowed</p>{% endif %}</li>
     <td>{{submission.ranking}}</td>
   </tr>
   {% empty %}
-  There are presently no submissions
+  <tr>
+    <td colspan="3"><p class="text-center">There are presently no submissions</p></td>
+  </tr>
 {% endfor %}
+</tbody>
 </table>
 
 {% endblock %}
