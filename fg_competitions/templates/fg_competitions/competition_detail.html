@@ -6,6 +6,20 @@
 <h1>{{competition}}</h1>
 <p class="lead">{{competition.description}}</p>
 
+<div class="row">
+<div class="col-md-8">
+<h2>Tracks</h2>
+<div class="list-group">
+  {% for track in competition.track_set.all %}
+  <a href="{{track.get_absolute_url}}" class="list-group-item list-group-item-action">
+    <h3 class="list-group-heading">{{track}}</h3>
+    <p class="list-group-item-text">{{track.description}}</p>
+  </a>
+  {% endfor %}
+</div>
+</div>
+<div class="col-md-2 col-md-offset-1">
+
 {% if competition.links.all %}
 <h2>Useful Links</h2>
 <ul>
@@ -15,11 +29,7 @@
 </ul>
 {% endif %}
 
-<h2>Tracks</h2>
-<ul>
-  {% for track in competition.track_set.all %}
-  <li><a href="{{track.get_absolute_url}}">{{track}}</a></li>
-  {% endfor %}
-</ul>
+</div>
+</div>
 
 {% endblock %}
