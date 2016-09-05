@@ -17,9 +17,9 @@ Assuming you have python and virtualenvwrapper installed:
 
 ```bash
 # Setup your envrioment
-mkvirtualenv comp-server
-activate comp-server
-pip install -r
+mkvirtualenv comp-server # skip this line if not using virtualenv
+activate comp-server # skil this like if not using virtualenv
+pip install -r requirements.txt
 
 # Create the database
 ./manage.py migrate
@@ -29,7 +29,7 @@ pip install -r
 
 # Start server and setup oauth applications
 ./manage.py runserver 0.0.0.0:8000 --settings=comet.settings.local
-# go to http://localhost:8000/admin
+# go to http://localhost:8000/admin and add your github, facebook and google tokens
 ```
 
 ### Deploying in production
