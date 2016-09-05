@@ -5,6 +5,7 @@
 {% block content %}
 <h1>{{submission}}</h1>
 <p class="lead">{{submission.description}}</p>
+<p>Created by <a href="{{submission.owner.get_absolute_url}}">{{submission.owner}}</a> on {{submission.created}}</p>
 
 {% if submission.owner == user %}
 <p class="alert">This is your submission.</p>
@@ -13,13 +14,29 @@
 <a href="{{submission.track.get_absolute_url}}">{{submission.track}}</a>
 
 <h2>Versions</h2>
-<ul>
-  {% for upload in submission.uploads.all %}
-  <li>{{upload}} {{upload.created}}</li>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Version</th>
+    <th>Date</th>
+    <th></th>
+  </tr>
+</thead>
+<tbody>
+    {% for upload in submission.uploads.all %}
+  <tr>
+    <th>{{upload.created}}</th>
+    <td>{{upload.get_status_display}}</td>
+    <td></td>
+  </tr>
   {% empty %}
-  <li>There are no uploads for this submission</li>
+  <tr>
+  <td colspan="3" class="muted">There are no uploads for this submission</td>
+</tr>
   {% endfor %}
-</ul>
+</tbody>
+</table>
+
 
 {% if submission.owner == user and submission.track.allow_update %}
 <a class="btn btn-primary" href="{% url 'submission_upload' submission=submission.pk %}">Upload new submission</a>
