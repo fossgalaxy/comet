@@ -10,22 +10,22 @@ stages:
 
 check:
     stage: validate
-    script: 
-	    - python manage.py check
+    script:
+        - python manage.py check
     except:
 	- tags
 
 migrate:
     stage: validate
-    script: 
-	    - python manage.py migrate
+    script:
+        - python manage.py migrate
     except:
 	- tags
 
 django_test:
     stage: test
-    script: 
-            - python manage.py test
+    script:
+        - python manage.py test
     except:
         - tags
 
