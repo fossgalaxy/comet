@@ -6,7 +6,7 @@ from .models import Track, Submission, SubmissionUpload
 class RegisterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
+        self.user = kwargs.pop('owner')
         super(RegisterForm, self).__init__(*args, **kwargs)
 
     def clean(self):
