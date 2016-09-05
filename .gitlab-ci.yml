@@ -13,14 +13,14 @@ check:
     script:
         - python manage.py check
     except:
-	- tags
+        - tags
 
 migrate:
     stage: validate
     script:
         - python manage.py migrate
     except:
-	- tags
+        - tags
 
 django_test:
     stage: test
@@ -28,5 +28,3 @@ django_test:
         - python manage.py test
     except:
         - tags
-
-
