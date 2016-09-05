@@ -6,15 +6,23 @@
 <h1>{{submission}}</h1>
 <p class="lead">{{submission.description}}</p>
 
+{% if submission.owner == user %}
+<p class="alert">This is your submission.</p>
+{% endif %}
+
 <a href="{{submission.track.get_absolute_url}}">{{submission.track}}</a>
 
 <h2>Versions</h2>
 <ul>
   {% for upload in submission.uploads.all %}
   <li>{{upload}} {{upload.created}}</li>
+  {% empty %}
+  <li>There are no uploads for this submission</li>
   {% endfor %}
 </ul>
 
-<a href="{% url 'submission_upload' submission=submission.pk %}">Upload new submission</a>
+{% if submission.owner == user and submission.track.allow_update %}
+<a class="btn btn-primary" href="{% url 'submission_upload' submission=submission.pk %}">Upload new submission</a>
+{% endif %}
 
 {% endblock %}
