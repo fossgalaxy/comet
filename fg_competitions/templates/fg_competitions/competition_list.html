@@ -5,12 +5,11 @@
 {% block content %}
 <h1>Competition List</h1>
 
-<ul>
 {% for competition in competition_list %}
-<li><a href="{{competition.get_absolute_url}}">{{competition}}</a></li>
+<h2><a href="{{competition.get_absolute_url}}">{{competition}}</a></h2>
+<p>{{competition.description}}</p>
 {% empty %}
-<li>There are no competitions</li>
+<p class="muted">There are no competitions</p>
 {% endfor %}
-</ul>
 
 {% endblock %}
