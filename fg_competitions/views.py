@@ -24,6 +24,15 @@ class TrackDetail(DetailView):
     model = Track
     context_object_name = "track"
 
+    def get_context_data(self, **kwargs):
+        context = super(TrackDetail, self).get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            try:
+                context['submission'] = Submission.objects.get(track=self.object, owner=self.request.user)
+            except ObjectDoesNotExist:
+                pass
+        return context
+
 class SubmissionDetail(DetailView):
     """View details about a submission"""
     model = Submission

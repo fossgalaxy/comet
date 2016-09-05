@@ -4,8 +4,12 @@
 {% block head_title %}{{competition}}{% endblock %}
 
 {% block content %}
-{% if track.allow_submit %}
+{% if track.allow_submit and user.is_authenticated %}
+{% if not submission %}
 <p class="pull-right"><a class="btn btn-primary" href="{% url 'submission_create' track=track.pk %}">Create Submission</a></p>
+{% else %}
+<p class="pull-right"><a class="btn btn-primary" href="{{submission.get_absolute_url}}">View Submission</a></p>
+{% endif %}
 {% endif %}
 
 <h1>{{track.competition}} <small>{{track}}</small></h1>
