@@ -2,7 +2,7 @@ FROM python:3.5
 ENV PYTHONUNBUFFERED 1
 
 # Setup webserver
-RUN pip install uwsgi
+RUN pip install uwsgi psycopg2
 #RUN apt-get update && apt-get install -y npm nodejs-legacy
 #RUN npm install -g bower
 
