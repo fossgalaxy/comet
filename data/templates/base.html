@@ -17,6 +17,26 @@
     {% endblock %}
   </head>
   <body>
+    {% block navbar %}
+    <div class="navbar navbar-default">
+      <div class="container">
+      <ul class="nav navbar-nav">
+        <li><a href="">Home</a></li>
+        <li><a href="{% url 'competitions' %}">Competitions</a></li>
+      </ul>
+      <ul class="nav navbar-nav pull-right">
+  {% if user.is_authenticated %}
+  <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+  <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+  {% else %}
+  <li><a href="{% url 'account_login' %}">Sign In</a></li>
+  <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+  {% endif %}
+      </ul>
+      </div>
+    </div>
+    {% endblock %}
+
     <div class="container">
     {% block body %}
 
@@ -30,19 +50,6 @@
       </ul>
     </div>
     {% endif %}
-
-    <div>
-      <strong>Menu:</strong>
-      <ul>
-	{% if user.is_authenticated %}
-	<li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-	<li><a href="{% url 'account_logout' %}">Sign Out</a></li>
-	{% else %}
-	<li><a href="{% url 'account_login' %}">Sign In</a></li>
-	<li><a href="{% url 'account_signup' %}">Sign Up</a></li>
-	{% endif %}
-      </ul>
-    </div>
     {% block content %}
     {% endblock %}
     {% endblock %}
