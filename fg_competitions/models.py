@@ -87,13 +87,27 @@ class Submission(models.Model):
 def submission_path(instance, filename):
     return 'submissions/{0}/{1}'.format(instance.submission.pk, filename)
 
+# This is far from foolproof, it should be combined with something else (like python magic)
+from django.core.validators import RegexValidator
+class ExtensionValidator(RegexValidator):
+    def __init__(self, extensions, message=None):
+        if not hasattr(extensions, '__iter__'):
+            extensions = [extensions]
+        regex = '\.(%s)$' % '|'.join(extensions)
+        if message is None:
+            message = 'File type not supported. Accepted types are: %s.' % ', '.join(extensions)
+        super(ExtensionValidator, self).__init__(regex, message)
+
+    def __call__(self, value):
+        super(ExtensionValidator, self).__call__(value.name)
+
 @python_2_unicode_compatible
 class SubmissionUpload(models.Model):
     """A version of a submission"""
     submission = models.ForeignKey(Submission, related_name='uploads')
     status = models.CharField(max_length=5, default="BP", choices=STATUS_LIST)
     created = models.DateTimeField(auto_now_add=True)
-    upload = models.FileField(upload_to=submission_path)
+    upload = models.FileField(upload_to=submission_path, validators=[ExtensionValidator(['zip'])])
     feedback = models.TextField(blank=True, null=True)
 
     def __str__(self):
