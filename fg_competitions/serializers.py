@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
-from models import Competition, Track, Submission, SubmissionUpload
+from .models import Competition, Track, Submission, SubmissionUpload
 
 class CompetitionSerializer(serializers.ModelSerializer):
     class Meta:

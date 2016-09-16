@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 
-from serializers import UserSerializer, GroupSerializer, CompetitionSerializer, TrackSerializer, SubmissionSerializer, UploadSerializer
-from models import Competition, Track, Submission, SubmissionUpload
+from .serializers import UserSerializer, GroupSerializer, CompetitionSerializer, TrackSerializer, SubmissionSerializer, UploadSerializer
+from .models import Competition, Track, Submission, SubmissionUpload
 
 class UserViewSet(viewsets.ModelViewSet):
     """

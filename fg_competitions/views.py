@@ -2,8 +2,8 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 
-from models import Competition, Track, Submission, SubmissionUpload
-from forms import RegisterForm, UploadForm
+from .models import Competition, Track, Submission, SubmissionUpload
+from .forms import RegisterForm, UploadForm
 
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
