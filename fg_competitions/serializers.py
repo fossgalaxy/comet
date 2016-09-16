@@ -8,6 +8,7 @@ class CompetitionSerializer(serializers.ModelSerializer):
         model = Competition
 
 class UploadSerializer(serializers.ModelSerializer):
+    upload = serializers.FileField(use_url=False)
     class Meta:
         model = SubmissionUpload
         fields = ('pk', 'upload', 'status', 'created', 'feedback')

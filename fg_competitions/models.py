@@ -7,7 +7,8 @@ from django.conf import settings
 STATUS_LIST = [
     ("BP", "Build pending"),
     ("BF", "Build failed"),
-    ("BS", "Build succeeded")
+    ("BS", "Build succeeded"),
+    ("DA", "Disqualified by admin")
 ]
 
 @python_2_unicode_compatible
@@ -83,13 +84,16 @@ class Submission(models.Model):
         ordering = ["ranking", "ranking_rd"]
         unique_together = ( ("owner", "track"), )
 
+def submission_path(instance, filename):
+    return 'submissions/{0}/{1}'.format(instance.submission.pk, filename)
+
 @python_2_unicode_compatible
 class SubmissionUpload(models.Model):
     """A version of a submission"""
     submission = models.ForeignKey(Submission, related_name='uploads')
     status = models.CharField(max_length=5, default="BP", choices=STATUS_LIST)
     created = models.DateTimeField(auto_now_add=True)
-    upload = models.FileField()
+    upload = models.FileField(upload_to=submission_path)
     feedback = models.TextField(blank=True, null=True)
 
     def __str__(self):
