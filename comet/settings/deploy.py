@@ -8,7 +8,7 @@ import os
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # Disable Debug
-DEBUG = False
+DEBUG = bool(os.environ.get('DEBUG', False))
 
 # CSRF protection - allowed hostnames
 ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(",")
