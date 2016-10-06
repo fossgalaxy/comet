@@ -19,13 +19,14 @@ Assuming you have python and virtualenvwrapper installed:
 # Setup your envrioment
 mkvirtualenv comp-server # skip this line if not using virtualenv
 activate comp-server # skil this like if not using virtualenv
-pip install -r requirements.txt
+pip install --upgrade -r requirements.txt
 
+# export DJANGO_SETTINGS_MODULE=comet.settings.local or add --settings to the end of the command
 # Create the database
-./manage.py migrate
+./manage.py migrate --settings=comet.settings.local
 
 # Create your super user account
-./manage.py createsuperuser
+./manage.py createsuperuser --settings=comet.settings.local
 
 # Start server and setup oauth applications
 ./manage.py runserver 0.0.0.0:8000 --settings=comet.settings.local
