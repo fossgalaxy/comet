@@ -1,7 +1,6 @@
-image: python:2.7-slim
+image: python:3.4-alpine
 
 before_script:
-    - apt-get update -qq && apt-get install -y gcc gettext postgresql-client libpq-dev sqlite3 python-dev libjpeg-dev libfreetype6-dev zlib1g-dev
     - pip install -r requirements.txt
 
 stages:
