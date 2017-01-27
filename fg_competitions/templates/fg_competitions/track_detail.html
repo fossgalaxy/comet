@@ -13,6 +13,10 @@
 {% endif %}
 
 <h1>{{track.competition}} <small>{{track}}</small></h1>
+{% if track.owner %}
+<p> Run by <a href="{{track.owner.get_absolute_url}}">{{track.owner}}</a></p>
+{% endif %}
+
 <p class="lead">{{track.description}}</p>
 
 <ul class="list-unstyled">
