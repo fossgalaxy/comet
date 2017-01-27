@@ -5,19 +5,44 @@
 {% block content %}
 <h1 class="sr-only">Competition List</h1>
 
-{% for competition in competition_list %}
-<h2><a href="{{competition.get_absolute_url}}">{{competition}}</a></h2>
-<p>{{competition.description}}</p>
+<div class="row">
+	<div class="col-md-3">
+		<h2>Competitions</h2>
+		<div class="list-group">
+		  {% for competition in competition_list %}
+		  <a class="list-group-item" href="{{competition.get_absolute_url}}">{{competition}}</a>
+		  {% empty %}
+		    <li>No competitions active</li>
+		  {% endfor %}
+		</div>
+	</div>
 
-<h3>Current Tracks</h3>
-<ul>
-{% for track in competition.track_set.all %}
-<li><a href="{{track.get_absolute_url}}">{{track}}</a></li>
-{% endfor %}
-</ul>
+
+
+	<div class="col-md-8">
+	{% for competition in competition_list %}
+	<h2><a href="{{competition.get_absolute_url}}">{{competition}}</a></h2>
+	<p>{{competition.description}}</p>
+
+	{% for track in competition.track_set.all %}
+	  <div style=" padding: 15px" class="clearfix"> 
+	    <header class="clearfix">
+	    <h3 style="margin-top: 0; padding-top: 0;" class="pull-left"><a href="{{track.get_absolute_url}}">{{track}}</a></h3>
+	    <ul class="pull-right list-inline">
+		<li>{% if track.allow_submit %}<i class="fa fa-plus" title="Submissions are allowed"></i>{% endif %}</li>
+		<li>{% if track.allow_update %}<i class="fa fa-pencil" title="Updates are allowed"></i>{% endif %}</li>
+	    </ul>
+	    </header>
+	    <footer> <p class="pull-left">Something here</p> <a href="{{track.get_absolute_url}}" class="btn btn-success pull-right">Enter</a></footer>
+	  </div>
+	{% empty %}
+	  <p class="text-muted">No tracks are currently running</p>
+	{% endfor %}
 
 {% empty %}
 <p class="muted">There are no competitions</p>
 {% endfor %}
+</div>
+</div>
 
 {% endblock %}
