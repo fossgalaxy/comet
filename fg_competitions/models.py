@@ -40,6 +40,7 @@ class Track(models.Model):
     """A variation in the rules of a competition"""
     name = models.CharField(max_length=100)
     competition = models.ForeignKey(Competition)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
 
     # flags
     allow_submit = models.BooleanField(default=True)
