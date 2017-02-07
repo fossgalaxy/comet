@@ -1,4 +1,4 @@
-METHOD_OVERRIDE_HEADER = 'X-HTTP-Method-Override'
+METHOD_OVERRIDE_HEADER = 'HTTP_X_HTTP_METHOD_OVERRIDE'
 
 class MethodOverrideMiddleware(object):
     def process_view(self, request, callback, callback_args, callback_kwargs):
