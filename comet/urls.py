@@ -19,6 +19,8 @@ from django.contrib import admin
 from rest_framework import routers
 from fg_competitions import rest_views
 
+from fg_competitions import views_extra as extra
+
 router = routers.DefaultRouter()
 router.register(r'users', rest_views.UserViewSet)
 router.register(r'groups', rest_views.GroupViewSet)
@@ -28,6 +30,7 @@ router.register(r'submission', rest_views.SubmissionViewSet)
 router.register(r'upload', rest_views.UploadViewSet)
 
 urlpatterns = [
+    url(r'^$', extra.Homepage.as_view(), name="home"),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('fg_users.urls')),
     url(r'^competitions/', include('fg_competitions.urls')),

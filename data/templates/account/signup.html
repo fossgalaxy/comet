@@ -1,0 +1,64 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+
+{% block content %}
+<h1>{% trans "Sign Up" %}</h1>
+
+{% get_providers as socialaccount_providers %}
+<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+{% if socialaccount_providers %}
+<div class="well">
+<p class="lead">{% trans "Log in using one of the below accounts or optionally, create one below" %}</p>
+
+<div class="socialaccount_ballot">
+
+  <ul class="socialaccount_providers list-unstyled">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+  </ul>
+
+</div>
+
+{% include "socialaccount/snippets/login_extra.html" %}
+</div>
+{% endif %}
+
+<hr />
+
+<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+  {% csrf_token %}
+
+  {% for field in form %}
+      <div class="form-group row">
+          {{ field.errors }}
+          <label class="col-xs-2" for="{{ field.id_for_label }}">{{field.label}}</label>
+          <div class="col-xs-10">
+            {{ field }}
+          </div>
+          {% if field.help_text %}
+          <p class="help">{{ field.help_text|safe }}</p>
+          {% endif %}
+      </div>
+  {% endfor %}
+
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <div class="row">
+    <div class="col-xs-2">
+      <a class="btn btn-text" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+    </div>
+    <div class="col-xs-10">
+      <button class="btn btn-primary" type="submit">{% trans "Sign Up" %}</button>
+    </div>
+  </div>
+
+</form>
+
+{% endblock %}
+
