@@ -33,7 +33,7 @@
 		<li>{% if track.allow_update %}<i class="fa fa-pencil" title="Updates are allowed"></i>{% endif %}</li>
 	    </ul>
 	    </header>
-	    <footer> <p class="pull-left">Something here</p> <a href="{{track.get_absolute_url}}" class="btn btn-success pull-right">Enter</a></footer>
+	    <footer> <p class="pull-left">{{track.description|default:""}}</p> <a href="{{track.get_absolute_url}}" class="btn btn-success pull-right">Enter</a></footer>
 	  </div>
 	{% empty %}
 	  <p class="text-muted">No tracks are currently running</p>

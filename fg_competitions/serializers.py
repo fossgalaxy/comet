@@ -32,12 +32,12 @@ class TrackSerializer(serializers.ModelSerializer):
         model = Track
         fields = ('pk', 'name', 'allow_submit', 'allow_update', 'submission_set')
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('url', 'username', 'groups')
 
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
+class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = ('url', 'name')
