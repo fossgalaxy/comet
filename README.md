@@ -17,8 +17,8 @@ Assuming you have python and virtualenvwrapper installed:
 
 ```bash
 # Setup your envrioment
-mkvirtualenv comp-server # skip this line if not using virtualenv
-activate comp-server # skil this like if not using virtualenv
+mkvirtualenv --python=/usr/bin/python3 comet-python3
+activate comet-python3 # skil this like if not using virtualenv
 pip install --upgrade -r requirements.txt
 
 # export DJANGO_SETTINGS_MODULE=comet.settings.local or add --settings to the end of the command
