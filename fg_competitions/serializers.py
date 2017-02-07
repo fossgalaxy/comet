@@ -24,7 +24,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Submission
         fields = ('pk', 'name', 'owner', 'ranking', 'ranking_rd', 'velocity', 'current_upload')
-	read_only_fields = ["pk", "owner"]
+        read_only_fields = ["pk", "owner"]
 
 class TrackSerializer(serializers.ModelSerializer):
     submission_set = SubmissionSerializer(many=True, read_only=True)
