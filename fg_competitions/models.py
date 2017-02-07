@@ -41,6 +41,7 @@ class Track(models.Model):
     name = models.CharField(max_length=100)
     competition = models.ForeignKey(Competition)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
 
     # flags
     allow_submit = models.BooleanField(default=True)
