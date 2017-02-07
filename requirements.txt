@@ -1,7 +1,7 @@
-Django==1.10.1
+Django==1.10.5
 django-allauth==0.27.0
 django-filter==0.14.0
 django-bootstrap3==7.0.1
 djangorestframework==3.4.6
 Markdown==2.6.6
-django-cors-headers==1.1.0
+django-cors-headers==2.0.2

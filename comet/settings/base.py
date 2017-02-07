@@ -46,7 +46,6 @@ INSTALLED_APPS = [
 
     # django rest framework
     'rest_framework',
-    'corsheaders',
 
     # Templating
     'bootstrap3',
@@ -60,15 +59,18 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
 
     'fg_users',
-    'fg_competitions'
+    'fg_competitions',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    #'corsheaders.middleware.CorsMiddleware', # not 0.10 compatable
+    'fg_competitions.middleware.MethodOverrideMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -156,12 +158,12 @@ MEDIA_ROOT = os.path.join(VAR_DIR, "uploads")
 # CorsMiddleware
 CORS_ORIGIN_ALLOW_ALL = True
 #CORS_URLS_REGEX = r'^/api/.*$'
-CORS_ORIGIN_WHITELIST = (
-	"www.pacmanvghosts.co.uk",
-	"pacmanvghosts.co.uk",
-	"fossgalaxy.com",
-	"www.fossgalaxy.com"
-)
+#CORS_ORIGIN_WHITELIST = (
+#	"www.pacmanvghosts.co.uk",
+#	"pacmanvghosts.co.uk",
+#	"fossgalaxy.com",
+#	"www.fossgalaxy.com"
+#)
 
 # Django Rest framework
 REST_FRAMEWORK = {
