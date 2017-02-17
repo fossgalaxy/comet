@@ -7,6 +7,7 @@ import os
 
 # SECURITY WARNING: development only values
 SECRET_KEY = 'VeryInsecureSecretKey'
+SITE_ID=1
 DEBUG = True
 
 # Database - use SQLite for local testing
