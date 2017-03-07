@@ -27,3 +27,11 @@ django_test:
         - python manage.py test
     except:
         - tags
+
+dist:
+    stage: deploy
+    tags:
+        - shell
+    script:
+        - docker build -t fossgalaxy/comet .
+        - docker push fossgalaxy/comet
