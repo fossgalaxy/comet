@@ -6,6 +6,7 @@ before_script:
 stages:
     - validate
     - test
+    - deploy
 
 check:
     stage: validate
@@ -32,6 +33,8 @@ dist:
     stage: deploy
     tags:
         - shell
+    before_script:
+        - echo deploying to docker hub
     script:
-        - docker build -t fossgalaxy/comet .
-        - docker push fossgalaxy/comet
+        - "docker build -t fossgalaxy/comet ."
+        - "docker push fossgalaxy/comet"
