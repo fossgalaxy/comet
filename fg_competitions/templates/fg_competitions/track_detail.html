@@ -41,7 +41,7 @@ Editing of existing submissions not allowed</p>{% endif %}</li>
 <tbody>
 {% for submission in track.submission_set.all %}
   <tr>
-    <th><a href="{{submission.get_absolute_url}}">{{submission}}</a></th>
+    <th><a href="{{submission.get_absolute_url}}">{{submission}}</a>{% if submission.sample %} <span class="label label-default">sample</span>{% endif %}</th>
     <td>{% user_display submission.owner %}</td>
     <td>{{submission.ranking}}</td>
   </tr>

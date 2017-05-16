@@ -61,6 +61,7 @@ class Submission(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
+    sample = models.BooleanField(default=False)
 
     # foreign keys
     track = models.ForeignKey(Track)
