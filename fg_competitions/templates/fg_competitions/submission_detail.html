@@ -11,8 +11,15 @@
 <p class="lead">{{submission.description}}</p>
 <p>Created by <a href="{{submission.owner.get_absolute_url}}">{{submission.owner}}</a> on {{submission.created}}</p>
 
+{% if not submission.current_upload %}
+<div class="alert alert-warning">
+  <strong>Warning</strong>
+  You have no uploaded code, you need to submit one to enter.
+</div>
+{% endif %}
+
 {% if submission.owner == user %}
-<p class="alert">This is your submission.</p>
+<p class="panel panel-body">This is your submission.</p>
 {% endif %}
 
 <a href="{{submission.track.get_absolute_url}}">{{submission.track}}</a>
@@ -35,7 +42,12 @@
   </tr>
   {% empty %}
   <tr>
-  <td colspan="3" class="muted">There are no uploads for this submission</td>
+  <td colspan="3" class="muted">
+	There are no uploads for this submission
+        {% if submission.owner == user %}
+		<a href="{% url 'submission_upload' submission=submission.pk %}">Upload submission</a>
+        {% endif %}
+  </td>
 </tr>
   {% endfor %}
 </tbody>

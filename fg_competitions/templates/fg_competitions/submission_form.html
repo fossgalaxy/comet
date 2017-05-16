@@ -6,12 +6,26 @@
 {% block content %}
 <h1>Create New Submission</h1>
 
+<!-- <div class="process">
+    <div class="process-row">
+        <div class="process-step">
+            <button type="button" class="btn btn-primary btn-circle" disabled="disabled"><i class="fa fa-user fa-3x"></i></button>
+            <p>Controller Details</p>
+        </div>
+        <div class="process-step">
+            <button type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-comments-o fa-3x"></i></button>
+            <p>Upload files</p>
+        </div>
+    </div>
+</div>
+-->
+
 <form method="post" action="#">
   {% csrf_token %}
 {% bootstrap_form form %}
 <input type="hidden" name="track" value="{{track.pk}}" />
 <input type="submit" class="btn btn-primary" value="Register" />
-<a href="{{ submission.get_absolute_url }}" class="btn btn-text">cancel</a>
+<a href="{{ track.get_absolute_url }}" class="btn btn-text">cancel</a>
 </form>
 
 {% endblock %}

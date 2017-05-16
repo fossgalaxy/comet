@@ -40,10 +40,10 @@ Editing of existing submissions not allowed</p>{% endif %}</li>
 
 <tbody>
 {% for submission in track.submission_set.all %}
-  <tr>
+  <tr {% if not submission.current_upload %} class="warning" {% endif %}>
     <th><a href="{{submission.get_absolute_url}}">{{submission}}</a>{% if submission.sample %} <span class="label label-default">sample</span>{% endif %}</th>
     <td>{% user_display submission.owner %}</td>
-    <td>{{submission.ranking}}</td>
+    <td>{% if not submission.current_upload %}No submission{% else %}{{submission.ranking}}{% endif %}</td>
   </tr>
   {% empty %}
   <tr>

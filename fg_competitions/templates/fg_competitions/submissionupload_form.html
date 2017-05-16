@@ -6,12 +6,18 @@
 {% block content %}
 <h1>Upload new revision of '{{submission}}'</h1>
 
-<div class="well">
-  <h2>Notice</h2>
-  <p> This system is for the use of authorized users only.  Usage of this system may be monitored and recorded by system personnel.</p>
-
-  <p>Anyone using this system expressly consents to such monitoring and is advised that if such monitoring reveals possible evidence of criminal activity, system personnel may provide the evidence from such monitoring to law enforcement officials.</p>
+{% if submission.track.instructions %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title"><a data-toggle="collapse" href="#instructions">Submission Instructions</a></h4>
+  </div>
+  <div id="instructions" class="panel-collapse collapse">
+    <div class="panel-body">
+      <p>SOMETHING.</p>
+    </div>
+  </div>
 </div>
+{% endif %}
 
 <form method="post" action="#" enctype="multipart/form-data" >
   {% csrf_token %}

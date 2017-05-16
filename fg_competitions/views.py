@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
+from django.urls import reverse
 
 from .models import Competition, Track, Submission, SubmissionUpload
 from .forms import RegisterForm, UploadForm
@@ -57,6 +58,9 @@ class SubmissionCreate(CreateView):
         form.instance.owner = self.request.user
         form.instance.track_id = self.kwargs.get('track')
         return super(SubmissionCreate, self).form_valid(form)
+
+    def get_success_url(self, **kwargs):
+        return reverse('submission_upload', kwargs={'submission': self.object.id})
 
 @method_decorator(login_required, name='dispatch')
 class SubmissionUpdate(UpdateView):
