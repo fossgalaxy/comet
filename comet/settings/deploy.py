@@ -29,3 +29,15 @@ DATABASES = {
 	'HOST': os.environ.get('DB_ENV_HOST', 'db'),
     }
 }
+
+# Raven (exception tracking)
+raven_dsn = os.envrion.get('RAVEN_DSN', None)
+if raven_dsn:
+    INSTALLED_APPS += (
+        'raven.contrib.django.raven_compat',
+    )
+
+    RAVEN_CONFIG = {
+        'dsn': os,
+        'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
+    }
