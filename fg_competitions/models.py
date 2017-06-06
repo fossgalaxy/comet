@@ -84,7 +84,7 @@ class Submission(models.Model):
         return self.name
 
     class Meta:
-        ordering = ["ranking", "ranking_rd"]
+        ordering = ["-ranking", "ranking_rd"]
         unique_together = ( ("owner", "track"), )
 
 def submission_path(instance, filename):
