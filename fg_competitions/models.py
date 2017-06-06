@@ -73,6 +73,16 @@ class Submission(models.Model):
     velocity = models.FloatField(default=0.06)
 
     @property
+    def pretty_score(self):
+        curr_upload = self.current_upload
+        if not curr_upload:
+            return "No submission"
+        elif curr_upload.status != "BS":
+            return curr_upload.get_status_display()
+        else:
+            return self.ranking
+
+    @property
     def current_upload(self):
         return self.uploads.first()
 
