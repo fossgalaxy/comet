@@ -59,6 +59,17 @@ class Track(models.Model):
     def __str__(self):
         return self.name
 
+class AllowedSubmissionType(models.Model):
+    """Types of submissions allowed"""
+    track = models.ForeignKey(Track)
+    submission_type = models.CharField(max_length=1, choices=SUBMISSION_TYPES)
+
+    def __str__(self):
+        return self.get_submission_type_display()
+
+    class Meta:
+        unique_together = ( ("track", "submission_type"), )
+
 @python_2_unicode_compatible
 class Submission(models.Model):
     """An individual entry into the competition"""
