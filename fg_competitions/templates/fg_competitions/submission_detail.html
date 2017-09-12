@@ -5,6 +5,7 @@
 {% block content %}
 {% if submission.owner == user and submission.track.allow_update %}
 <a class="btn btn-primary pull-right" href="{% url 'submission_upload' submission=submission.pk %}">Upload new submission</a>
+<a class="btn btn-primary pull-right" href="{% url 'submission_text' submission=submission.pk %}">Add new submission</a>
 {% endif %}
 
 <h1>{{submission}}</h1>

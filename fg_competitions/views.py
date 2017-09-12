@@ -3,8 +3,8 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse
 
-from .models import Competition, Track, Submission, SubmissionUpload
-from .forms import RegisterForm, UploadForm
+from .models import Competition, Track, Submission, SubmissionUpload, SubmissionText
+from .forms import RegisterForm, UploadForm, SubmissionTextForm
 
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
@@ -83,6 +83,38 @@ class SubmissionUpdate(UpdateView):
         return context
 
 @method_decorator(login_required, name='dispatch')
+class TextSubmission(CreateView):
+    model = SubmissionText
+    form_class = SubmissionTextForm
+
+    def get_context_data(self, **kwargs):
+        context = super(TextSubmission, self).get_context_data(**kwargs)
+        submission = self.kwargs.get('submission')
+        context['submission'] = get_object_or_404(Submission, id=submission)
+
+        # if the user is not the owner of that submission, tell them off
+        if not context['submission'].owner == self.request.user:
+            raise PermissionDenied()
+
+        # check that the track allows updates
+        track = context['submission'].track
+        if not track.allow_update:
+            raise PermissionDenied()
+
+        return context
+
+    def get_initial(self):
+        context = super(TextSubmission, self).get_initial()
+        context['submission'] = self.kwargs.get('submission', None)
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.status = "BS"
+        form.instance.submission.submission_type = "T"
+        return super(TextSubmission, self).form_valid(form)
+
+@method_decorator(login_required, name='dispatch')
 class UploadSubmission(CreateView):
     model = SubmissionUpload
     form_class = UploadForm
@@ -110,4 +142,5 @@ class UploadSubmission(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        form.instance.submission.submission_type = "U"
         return super(UploadSubmission, self).form_valid(form)
