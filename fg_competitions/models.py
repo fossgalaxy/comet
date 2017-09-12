@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.utils.encoding import python_2_unicode_compatible
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.conf import settings
 
@@ -91,7 +92,7 @@ class Submission(models.Model):
 
     @property
     def pretty_score(self):
-        curr_upload = self.current_upload
+        curr_upload = self.current
         if not curr_upload:
             return "No submission"
         elif curr_upload.status != "BS":
@@ -110,9 +111,11 @@ class Submission(models.Model):
     @property
     def current(self):
         if self.submission_type == "U":
-            return self.current_upload()
+            return self.current_upload
         elif self.submission_type == "T":
-            return self.current_text()
+            ct = self.current_text
+            print(ct)
+            return ct
         else:
             raise ValueError("unknown submission type")
 

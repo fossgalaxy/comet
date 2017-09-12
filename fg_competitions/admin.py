@@ -29,7 +29,7 @@ class SubmissionTextInline(admin.TabularInline):
 class SubmissionAdmin(admin.ModelAdmin):
     fieldsets = (
       (None, {
-          'fields': ('name', 'track', ('owner', "sample"), 'description')
+          'fields': ('name', 'track', ('owner', "sample"), 'description', "submission_type")
       }),
       ("Ranking", {
           'fields': ('ranking', 'ranking_rd', 'velocity')
