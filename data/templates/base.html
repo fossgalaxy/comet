@@ -6,36 +6,36 @@
 
     <!-- bootstrap -->
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static "css/main.css" %}">
 
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="{% bootstrap_jquery_url %}" type="text/javascript" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
     {% block extra_head %}
     {% endblock %}
   </head>
   <body>
     {% block navbar %}
-    <div class="navbar navbar-default">
+    <div class="navbar navbar-light bg-light">
       <div class="container">
       <ul class="nav navbar-nav">
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'competitions' %}">Competitions</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'competitions' %}">Competitions</a></li>
       </ul>
-      <ul class="nav navbar-nav pull-right">
+      <ul class="navbar-nav pull-right">
   {% if user.is_authenticated %}
-  <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-  <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+  <li class="nav-item"><a class="nav-link" href="{% url 'account_email' %}">Change E-mail</a></li>
+  <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">Sign Out</a></li>
   {% else %}
-  <li><a href="{% url 'account_login' %}">Sign In</a></li>
-  <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+  <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Sign In</a></li>
+  <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
   {% endif %}
       </ul>
       </div>
@@ -53,8 +53,10 @@
     {% block extra_body %}
     {% endblock %}
   </div>
-  <footer class="container text-muted text-center">
+  <footer class="footer text-muted text-center">
+	<div class="container">
     <p>Comet Competition Server created by <a href="http://www.webpigeon.me.uk">Joseph Walton-Rivers</a></p>
+    	</div>
   </footer>
 
   </body>

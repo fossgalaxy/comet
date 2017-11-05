@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block head_title %}Competitions{% endblock %}
+
+{% block content %}
+<h1 class="sr-only">Competition List</h1>
+
+<div class="row">
+	<div class="col">
+		{% for track in track_list.all %}
+		<div class="card track-list-detail">
+			<div class="card-body">
+				<h3 class="card-title"><a href="{{track.get_absolute_url}}">{{track}}</a></h3>
+				<h4 class="card-subtitle mb-2 text-muted">{{track.competition}}</h4>
+				<p class="card-text">{{track.description|default:""}}</p>
+			</div>
+			<div class="card-footer clearfix">
+				<div class="float-left">
+				<span class="fa-stack" title="submissions are not permitted">
+					<i class="fa fa-plus fa-stack-1x"></i>
+					{% if not track.allow_submit %}
+					<i class="fa fa-ban fa-stack-2x text-danger"></i>
+					{% endif %}
+				</span>
+				<span class="fa-stack" title="submissions are not permitted">
+					<i class="fa fa-pencil fa-stack-1x"></i>
+					{% if not track.allow_update %}
+					<i class="fa fa-ban fa-stack-2x text-danger"></i>
+					{% endif %}
+				</span>
+				</div>
+				<div class="float-right" style="line-height: 32px; height: 32px;">
+					test
+				</div>
+			</div>
+		</div>
+		{% empty %}
+		<p class="text-muted">No tracks are currently running</p>
+		{% endfor %}
+	</div>
+	<div class="col-3">
+		<h2>Filters</h2>
+	</div>
+</div>
+
+{% if is_paginated %}
+<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center">
+		{% if page_obj.has_previous %}
+		<li class="page-item">
+			<a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+				<span aria-hidden="true">&laquo;</span>
+				<span class="sr-only">Previous</span>
+			</a>
+		</li>
+		{% endif %}
+		<li class="page-item disabled"><span class="page-link">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+		{% if page_obj.has_next %}
+		<li class="page-item">
+			<a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+				<span class="sr-only">Next</span>
+			</a>
+		</li>
+		{% endif %}
+	</ul>
+</nav>
+{% endif %}
+
+{% endblock %}

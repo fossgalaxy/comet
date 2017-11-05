@@ -37,7 +37,25 @@
 
 .process-step p {
     margin-top:10px;
-    
+}
+
+/**
+ * Code for new details section
+ */
+.track-list-detail {
+	border: 1px solid #cce;
+	margin: 15px 0px;
+}
+
+/**
+ * Footer
+ * modified from static footer example
+ */
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	background-color: #f5f5f5;
 }
 
 .btn-circle {

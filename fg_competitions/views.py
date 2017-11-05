@@ -15,6 +15,12 @@ class CompetitionList(ListView):
     model = Competition
     context_object_name = "competition_list"
 
+class TrackList(ListView):
+    """Provide a list of tracks"""
+    model = Track
+    context_object_name = "track_list"
+    paginate_by = 2
+
 class CompetitionDetail(DetailView):
     """View details about a competition"""
     model = Competition
