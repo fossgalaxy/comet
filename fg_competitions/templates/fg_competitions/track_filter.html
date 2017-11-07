@@ -34,7 +34,9 @@
 				</span>
 				</div>
 				<div class="float-right" style="line-height: 32px; height: 32px;">
-					test
+					{% if track.allow_submit %}
+					<a class="btn-sm btn-primary pull-right" href="{% url 'submission_create' track=track.pk %}">enter</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>
