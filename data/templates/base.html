@@ -23,11 +23,17 @@
 	</head>
 	<body>
 		{% block navbar %}
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
 			<a class="navbar-brand" href="{% url 'home' %}">Comet</a>
 			<div class="navbar-nav">
 				<a class="nav-item nav-link" href="{% url 'competitions' %}">Competitions</a>
 			</div>
+			<div class="mr-auto">
+			</div>
+			<form action="{% url 'competitions' %}" class="form-inline my-2">
+				<input class="form-control mr-sm-2" name="name" type="search" />
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			</form>
 		</nav>
 		{% endblock %}
 
