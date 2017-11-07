@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse
 
@@ -23,6 +23,10 @@ class TrackList(FilterView):
     filterset_class = TrackFilter
     context_object_name = "track_list"
     paginate_by = 5
+
+class SubmitterDashboard(TemplateView):
+    """Mockup of submitter dashboard"""
+    template_name = "fg_competitions/submitter_dashboard.html"
 
 class CompetitionDetail(DetailView):
     """View details about a competition"""
