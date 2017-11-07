@@ -5,21 +5,24 @@ from django.urls import reverse
 
 from .models import Competition, Track, Submission, SubmissionUpload
 from .forms import RegisterForm, UploadForm
+from .filters import TrackFilter
 
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+
+from django_filters.views import FilterView
 
 class CompetitionList(ListView):
     """Provide a list of competitions"""
     model = Competition
     context_object_name = "competition_list"
 
-class TrackList(ListView):
+class TrackList(FilterView):
     """Provide a list of tracks"""
-    model = Track
+    filterset_class = TrackFilter
     context_object_name = "track_list"
-    paginate_by = 2
+    paginate_by = 5
 
 class CompetitionDetail(DetailView):
     """View details about a competition"""

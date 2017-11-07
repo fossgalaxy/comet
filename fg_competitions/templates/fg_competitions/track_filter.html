@@ -7,8 +7,10 @@
 {% block content %}
 <h1 class="sr-only">Competition List</h1>
 
-<div class="row">
+<div class="row" style="margin-top: 15px">
 	<div class="col">
+		<h2>Tracks</h2>
+
 		{% for track in track_list.all %}
 		<div class="card track-list-detail">
 			<div class="card-body">
@@ -41,7 +43,27 @@
 		{% endfor %}
 	</div>
 	<div class="col-3">
-		<h2>Filters</h2>
+		<h2 style="margin-bottom: 15px" >Filters</h2>
+		<form action="?search" method="GET">
+		<div class="input-group">
+			<span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+			<input type="text" class="form-control" placeholder="search..." name="name" />
+		</div>
+		</form>
+
+		<div class="filters" style="margin-top: 30px">
+
+		<h4 data-toggle="collapse" data-target="#filter-uploads">Allow uploads</h4>
+		<div id="filter-uploads" class="list-group collapse in">
+			<a class="list-group-item list-group-item-action" href="?{% url_replace allow_submit=2 %}">Yes</a>
+			<a class="list-group-item list-group-item-action" href="?{% url_replace allow_submit=3 %}">No</a>
+		</div>
+
+		<h4 style="margin-top: 15px" data-toggle="collapse" data-target="#filter-competition">Competition</h4>
+		<div id="filter-competition" class="list-group">
+			<a class="list-group-item list-group-item-action" href="?{% url_replace comp=hanabi %}">Hanabi</a>
+		</div>
+		</div>
 	</div>
 </div>
 
