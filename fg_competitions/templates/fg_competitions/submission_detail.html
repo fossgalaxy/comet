@@ -3,34 +3,43 @@
 {% block head_title %}{{submission}}{% endblock %}
 
 {% block content %}
-{% if submission.owner == user and submission.track.allow_update %}
-<a class="btn btn-primary pull-right" href="{% url 'submission_upload' submission=submission.pk %}">Upload new submission</a>
-{% endif %}
 
-<h1>{{submission}}</h1>
-<p class="lead">{{submission.description}}</p>
-<p>Created by <a href="{{submission.owner.get_absolute_url}}">{{submission.owner}}</a> on {{submission.created}}</p>
-
-{% if not submission.current_upload %}
+{% if submission.owner == user and not submission.current_upload %}
 <div class="alert alert-warning">
   <strong>Warning</strong>
-  You have no uploaded code, you need to submit one to enter.
+  You have no uploads, please upload one now to enter the competition.
 </div>
 {% endif %}
 
-{% if submission.owner == user %}
-<p class="panel panel-body">This is your submission.</p>
-{% endif %}
 
-<a href="{{submission.track.get_absolute_url}}">{{submission.track}}</a>
+<div class="row">
+	<div class="col">
+
+<h1>{{submission}}</h1>
+<p class="lead">{{submission.description}}</p>
+
+<div class="row">
+	<div class="col">
+		<h3>Details</h3>
+		<dl class="row">
+			<dt class="col-sm-2 text-right">track</dt>
+			<dd class="col-sm-10"><a href="{{submission.track.get_absolute_url}}">{{submission.track}}</a></dd>
+			<dt class="col-sm-2 text-right">author</dt>
+			<dd class="col-sm-10"><a href="{{submission.owner.get_absolute_url}}">{{submission.owner}}</a></dd>
+		</dl>
+	</div>
+	<div class="col">
+		<h3>Ranking</h3>
+		{{submission.ranking}}
+	</div>
+</div>
 
 <h2>Versions</h2>
 <table class="table table-striped">
-  <thead>
+  <thead class="thead-light">
   <tr>
     <th>Version</th>
     <th>Status</th>
-    <th></th>
   </tr>
 </thead>
 <tbody>
@@ -38,11 +47,10 @@
   <tr {% if upload == submission.current_upload %}class="info"{% endif %}>
     <th>{{upload.created}}</th>
     <td>{{upload.get_status_display}}</td>
-    <td></td>
   </tr>
   {% empty %}
   <tr>
-  <td colspan="3" class="muted">
+  <td colspan="2" class="text-center">
 	There are no uploads for this submission
         {% if submission.owner == user %}
 		<a href="{% url 'submission_upload' submission=submission.pk %}">Upload submission</a>
@@ -52,7 +60,14 @@
   {% endfor %}
 </tbody>
 </table>
+	</div>
 
+	<div class="col-3">
+		{% if submission.owner == user and submission.track.allow_update %}
+			<a class="btn btn-primary" href="{% url 'submission_upload' submission=submission.pk %}">Upload new submission</a>
+		{% endif %}
+	</div>
+</div>
 
 
 
