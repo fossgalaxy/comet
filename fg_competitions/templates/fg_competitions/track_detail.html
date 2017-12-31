@@ -1,11 +1,9 @@
-{% extends "base.html" %}
+{% extends "base_multicol.html" %}
 {% load account %}
 
 {% block head_title %}{{competition}}{% endblock %}
 
-{% block content %}
-<div class="row">
-  <div class="col">
+{% block content_main %}
     <h1>{{track}}</h1>
     <p>{{track.competition}}</p>
 
@@ -19,8 +17,8 @@
     	<div class="col">
     		<h3>Details</h3>
     		<dl class="row">
-    			<dt class="col-sm-3 text-right">New</dt>
-    			<dd class="col-sm-9">
+    			<dt class="col-12 col-md-3">New</dt>
+    			<dd class="col-12 col-md-9">
             {% if track.allow_submit %}
              <i class="fa fa-check" aria-hidden="true"></i> Submissions Open
             {% else %}
@@ -28,8 +26,8 @@
             {% endif %}
           </dd>
 
-            <dt class="col-sm-3 text-right">Updates</dt>
-            <dd class="col-sm-9">
+            <dt class="col-12 col-md-3">Updates</dt>
+            <dd class="col-12 col-md-9">
               {% if track.allow_update %}
                <i class="fa fa-check" aria-hidden="true"></i> Updates allowed
               {% else %}
@@ -66,9 +64,9 @@
 {% endfor %}
 </tbody>
 </table>
+{% endblock %}
 
-</div>
-  <div class="col-3">
+{% block content_sidebar %}
     {% if track.allow_submit and user.is_authenticated %}
     {% if not submission %}
     <p><a class="btn btn-primary" href="{% url 'submission_create' track=track.pk %}">Create Submission</a></p>
@@ -76,8 +74,4 @@
     <p><a class="btn btn-primary" href="{{submission.get_absolute_url}}">View Submission</a></p>
     {% endif %}
     {% endif %}
-  </div>
-
-</div>
-
 {% endblock %}
