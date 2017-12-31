@@ -64,7 +64,8 @@
 
 	<div class="col-3">
 		{% if submission.owner == user and submission.track.allow_update %}
-			<a class="btn btn-primary" href="{% url 'submission_upload' submission=submission.pk %}">Upload new submission</a>
+			<a class="btn btn-primary" href="{% url 'submission_upload' submission=submission.pk %}">Upload new Version</a>
+      <a class="btn btn-primary" href="{% url 'submission_update' pk=submission.pk %}">Update Details</a>
 		{% endif %}
 	</div>
 </div>

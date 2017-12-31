@@ -4,7 +4,12 @@
 {% block head_title %}{{competition}}{% endblock %}
 
 {% block content %}
-<h1>Create New Submission</h1>
+
+{% if form.instance.pk is None %}
+  <h1>Create New Submission</h1>
+{% else %}
+  <h1>Update '{{form.instance}}'</h1>
+{% endif %}
 
 <!-- <div class="process">
     <div class="process-row">
@@ -24,8 +29,18 @@
   {% csrf_token %}
 {% bootstrap_form form %}
 <input type="hidden" name="track" value="{{track.pk}}" />
-<input type="submit" class="btn btn-primary" value="Register" />
-<a href="{{ track.get_absolute_url }}" class="btn btn-text">cancel</a>
+
+  {% if form.instance.pk is None %}
+    <input type="submit" class="btn btn-primary" value="Register" />
+  {% else %}
+    <input type="submit" class="btn btn-primary" value="Update" />
+  {% endif %}
+
+  {% if form.instance.pk is None %}
+    <a href="{{ track.get_absolute_url }}" class="btn btn-text">cancel</a>
+  {% else %}
+    <a href="{{ form.instance.get_absolute_url }}" class="btn btn-text">cancel</a>
+  {% endif %}
 </form>
 
 {% endblock %}

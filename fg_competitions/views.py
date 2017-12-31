@@ -89,7 +89,7 @@ class SubmissionUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(SubmissionUpdate, self).get_context_data(**kwargs)
         submission_pk = self.kwargs.get('pk')
-        submission = get_object_or_404(Submission, id=submission)
+        submission = get_object_or_404(Submission, id=submission_pk)
 
         # if the user is not the owner of that submission, tell them off
         if not submission.owner == self.request.user:
