@@ -2,8 +2,9 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse
+from django.http.response import HttpResponse, FileResponse
 
-from .models import Competition, Track, Submission, SubmissionUpload
+from .models import Competition, Track, Submission, SubmissionUpload, submission_path
 from .forms import RegisterForm, UploadForm
 from .filters import TrackFilter
 
@@ -13,10 +14,50 @@ from django.utils.decorators import method_decorator
 
 from django_filters.views import FilterView
 
+from django.conf import settings
+from django.utils.encoding import smart_str
+import os
+
+from fileprovider.utils import sendfile
+
 class CompetitionList(ListView):
     """Provide a list of competitions"""
     model = Competition
     context_object_name = "competition_list"
+
+def download_submission(request, pk=None):
+    upload_entry = get_object_or_404(SubmissionUpload, pk=pk)
+
+    if not request.user.is_admin():
+        raise PermissionDenied()
+
+    full_path = os.path.join(settings.MEDIA_ROOT, upload_entry.upload.name)
+
+    #XXX this will not work in development mode
+    #r = sendfile(full_path)
+
+    # Send our own file response, forcing the content type to force download.
+    r = FileResponse(open(full_path, 'rb'))
+    r['Content-Type']="application/force-download"
+    r['Content-Disposition'] = 'attachment; filename=%s' % smart_str(os.path.basename(upload_entry.upload.name))
+
+    return r
+
+
+def download_submission_sendfile(request, pk=None):
+    upload_entry = get_object_or_404(SubmissionUpload, pk=pk)
+
+    if not request.user.is_authenticated():
+        raise PermissionDenied()
+
+    full_path = os.path.join(settings.MEDIA_ROOT, upload_entry.upload.name)
+
+    response = HttpResponse(content_type="application/force-download")
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(os.path.basename(upload_entry.upload.name))
+    response['X-Sendfile'] = full_path
+
+    return response
+
 
 class TrackList(FilterView):
     """Provide a list of tracks"""
@@ -34,7 +75,7 @@ class TrackList(FilterView):
                 owner=self.request.user,
                 track__in=kwargs['object_list']
             ).values_list('track_id', 'pk')
-            
+
             context['uploads'] = {track:pk for (track,pk) in results }
         else:
             context['uploads'] = {}

@@ -19,6 +19,8 @@ SSL_ONLY = bool(os.environ.get('SSL_ONLY', False))
 CSRF_COOKIE_SECURE = SSL_ONLY
 SESSION_COOKIE_SECURE = SSL_ONLY
 
+FILEPROVIDER_NAME = "nginx"
+
 # Database Related
 DATABASES = {
     'default': {

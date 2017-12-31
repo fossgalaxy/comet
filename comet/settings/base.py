@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
     # Templating
     'bootstrap3',
+    'fileprovider',
 
     # Authentication Plugins
     'allauth',
@@ -75,7 +76,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'fileprovider.middleware.FileProviderMiddleware'
 ]
 
 ROOT_URLCONF = 'comet.urls'
