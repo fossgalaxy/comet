@@ -9,7 +9,11 @@
 
 <div class="row" style="margin-top: 15px">
 	<div class="col-12 col-md">
+		<span class="pull-right btn btn-info navbar-btn" data-toggle="collapse" aria-toggle="collapse" href="#filters"><i class="fa fa-filter" aria-hidden="true"></i>
+ Toggle filters</span>
 		<h2>Tracks</h2>
+
+		<i class="clearfix" ></i>
 
 		{% for track in track_list.all %}
 		<div class="card track-list-detail">
@@ -34,8 +38,11 @@
 				</span>
 				</div>
 				<div class="float-right" style="line-height: 32px; height: 32px;">
-					{% if track.allow_submit %}
+					{% if track.allow_submit and not submitted %}
 					<a class="btn-sm btn-primary pull-right" href="{% url 'submission_create' track=track.pk %}">enter</a>
+					{% endif %}
+					{% if submitted %}
+					<a class="btn-sm btn-primary pull-right" href="{% url 'submission_detail' pk=submitted %}">view submission</a>
 					{% endif %}
 				</div>
 			</div>
@@ -43,8 +50,9 @@
 		{% empty %}
 		<p class="text-muted">No tracks are currently running</p>
 		{% endfor %}
+
 	</div>
-	<div class="col-12 col-md-4 col-lg-3">
+	<div class="col-12 col-md-4 col-lg-3 collapse" id="filters">
 		<h2 style="margin-bottom: 15px" >Filters</h2>
 		<form action="?search" method="GET">
 		<div class="input-group">
