@@ -24,6 +24,11 @@ class TrackList(FilterView):
     context_object_name = "track_list"
     paginate_by = 5
 
+    def get_context_data(self, **kwargs):
+        context = super(TrackList, self).get_context_data(**kwargs)
+        context['competitions'] = Competition.objects.all()
+        return context
+
 class SubmitterDashboard(TemplateView):
     """Mockup of submitter dashboard"""
     template_name = "fg_competitions/submitter_dashboard.html"
@@ -32,6 +37,7 @@ class CompetitionDetail(DetailView):
     """View details about a competition"""
     model = Competition
     context_object_name = "competition"
+
 
 class TrackDetail(DetailView):
     """View details about a track"""

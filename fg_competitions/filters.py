@@ -7,4 +7,4 @@ class TrackFilter(django_filters.FilterSet):
 
     class Meta:
         model = Track
-        fields = ["name", "allow_submit"]
+        fields = ["name", "allow_submit", "competition"]

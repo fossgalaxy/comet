@@ -63,7 +63,10 @@
 
 		<h4 style="margin-top: 15px" data-toggle="collapse" data-target="#filter-competition">Competition</h4>
 		<div id="filter-competition" class="list-group">
-			<a class="list-group-item list-group-item-action" href="?{% url_replace comp=hanabi %}">Hanabi</a>
+			<a class="list-group-item list-group-item-action" href="?{% url_replace competition=None %}">All competitions</a>
+			{% for competition in competitions %}
+			<a class="list-group-item list-group-item-action" href="?{% url_replace competition=competition.pk %}">{{competition}}</a>
+			{% endfor %}
 		</div>
 		</div>
 	</div>
