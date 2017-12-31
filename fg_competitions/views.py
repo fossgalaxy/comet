@@ -26,7 +26,10 @@ class TrackList(FilterView):
 
     def get_context_data(self, **kwargs):
         context = super(TrackList, self).get_context_data(**kwargs)
+        
         context['competitions'] = Competition.objects.all()
+        context['uploads'] = {track:pk for (track,pk) in Submission.objects.filter(owner=self.request.user, track__in=kwargs['object_list']).values_list('track_id', 'pk') }
+
         return context
 
 class SubmitterDashboard(TemplateView):

@@ -16,6 +16,8 @@
 		<i class="clearfix" ></i>
 
 		{% for track in track_list.all %}
+		{% dict_get d=uploads n=track.pk as submitted %}
+
 		<div class="card track-list-detail">
 			<div class="card-body">
 				<h3 class="card-title"><a href="{{track.get_absolute_url}}">{{track}}</a></h3>
