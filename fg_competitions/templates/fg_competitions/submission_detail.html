@@ -24,7 +24,7 @@
 			<dt class="col-12 col-md-3">Track</dt>
 			<dd class="col-12 col-md-9"><a href="{{submission.track.get_absolute_url}}">{{submission.track}}</a></dd>
 			<dt class="col-12 col-md-3">Author</dt>
-			<dd class="col-12 col-md-9"><a href="{{submission.owner.get_absolute_url}}">{{submission.owner}}</a></dd>
+			<dd class="col-12 col-md-9"><a href="{% url 'account_profile' username=submission.owner.username %}">{{submission.owner}}</a></dd>
 		</dl>
 	</div>
 	<div class="col-12 col-md-6">
@@ -66,4 +66,5 @@
 			<a class="btn btn-primary mt-md-2" href="{% url 'submission_upload' submission=submission.pk %}">Upload new Version</a>
       <a class="btn btn-primary mt-md-2" href="{% url 'submission_update' pk=submission.pk %}">Update Details</a>
 		{% endif %}
+    <a class="btn btn-primary mt-md-2" href="{{submission.track.get_absolute_url}}">View Track</a>
 {% endblock %}
