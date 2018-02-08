@@ -32,17 +32,17 @@ django_test:
     except:
         - tags
 
-dist_ci:
-    image: docker:latest
-    services:
-        - docker:dind
-    stage: deploy
-    before_script:
-        - echo deploying to gitlab docker registry
-    script:
-        - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-        - docker build -t $IMAGE_TAG .
-        - docker push $IMAGE_TAG
+#dist_ci:
+#    image: docker:latest
+#    services:
+#        - docker:dind
+#    stage: deploy
+#    before_script:
+#        - echo deploying to gitlab docker registry
+#    script:
+#        - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+#        - docker build -t $IMAGE_TAG .
+#        - docker push $IMAGE_TAG
 
 #
 #dist:

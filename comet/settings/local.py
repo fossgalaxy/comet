@@ -18,3 +18,4 @@ DATABASES = {
     }
 }
 
+FILEPROVIDER_NAME = "python"

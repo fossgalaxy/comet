@@ -3,8 +3,22 @@
 
 {% block head_title %}{{competition}}{% endblock %}
 
+{% block extra_head %}
+<style type="text/css">
+   .upload-drop-zone {
+	   line-height: 200px;
+	   border: 1px dashed #ccc;
+   }
+</style>
+{% endblock %}
+
 {% block content %}
 <h1>Upload new revision of '{{submission}}'</h1>
+
+<ul>
+	<li>Files should be zip files</li>
+	<li>Maximum file size is</li>
+</ul>
 
 {% if submission.track.instructions %}
 <div class="panel panel-default">
@@ -21,7 +35,15 @@
 
 <form method="post" action="#" enctype="multipart/form-data" >
   {% csrf_token %}
-{% bootstrap_form form %}
+  <div class="form-group">
+	<label for="">Select file</label>
+    	<input type="file" name="upload" required="" class="form-control-file" />
+  </div>
+
+<!--  <div class="upload-drop-zone">
+	  <p class="text-center">drop your file here.</p>
+</div> -->
+  
 <input type="hidden" name="submission" value="{{submission.pk}}" />
 
 <input type="submit" class="btn btn-primary" value="Upload Revision" />

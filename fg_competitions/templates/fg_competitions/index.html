@@ -3,12 +3,20 @@
 {% block head_title %}Competitions{% endblock %}
 
 {% block content %}
-<div class="page-header">
-	<h1>Comet Competition server</h1>
-</div>
-	
+	<div class="row my-4">
+		<div class="col-sm-8 d-none d-lg-block">
+			<img class="img-fluid rounded" src="http://via.placeholder.com/900x250" alt="" />
+		</div>
+		<div class="col-12 col-lg-4">
+			<h1>Welcome to Comet</h1>
+			<p>Comet is a server that manages uploads, compilation and scoring for accademic competitions.</p>
+			<a class="btn btn-primary pull-right" href="{% url 'competitions' %}">View Tracks</a>
+		</div>
+	</div>
+	<hr />
+
 	<div class="row">
-	    <div class="col-md-3">
+	    <div class="col-12 col-lg-3">
 	    <h2>Open Tracks</h2>
 	    <div class="list-group">
 	      {% for track in tracks %}
@@ -16,19 +24,15 @@
 	      {% endfor %}
 	    </div>
 	    </div>
-	    <div class="col-md-9">
-	        <h2>News</h2>
-	        <hr />
+	    <div class="col-12 col-lg">
+	        <h2 class="my-3">News</h2>
 	        {% for update in news %}
-	        <div class="clearfix">
+	        <div class="my-2 clearfix">
 	            <h3>{{update.title}}</h3>
 	            <p>{{update.summary}}</p>
 	        </div>
-	        <hr />
 	        {% endfor %}
 	    </div>
 	</div>
-	
-	<p><a class="btn btn-primary pull-right" href="{% url 'competitions' %}">View competitions</a></p>
 
 {% endblock %}

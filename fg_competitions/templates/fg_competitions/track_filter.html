@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% load extra_utils %}
+
+{% block head_title %}Competitions{% endblock %}
+
+{% block content %}
+<h1 class="sr-only">Competition List</h1>
+
+<div class="row" style="margin-top: 15px">
+	<div class="col-12 col-md">
+		<span class="pull-right btn btn-info navbar-btn" data-toggle="collapse" aria-toggle="collapse" href="#filters"><i class="fa fa-filter" aria-hidden="true"></i>
+ Toggle filters</span>
+		<h2>Tracks</h2>
+
+		<i class="clearfix" ></i>
+
+		{% for track in track_list.all %}
+		{% dict_get d=uploads n=track.pk as submitted %}
+
+		<div class="card track-list-detail">
+			<div class="card-body">
+				<h3 class="card-title"><a href="{{track.get_absolute_url}}">{{track}}</a></h3>
+				<h4 class="card-subtitle mb-2 text-muted">{{track.competition}}</h4>
+				<p class="card-text">{{track.description|default:""}}</p>
+			</div>
+			<div class="card-footer clearfix">
+				<div class="float-left">
+				<span class="fa-stack" title="submissions are not permitted">
+					<i class="fa fa-plus fa-stack-1x"></i>
+					{% if not track.allow_submit %}
+					<i class="fa fa-ban fa-stack-2x text-danger"></i>
+					{% endif %}
+				</span>
+				<span class="fa-stack" title="submissions are not permitted">
+					<i class="fa fa-pencil fa-stack-1x"></i>
+					{% if not track.allow_update %}
+					<i class="fa fa-ban fa-stack-2x text-danger"></i>
+					{% endif %}
+				</span>
+				</div>
+				<div class="float-right" style="line-height: 32px; height: 32px;">
+					{% if track.allow_submit and not submitted %}
+					<a class="btn-sm btn-primary pull-right" href="{% url 'submission_create' track=track.pk %}">enter</a>
+					{% endif %}
+					{% if submitted %}
+					<a class="btn-sm btn-primary pull-right" href="{% url 'submission_detail' pk=submitted %}">view submission</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		{% empty %}
+		<p class="text-muted">No tracks are currently running</p>
+		{% endfor %}
+
+	</div>
+	<div class="col-12 col-md-4 col-lg-3 collapse" id="filters">
+		<h2 style="margin-bottom: 15px" >Filters</h2>
+		<form action="?search" method="GET">
+		<div class="input-group">
+			<span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+			<input type="text" class="form-control" placeholder="search..." name="name" />
+		</div>
+		</form>
+
+		<div class="filters" style="margin-top: 30px">
+
+		<h4 data-toggle="collapse" data-target="#filter-uploads">Allow uploads</h4>
+		<div id="filter-uploads" class="list-group collapse in">
+			<a class="list-group-item list-group-item-action" href="?{% url_replace allow_submit=2 %}">Yes</a>
+			<a class="list-group-item list-group-item-action" href="?{% url_replace allow_submit=3 %}">No</a>
+		</div>
+
+		<h4 style="margin-top: 15px" data-toggle="collapse" data-target="#filter-competition">Competition</h4>
+		<div id="filter-competition" class="list-group">
+			<a class="list-group-item list-group-item-action" href="?{% url_replace competition=None %}">All competitions</a>
+			{% for competition in competitions %}
+			<a class="list-group-item list-group-item-action" href="?{% url_replace competition=competition.pk %}">{{competition}}</a>
+			{% endfor %}
+		</div>
+		</div>
+	</div>
+</div>
+
+{% if is_paginated %}
+<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center">
+		{% if page_obj.has_previous %}
+		<li class="page-item">
+			<a class="page-link" href="?{% url_replace page=page_obj.previous_page_number %}" aria-label="Previous">
+				<span aria-hidden="true">&laquo;</span>
+				<span class="sr-only">Previous</span>
+			</a>
+		</li>
+		{% endif %}
+		<li class="page-item disabled"><span class="page-link">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+		{% if page_obj.has_next %}
+		<li class="page-item">
+			<a class="page-link" href="?{% url_replace page=page_obj.next_page_number %}" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+				<span class="sr-only">Next</span>
+			</a>
+		</li>
+		{% endif %}
+	</ul>
+</nav>
+{% endif %}
+
+{% endblock %}
