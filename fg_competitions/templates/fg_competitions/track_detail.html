@@ -1,36 +1,48 @@
-{% extends "base.html" %}
+{% extends "base_multicol.html" %}
 {% load account %}
 
 {% block head_title %}{{competition}}{% endblock %}
 
-{% block content %}
-{% if track.allow_submit and user.is_authenticated %}
-{% if not submission %}
-<p class="pull-right"><a class="btn btn-primary" href="{% url 'submission_create' track=track.pk %}">Create Submission</a></p>
-{% else %}
-<p class="pull-right"><a class="btn btn-primary" href="{{submission.get_absolute_url}}">View Submission</a></p>
-{% endif %}
-{% endif %}
+{% block content_main %}
+    <h1>{{track}}</h1>
+    <p>{{track.competition}}</p>
 
-<h1>{{track.competition}} <small>{{track}}</small></h1>
-{% if track.owner %}
-<p> Run by <a href="{{track.owner.get_absolute_url}}">{{track.owner}}</a></p>
-{% endif %}
+    {% if track.owner %}
+    <p> Run by <a href="{{track.owner.get_absolute_url}}">{{track.owner}}</a></p>
+    {% endif %}
 
-<p class="lead">{{track.description}}</p>
+    <p class="lead">{{track.description}}</p>
 
-<ul class="list-unstyled">
-<li>{% if track.allow_submit %}<p><i class="fa fa-check" aria-hidden="true"></i>
- Submissions Open</p>{% else %}<p><i class="fa fa-times" aria-hidden="true"></i>
- Submissions closed</p>{% endif %}</li>
-<li>{% if track.allow_update %}<p><i class="fa fa-check" aria-hidden="true"></i>
- Editing of existing submissions allowed</p>{% else %}<p><i class="fa fa-times" aria-hidden="true"></i>
-Editing of existing submissions not allowed</p>{% endif %}</li>
-</ul>
+    <div class="row">
+    	<div class="col">
+    		<h3>Details</h3>
+    		<dl class="row">
+    			<dt class="col-12 col-md-3">New</dt>
+    			<dd class="col-12 col-md-9">
+            {% if track.allow_submit %}
+             <i class="fa fa-check" aria-hidden="true"></i> Submissions Open
+            {% else %}
+             <i class="fa fa-times" aria-hidden="true"></i> Submissions Closed
+            {% endif %}
+          </dd>
+
+            <dt class="col-12 col-md-3">Updates</dt>
+            <dd class="col-12 col-md-9">
+              {% if track.allow_update %}
+               <i class="fa fa-check" aria-hidden="true"></i> Updates allowed
+              {% else %}
+               <i class="fa fa-times" aria-hidden="true"></i> Updates not allowed
+              {% endif %}
+            </dd>
+    		</dl>
+    	</div>
+    	<div class="col">
+    	</div>
+    </div>
 
 <h2>Submissions</h2>
-<table class="table">
-  <thead>
+<table class="table table-striped">
+  <thead class="thead-light">
     <tr>
       <th>Name</th>
       <th>Owner</th>
@@ -53,5 +65,14 @@ Editing of existing submissions not allowed</p>{% endif %}</li>
 {% endfor %}
 </tbody>
 </table>
+{% endblock %}
 
+{% block content_sidebar %}
+    {% if track.allow_submit and user.is_authenticated %}
+    {% if not submission %}
+    <p><a class="btn btn-primary" href="{% url 'submission_create' track=track.pk %}">Create Submission</a></p>
+    {% else %}
+    <p><a class="btn btn-primary" href="{{submission.get_absolute_url}}">View Submission</a></p>
+    {% endif %}
+    {% endif %}
 {% endblock %}

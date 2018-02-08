@@ -6,7 +6,7 @@
 <h1 class="sr-only">Competition List</h1>
 
 <div class="row">
-	<div class="col-md-3">
+	<div class="col d-sm-none">
 		<h2>Competitions</h2>
 		<div class="list-group">
 		  {% for competition in competition_list %}
@@ -17,23 +17,23 @@
 		</div>
 	</div>
 
-
-
-	<div class="col-md-8">
+	<div class="col-8 col-sm-12">
 	{% for competition in competition_list %}
 	<h2><a href="{{competition.get_absolute_url}}">{{competition}}</a></h2>
 	<p>{{competition.description}}</p>
 
 	{% for track in competition.track_set.all %}
-	  <div style=" padding: 15px" class="clearfix"> 
-	    <header class="clearfix">
-	    <h3 style="margin-top: 0; padding-top: 0;" class="pull-left"><a href="{{track.get_absolute_url}}">{{track}}</a></h3>
-	    <ul class="pull-right list-inline">
-		<li>{% if track.allow_submit %}<i class="fa fa-plus" title="Submissions are allowed"></i>{% endif %}</li>
-		<li>{% if track.allow_update %}<i class="fa fa-pencil" title="Updates are allowed"></i>{% endif %}</li>
-	    </ul>
-	    </header>
-	    <footer> <p class="pull-left">{{track.description|default:""}}</p> <a href="{{track.get_absolute_url}}" class="btn btn-success pull-right">Enter</a></footer>
+	  <div class="card track-list-detail">
+		<div class="card-body">
+			<h3 class="card-title"><a href="{{track.get_absolute_url}}">{{track}}</a></h3>
+			<h4 class="card-subtitle mb-2 text-muted">{{competition}}</h4>
+			<p class="card-text">{{track.description|default:""}}</p>
+		</div>
+		<div class="card-footer">
+		<a>{% if track.allow_submit %}<i class="fa fa-plus" title="Submissions are allowed"></i>{% endif %}</a>
+		<a>{% if track.allow_update %}<i class="fa fa-pencil" title="Updates are allowed"></i>{% endif %}</a>
+
+		</div>
 	  </div>
 	{% empty %}
 	  <p class="text-muted">No tracks are currently running</p>
