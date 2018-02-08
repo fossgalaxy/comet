@@ -25,7 +25,7 @@ class Competition(models.Model):
     description = models.TextField(blank=True)
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
+        from django.urls import reverse
         return reverse('competition_detail', kwargs={'slug':self.slug})
 
     def __str__(self):
@@ -35,7 +35,7 @@ class Competition(models.Model):
 class CompetitionLink(models.Model):
     """A link to a document for the competition"""
     name = models.CharField(max_length=100)
-    competition = models.ForeignKey(Competition, related_name="links")
+    competition = models.ForeignKey(Competition, on_delete=models.CASCADE, related_name="links")
     url = models.URLField()
 
     def __str__(self):
@@ -45,8 +45,8 @@ class CompetitionLink(models.Model):
 class Track(models.Model):
     """A variation in the rules of a competition"""
     name = models.CharField(max_length=100)
-    competition = models.ForeignKey(Competition)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+    competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
     # flags
@@ -54,7 +54,7 @@ class Track(models.Model):
     allow_update = models.BooleanField(default=True)
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
+        from django.urls import reverse
         return reverse('track_detail', kwargs={'pk':self.pk})
 
     def __str__(self):
@@ -62,7 +62,7 @@ class Track(models.Model):
 
 class AllowedSubmissionType(models.Model):
     """Types of submissions allowed"""
-    track = models.ForeignKey(Track)
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
     submission_type = models.CharField(max_length=1, choices=SUBMISSION_TYPES)
 
     def __str__(self):
@@ -82,8 +82,8 @@ class Submission(models.Model):
     submission_type = models.CharField(max_length=1, default="U", choices=SUBMISSION_TYPES)
 
     # foreign keys
-    track = models.ForeignKey(Track)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     # Scoring data (setup for geliko-2)
     ranking = models.FloatField(default=1500)
@@ -120,7 +120,7 @@ class Submission(models.Model):
             raise ValueError("unknown submission type")
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
+        from django.urls import reverse
         return reverse('submission_detail', kwargs={'pk':self.pk})
 
     def __str__(self):
@@ -159,26 +159,26 @@ class BaseSubmission(models.Model):
 @python_2_unicode_compatible
 class SubmissionText(BaseSubmission):
     """A textual version of a submission"""
-    submission = models.ForeignKey(Submission, related_name='text_submissions')
+    submission = models.ForeignKey(Submission, related_name='text_submissions', on_delete=models.CASCADE)
     body = models.TextField(null=True)
 
     def __str__(self):
         return "{0}".format(self.body)
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
+        from django.urls import reverse
         return reverse('submission_detail', kwargs={'pk':self.submission.pk})
 
 @python_2_unicode_compatible
 class SubmissionUpload(BaseSubmission):
     """A version of a submission"""
-    submission = models.ForeignKey(Submission, related_name='uploads')
+    submission = models.ForeignKey(Submission, related_name='uploads', on_delete=models.CASCADE)
     upload = models.FileField(upload_to=submission_path, validators=[ExtensionValidator(['zip'])])
 
     def __str__(self):
         return "{0}".format(self.upload)
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
+        from django.urls import reverse
         return reverse('submission_detail', kwargs={'pk':self.submission.pk})
 

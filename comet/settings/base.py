@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # Templating
-    'bootstrap3',
+    'bootstrap4',
     'fileprovider',
 
     # Authentication Plugins
