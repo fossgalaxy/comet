@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import Track, Submission, SubmissionUpload
+from .models import Track, Submission, SubmissionUpload, SubmissionText
 
 class RegisterForm(forms.ModelForm):
 
@@ -28,3 +28,10 @@ class UploadForm(forms.ModelForm):
         fields = ["upload", "submission"]
         widgets = {'submission': forms.HiddenInput()}
         model = SubmissionUpload
+
+class SubmissionTextForm(forms.ModelForm):
+
+    class Meta:
+        fields = ["body", "submission"]
+        widgets = {'submission': forms.HiddenInput()}
+        model = SubmissionText

@@ -31,6 +31,7 @@ router.register(r'competition', rest_views.CompetitionViewSet)
 router.register(r'track', rest_views.TrackViewSet)
 router.register(r'submission', rest_views.SubmissionViewSet)
 router.register(r'upload', rest_views.UploadViewSet)
+router.register(r'text', rest_views.SubmissionTextViewSet)
 
 urlpatterns = [
     url(r'^$', extra.Homepage.as_view(), name="home"),

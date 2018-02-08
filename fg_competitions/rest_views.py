@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 
-from .serializers import UserSerializer, GroupSerializer, CompetitionSerializer, TrackSerializer, SubmissionSerializer, UploadSerializer
-from .models import Competition, Track, Submission, SubmissionUpload
+from .serializers import UserSerializer, GroupSerializer, CompetitionSerializer, TrackSerializer, SubmissionSerializer, UploadSerializer, SubmissionTextSerializer
+from .models import Competition, Track, Submission, SubmissionUpload, SubmissionText
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -26,7 +26,6 @@ class CompetitionViewSet(viewsets.ModelViewSet):
     queryset = Competition.objects.all()
     serializer_class = CompetitionSerializer
 
-
 class TrackViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
@@ -40,6 +39,13 @@ class SubmissionViewSet(viewsets.ModelViewSet):
     """
     queryset = Submission.objects.all()
     serializer_class = SubmissionSerializer
+
+class SubmissionTextViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = SubmissionText.objects.all()
+    serializer_class = SubmissionTextSerializer
 
 class UploadViewSet(viewsets.ModelViewSet):
     """

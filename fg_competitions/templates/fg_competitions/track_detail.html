@@ -52,10 +52,11 @@
 
 <tbody>
 {% for submission in track.submission_set.all %}
-  <tr {% if not submission.current_upload %} class="warning" {% endif %}>
+
+  <tr {% if not submission.current %} class="warning" {% endif %}>
     <th><a href="{{submission.get_absolute_url}}">{{submission}}</a>{% if submission.sample %} <span class="label label-default">sample</span>{% endif %}</th>
     <td>{% user_display submission.owner %}</td>
-    <td>{% if not submission.current_upload %}No submission{% else %}{{submission.ranking}}{% endif %}</td>
+    <td>{{ submission.pretty_score|default:"wtf" }}</td>
   </tr>
   {% empty %}
   <tr>

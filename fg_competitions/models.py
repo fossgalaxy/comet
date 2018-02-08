@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.utils.encoding import python_2_unicode_compatible
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.conf import settings
 
@@ -9,6 +10,11 @@ STATUS_LIST = [
     ("BF", "Build failed"),
     ("BS", "Build succeeded"),
     ("DA", "Disqualified by admin")
+]
+
+SUBMISSION_TYPES = [
+    ("T", "Text Submission"),
+    ("U", "Upload")
 ]
 
 @python_2_unicode_compatible
@@ -54,6 +60,17 @@ class Track(models.Model):
     def __str__(self):
         return self.name
 
+class AllowedSubmissionType(models.Model):
+    """Types of submissions allowed"""
+    track = models.ForeignKey(Track)
+    submission_type = models.CharField(max_length=1, choices=SUBMISSION_TYPES)
+
+    def __str__(self):
+        return self.get_submission_type_display()
+
+    class Meta:
+        unique_together = ( ("track", "submission_type"), )
+
 @python_2_unicode_compatible
 class Submission(models.Model):
     """An individual entry into the competition"""
@@ -62,6 +79,7 @@ class Submission(models.Model):
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     sample = models.BooleanField(default=False)
+    submission_type = models.CharField(max_length=1, default="U", choices=SUBMISSION_TYPES)
 
     # foreign keys
     track = models.ForeignKey(Track)
@@ -74,7 +92,7 @@ class Submission(models.Model):
 
     @property
     def pretty_score(self):
-        curr_upload = self.current_upload
+        curr_upload = self.current
         if not curr_upload:
             return "No submission"
         elif curr_upload.status != "BS":
@@ -85,6 +103,21 @@ class Submission(models.Model):
     @property
     def current_upload(self):
         return self.uploads.first()
+
+    @property
+    def current_text(self):
+        return self.text_submissions.first()
+
+    @property
+    def current(self):
+        if self.submission_type == "U":
+            return self.current_upload
+        elif self.submission_type == "T":
+            ct = self.current_text
+            print(ct)
+            return ct
+        else:
+            raise ValueError("unknown submission type")
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
@@ -114,14 +147,33 @@ class ExtensionValidator(RegexValidator):
     def __call__(self, value):
         super(ExtensionValidator, self).__call__(value.name)
 
-@python_2_unicode_compatible
-class SubmissionUpload(models.Model):
-    """A version of a submission"""
-    submission = models.ForeignKey(Submission, related_name='uploads')
+class BaseSubmission(models.Model):
     status = models.CharField(max_length=5, default="BP", choices=STATUS_LIST)
     created = models.DateTimeField(auto_now_add=True)
-    upload = models.FileField(upload_to=submission_path, validators=[ExtensionValidator(['zip'])])
     feedback = models.TextField(blank=True, null=True)
+
+    class Meta:
+        abstract = True
+        ordering = ["-created"]
+
+@python_2_unicode_compatible
+class SubmissionText(BaseSubmission):
+    """A textual version of a submission"""
+    submission = models.ForeignKey(Submission, related_name='text_submissions')
+    body = models.TextField(null=True)
+
+    def __str__(self):
+        return "{0}".format(self.body)
+
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('submission_detail', kwargs={'pk':self.submission.pk})
+
+@python_2_unicode_compatible
+class SubmissionUpload(BaseSubmission):
+    """A version of a submission"""
+    submission = models.ForeignKey(Submission, related_name='uploads')
+    upload = models.FileField(upload_to=submission_path, validators=[ExtensionValidator(['zip'])])
 
     def __str__(self):
         return "{0}".format(self.upload)
@@ -130,5 +182,3 @@ class SubmissionUpload(models.Model):
         from django.core.urlresolvers import reverse
         return reverse('submission_detail', kwargs={'pk':self.submission.pk})
 
-    class Meta:
-        ordering = ["-created"]

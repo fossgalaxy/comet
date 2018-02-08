@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Competition, CompetitionLink, Track, Submission, SubmissionUpload
+from .models import Competition, CompetitionLink, Track, Submission, SubmissionUpload, SubmissionText
 
 # Register your models here.
 class CompetitionLinkInline(admin.TabularInline):
@@ -21,10 +21,15 @@ class SubmissionUploadInline(admin.TabularInline):
     model = SubmissionUpload
     extra = 1
 
+class SubmissionTextInline(admin.TabularInline):
+    model = SubmissionText
+    extra = 1
+
+
 class SubmissionAdmin(admin.ModelAdmin):
     fieldsets = (
       (None, {
-          'fields': ('name', 'track', ('owner', "sample"), 'description')
+          'fields': ('name', 'track', ('owner', "sample"), 'description', "submission_type")
       }),
       ("Ranking", {
           'fields': ('ranking', 'ranking_rd', 'velocity')
@@ -33,6 +38,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     list_filter = ("track",)
     list_display = ("__str__", "track")
     inlines = [
-        SubmissionUploadInline
+        SubmissionUploadInline,
+        SubmissionTextInline
     ]
 admin.site.register(Submission, SubmissionAdmin)
