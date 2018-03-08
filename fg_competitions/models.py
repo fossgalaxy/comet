@@ -81,6 +81,9 @@ class Submission(models.Model):
     sample = models.BooleanField(default=False)
     submission_type = models.CharField(max_length=1, default="U", choices=SUBMISSION_TYPES)
 
+    # Extras
+    allow_download = models.BooleanField(default=False)
+
     # foreign keys
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
