@@ -28,7 +28,7 @@ class CompetitionList(ListView):
 def download_submission(request, pk=None):
     upload_entry = get_object_or_404(SubmissionUpload, pk=pk)
 
-    if not request.user.is_admin():
+    if not request.user.is_staff:
         raise PermissionDenied()
 
     full_path = os.path.join(settings.MEDIA_ROOT, upload_entry.upload.name)
@@ -86,6 +86,12 @@ class SubmitterDashboard(TemplateView):
     """Mockup of submitter dashboard"""
     template_name = "fg_competitions/submitter_dashboard.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(TemplateView, self).get_context_data(**kwargs)
+        
+        context['tracks'] = Track.objects.all()
+        return context
+
 class CompetitionDetail(DetailView):
     """View details about a competition"""
     model = Competition
@@ -137,7 +143,7 @@ class SubmissionCreate(CreateView):
 @method_decorator(login_required, name='dispatch')
 class SubmissionUpdate(UpdateView):
     model = Submission
-    fields = ['name', 'description']
+    fields = ['name', 'description', 'allow_download']
 
     def get_context_data(self, **kwargs):
         context = super(SubmissionUpdate, self).get_context_data(**kwargs)

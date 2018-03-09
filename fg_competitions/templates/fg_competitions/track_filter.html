@@ -9,9 +9,13 @@
 
 <div class="row" style="margin-top: 15px">
 	<div class="col-12 col-md">
-		<span class="pull-right btn btn-info navbar-btn" data-toggle="collapse" aria-toggle="collapse" href="#filters"><i class="fa fa-filter" aria-hidden="true"></i>
- Toggle filters</span>
-		<h2>Tracks</h2>
+		<div class="d-flex">
+			<h2 class="align-self-center my-auto" class="text-align: center">Tracks</h2>
+			<span class="ml-auto btn btn-secondary align-self-center" style="text-align: center;" data-toggle="collapse" aria-toggle="collapse" href="#filters">
+			     <i class="fa fa-filter" aria-hidden="true"></i>
+			     Toggle filters
+			</span>
+                </div>
 
 		<i class="clearfix" ></i>
 
@@ -24,27 +28,25 @@
 				<h4 class="card-subtitle mb-2 text-muted">{{track.competition}}</h4>
 				<p class="card-text">{{track.description|default:""}}</p>
 			</div>
-			<div class="card-footer clearfix">
-				<div class="float-left">
-				<span class="fa-layers fa-fw" title="Submissions Marker">
-					<i class="fa fa-plus"></i>
-					{% if not track.allow_submit %}
-					<i class="fa fa-ban text-danger"></i>
-					{% endif %}
-				</span>
-				<span class="fa-layers fa-fw" title="Update Marker">
-					<i class="fas fa-pencil-alt"></i>
-					{% if not track.allow_update %}
-					<i class="fas fa-ban text-danger"></i>
-					{% endif %}
-				</span>
-				</div>
-				<div class="float-right" style="line-height: 32px; height: 32px;">
+			<div class="card-footer">
+				<div class="d-flex" style="text-algin: center">
+					<span class="fa-layers fa-fw align-self-center" title="Submissions Marker">
+						<i class="fa fa-plus"></i>
+						{% if not track.allow_submit %}
+						<i class="fa fa-ban text-danger"></i>
+						{% endif %}
+					</span>
+					<span class="fa-layers fa-fw align-self-center ml-2" title="Update Marker">
+						<i class="fas fa-pencil-alt"></i>
+						{% if not track.allow_update %}
+						<i class="fas fa-ban text-danger"></i>
+						{% endif %}
+					</span>
 					{% if track.allow_submit and not submitted %}
-					<a class="btn-sm btn-primary pull-right" href="{% url 'submission_create' track=track.pk %}">enter</a>
+					<a class="ml-auto btn-sm btn-primary" href="{% url 'submission_create' track=track.pk %}">enter</a>
 					{% endif %}
 					{% if submitted %}
-					<a class="btn-sm btn-primary pull-right" href="{% url 'submission_detail' pk=submitted %}">view submission</a>
+					<a class="ml-auto btn-sm btn-primary" href="{% url 'submission_detail' pk=submitted %}">view submission</a>
 					{% endif %}
 				</div>
 			</div>
@@ -54,11 +56,12 @@
 		{% endfor %}
 
 	</div>
+
 	<div class="col-12 col-md-4 col-lg-3 collapse" id="filters">
 		<h2 style="margin-bottom: 15px" >Filters</h2>
 		<form action="?search" method="GET">
 		<div class="input-group">
-			<span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+			<div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span></div>
 			<input type="text" class="form-control" placeholder="search..." name="name" />
 		</div>
 		</form>

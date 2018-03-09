@@ -52,6 +52,7 @@ class Track(models.Model):
     # flags
     allow_submit = models.BooleanField(default=True)
     allow_update = models.BooleanField(default=True)
+    allow_download = models.BooleanField(default=False)
 
     def get_absolute_url(self):
         from django.urls import reverse
@@ -76,13 +77,13 @@ class Submission(models.Model):
     """An individual entry into the competition"""
     # meta-data
     name = models.CharField(max_length=50)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True, help_text="Briefly describe your submission")
     created = models.DateTimeField(auto_now_add=True)
     sample = models.BooleanField(default=False)
     submission_type = models.CharField(max_length=1, default="U", choices=SUBMISSION_TYPES)
 
     # Extras
-    allow_download = models.BooleanField(default=False)
+    allow_download = models.BooleanField(default=False, verbose_name="Make public", help_text="Allow public distribution after results publication")
 
     # foreign keys
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
@@ -92,6 +93,14 @@ class Submission(models.Model):
     ranking = models.FloatField(default=1500)
     ranking_rd = models.FloatField(default=350)
     velocity = models.FloatField(default=0.06)
+
+    @property
+    def is_public(self):
+        """first check if submission has allowed download, if yes then delegate to track"""
+        if not self.allow_download:
+            return False
+        else:
+            return self.track.allow_download
 
     @property
     def pretty_score(self):
