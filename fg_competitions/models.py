@@ -17,6 +17,13 @@ SUBMISSION_TYPES = [
     ("U", "Upload")
 ]
 
+# non-optional boolean field
+YES_OR_NO = (
+    ('y', 'Yes'),
+    ('n', 'No')
+)
+
+
 @python_2_unicode_compatible
 class Competition(models.Model):
     """A high-level descripiton of a topic"""
@@ -79,11 +86,12 @@ class Submission(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, help_text="Briefly describe your submission")
     created = models.DateTimeField(auto_now_add=True)
-    sample = models.BooleanField(default=False)
     submission_type = models.CharField(max_length=1, default="U", choices=SUBMISSION_TYPES)
 
     # Extras
-    allow_download = models.BooleanField(default=False, verbose_name="Make public", help_text="Allow public distribution after results publication")
+    allow_download = models.BooleanField(default=True, verbose_name="Make public", help_text="Allow public distribution after results publication")
+    is_student = models.CharField(max_length=1, choices=YES_OR_NO, verbose_name="Student Submission", help_text="Is this submission by a student?")
+    sample = models.BooleanField(default=False)
 
     # foreign keys
     track = models.ForeignKey(Track, on_delete=models.CASCADE)

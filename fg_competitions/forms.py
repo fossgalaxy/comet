@@ -18,7 +18,7 @@ class RegisterForm(forms.ModelForm):
             raise ValidationError("registrations are not currently open")
 
     class Meta:
-        fields = ["name", "description", "track", "allow_download"]
+        fields = ["name", "description", "track", "allow_download", "is_student"]
         widgets = {'track': forms.HiddenInput()}
         model = Submission
 

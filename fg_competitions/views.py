@@ -68,7 +68,14 @@ class TrackList(FilterView):
     def get_context_data(self, **kwargs):
         context = super(TrackList, self).get_context_data(**kwargs)
 
+        # Filter paramters - this is hacky
+        # if there is a better way without using the form we should do that instead...
         context['competitions'] = Competition.objects.all()
+        context['get_name'] = self.request.GET.get('name', '')
+        context['get_allow_submit'] = self.request.GET.get('allow_submit', None)
+
+        filter_comp = self.request.GET.get('competition', None)
+        context['get_competition'] = int(filter_comp) if filter_comp else None
 
         if self.request.user.is_authenticated:
             results = Submission.objects.filter(
