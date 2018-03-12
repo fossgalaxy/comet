@@ -1,29 +1,15 @@
 {% extends "base.html" %}
 {% load account bootstrap4 %}
 
-{% block head_title %}{{competition}}{% endblock %}
+{% block head_title %}{{track}}{% endblock %}
 
 {% block content %}
 
 {% if form.instance.pk is None %}
-  <h1>Create New Submission</h1>
+  <h1>Create New Track</h1>
 {% else %}
   <h1>Update '{{form.instance}}'</h1>
 {% endif %}
-
-<!-- <div class="process">
-    <div class="process-row">
-        <div class="process-step">
-            <button type="button" class="btn btn-primary btn-circle" disabled="disabled"><i class="fa fa-user fa-3x"></i></button>
-            <p>Controller Details</p>
-        </div>
-        <div class="process-step">
-            <button type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-comments-o fa-3x"></i></button>
-            <p>Upload files</p>
-        </div>
-    </div>
-</div>
--->
 
 <form method="post" action="#">
   {% csrf_token %}
@@ -31,7 +17,7 @@
 <input type="hidden" name="track" value="{{track.pk}}" />
 
   {% if form.instance.pk is None %}
-    <input type="submit" class="btn btn-primary" value="Register" />
+    <input type="submit" class="btn btn-primary" value="Create" />
   {% else %}
     <input type="submit" class="btn btn-primary" value="Update" />
   {% endif %}

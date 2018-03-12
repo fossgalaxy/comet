@@ -20,18 +20,18 @@
     			<dt class="col-12 col-md-3">New</dt>
     			<dd class="col-12 col-md-9">
             {% if track.allow_submit %}
-             <i class="fa fa-check" aria-hidden="true"></i> Submissions Open
+             <i class="fas fa-check" aria-hidden="true"></i> Submissions Open
             {% else %}
-             <i class="fa fa-times" aria-hidden="true"></i> Submissions Closed
+             <i class="fas fa-times" aria-hidden="true"></i> Submissions Closed
             {% endif %}
           </dd>
 
             <dt class="col-12 col-md-3">Updates</dt>
             <dd class="col-12 col-md-9">
               {% if track.allow_update %}
-               <i class="fa fa-check" aria-hidden="true"></i> Updates allowed
+               <i class="fas fa-check" aria-hidden="true"></i> Updates allowed
               {% else %}
-               <i class="fa fa-times" aria-hidden="true"></i> Updates not allowed
+               <i class="fas fa-times" aria-hidden="true"></i> Updates not allowed
               {% endif %}
             </dd>
     		</dl>
@@ -52,10 +52,11 @@
 
 <tbody>
 {% for submission in track.submission_set.all %}
-  <tr {% if not submission.current_upload %} class="warning" {% endif %}>
+
+  <tr {% if not submission.current %} class="warning" {% endif %}>
     <th><a href="{{submission.get_absolute_url}}">{{submission}}</a>{% if submission.sample %} <span class="label label-default">sample</span>{% endif %}</th>
     <td>{% user_display submission.owner %}</td>
-    <td>{% if not submission.current_upload %}No submission{% else %}{{submission.ranking}}{% endif %}</td>
+    <td>{{ submission.pretty_score|default:"wtf" }}</td>
   </tr>
   {% empty %}
   <tr>
@@ -67,11 +68,20 @@
 {% endblock %}
 
 {% block content_sidebar %}
+    <nav class="nav flex-column">
+    {% for link in track.competition.links.all %}
+      <a class="nav-link" href="{{link.url}}">{{link}}</a>
+    {% endfor %}
+    </nav>
+    <hr />
+
+    <nav class="nav flex-column">
     {% if track.allow_submit and user.is_authenticated %}
     {% if not submission %}
-    <p><a class="btn btn-primary" href="{% url 'submission_create' track=track.pk %}">Create Submission</a></p>
+    <a class="nav-link btn btn-primary" href="{% url 'submission_create' track=track.pk %}">Create Submission</a>
     {% else %}
-    <p><a class="btn btn-primary" href="{{submission.get_absolute_url}}">View Submission</a></p>
+    <a class="nav-link btn btn-primary" href="{{submission.get_absolute_url}}">View Submission</a>
     {% endif %}
     {% endif %}
+    </nav>
 {% endblock %}

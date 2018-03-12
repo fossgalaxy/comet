@@ -2,6 +2,14 @@
 
 {% block head_title %}{{submission}}{% endblock %}
 
+{% block extra_head %}
+<script type="text/javascript">
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+{% endblock %}
+
 {% block content_top %}
 
 {% if submission.owner == user and not submission.current_upload %}
@@ -62,9 +70,21 @@
 {% endblock %}
 
 {% block content_sidebar %}
-		{% if submission.owner == user and submission.track.allow_update %}
-			<a class="btn btn-primary mt-md-2" href="{% url 'submission_upload' submission=submission.pk %}">Upload new Version</a>
-      <a class="btn btn-primary mt-md-2" href="{% url 'submission_update' pk=submission.pk %}">Update Details</a>
-		{% endif %}
-    <a class="btn btn-primary mt-md-2" href="{{submission.track.get_absolute_url}}">View Track</a>
+    <nav class="nav flex-column">
+        <a class="nav-link btn btn-primary mt-md-2" href="{{submission.track.get_absolute_url}}">View Track</a>
+        {% if submission.track.allow_download and submission.current_upload %}
+        {% if submission.is_public %}
+        <a class="nav-link btn btn-primary mt-md-2" href="{% url 'submission_download' pk=submission.current_upload.pk %}">Download</a>
+        {% else %}
+        <span class="d-inline-block" data-toggle="tooltip" title="Submission does not allow public download">
+        <a class="nav-link btn btn-primary disabled mt-md-2" href="#">Download</a> </span>
+        {% endif %}
+        {% endif %}
+   </nav>
+   <nav class="nav flex-column mt-3">
+	{% if submission.owner == user and submission.track.allow_update %}
+	<a class="nav-link btn btn-primary mt-md-2" href="{% url 'submission_upload' submission=submission.pk %}">Upload new Version</a>
+        <a class="nav-link btn btn-primary mt-md-2" href="{% url 'submission_update' pk=submission.pk %}">Update Details</a>
+	{% endif %}
+    </nav>
 {% endblock %}

@@ -4,8 +4,8 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse
 from django.http.response import HttpResponse, FileResponse
 
-from .models import Competition, Track, Submission, SubmissionUpload, submission_path
-from .forms import RegisterForm, UploadForm
+from .models import Competition, Track, Submission, SubmissionUpload, SubmissionText, submission_path
+from .forms import RegisterForm, UploadForm, SubmissionTextForm
 from .filters import TrackFilter
 
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
@@ -28,7 +28,7 @@ class CompetitionList(ListView):
 def download_submission(request, pk=None):
     upload_entry = get_object_or_404(SubmissionUpload, pk=pk)
 
-    if not request.user.is_admin():
+    if not request.user.is_staff:
         raise PermissionDenied()
 
     full_path = os.path.join(settings.MEDIA_ROOT, upload_entry.upload.name)
@@ -68,7 +68,14 @@ class TrackList(FilterView):
     def get_context_data(self, **kwargs):
         context = super(TrackList, self).get_context_data(**kwargs)
 
+        # Filter paramters - this is hacky
+        # if there is a better way without using the form we should do that instead...
         context['competitions'] = Competition.objects.all()
+        context['get_name'] = self.request.GET.get('name', '')
+        context['get_allow_submit'] = self.request.GET.get('allow_submit', None)
+
+        filter_comp = self.request.GET.get('competition', None)
+        context['get_competition'] = int(filter_comp) if filter_comp else None
 
         if self.request.user.is_authenticated:
             results = Submission.objects.filter(
@@ -85,6 +92,12 @@ class TrackList(FilterView):
 class SubmitterDashboard(TemplateView):
     """Mockup of submitter dashboard"""
     template_name = "fg_competitions/submitter_dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(TemplateView, self).get_context_data(**kwargs)
+        
+        context['tracks'] = Track.objects.all()
+        return context
 
 class CompetitionDetail(DetailView):
     """View details about a competition"""
@@ -137,7 +150,7 @@ class SubmissionCreate(CreateView):
 @method_decorator(login_required, name='dispatch')
 class SubmissionUpdate(UpdateView):
     model = Submission
-    fields = ['name', 'description']
+    fields = ['name', 'description', 'allow_download']
 
     def get_context_data(self, **kwargs):
         context = super(SubmissionUpdate, self).get_context_data(**kwargs)
@@ -153,6 +166,38 @@ class SubmissionUpdate(UpdateView):
             raise PermissionDenied()
 
         return context
+
+@method_decorator(login_required, name='dispatch')
+class TextSubmission(CreateView):
+    model = SubmissionText
+    form_class = SubmissionTextForm
+
+    def get_context_data(self, **kwargs):
+        context = super(TextSubmission, self).get_context_data(**kwargs)
+        submission = self.kwargs.get('submission')
+        context['submission'] = get_object_or_404(Submission, id=submission)
+
+        # if the user is not the owner of that submission, tell them off
+        if not context['submission'].owner == self.request.user:
+            raise PermissionDenied()
+
+        # check that the track allows updates
+        track = context['submission'].track
+        if not track.allow_update:
+            raise PermissionDenied()
+
+        return context
+
+    def get_initial(self):
+        context = super(TextSubmission, self).get_initial()
+        context['submission'] = self.kwargs.get('submission', None)
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.status = "BS"
+        form.instance.submission.submission_type = "T"
+        return super(TextSubmission, self).form_valid(form)
 
 @method_decorator(login_required, name='dispatch')
 class UploadSubmission(CreateView):
@@ -182,4 +227,5 @@ class UploadSubmission(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        form.instance.submission.submission_type = "U"
         return super(UploadSubmission, self).form_valid(form)

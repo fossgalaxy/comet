@@ -13,32 +13,23 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>Hanabi 2017</td>
-				<td>Yolobot</td>
-				<td>Build success</td>
-			</tr>
-			<tr>
-				<td>Hanabi 2016</td>
-				<td>Yolobot</td>
-				<td>Build success</td>
-			</tr>
 		</tbody>
 	</table>
 </div>
 
+<h3>Open Tracks</h3>
 <div class="card-columns">
-	<div class="card">
-		<div class="card-body">
-			<h3 class="card-title">Current Entries</h3>
-			<ul>
-				<li><a href="#">Hanabi</a></li>
-				<li><a href="#">Hanabi</a></li>
-				<li><a href="#">Hanabi</a></li>
-			</ul>
-		</div>
-	</div>
-
+    {% for track in tracks %}
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">{{track.competition}}</h4>
+            <h5 class="card-subtitle mb-2 text-muted">{{track}}</h5>
+            <p class="card-text">{{track.description}}</p>
+            <a href="{{ track.get_absolute_url }}" class="card-link">Details</a>
+            <a href="{{ track.get_absolute_url }}" class="card-link">Enter</a>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 
 {% endblock %}
