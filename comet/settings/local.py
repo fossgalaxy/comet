@@ -19,3 +19,4 @@ DATABASES = {
 }
 
 FILEPROVIDER_NAME = "python"
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

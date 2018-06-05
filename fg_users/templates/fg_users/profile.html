@@ -19,8 +19,13 @@
 	<div class="col-3">
 		<h1>{% user_display profile %}</h1>
 		<div class="bg-faded">
+			{% if user.pk == profile.pk %}
 			<ul>
+				<li>Email: {{profile.email|default:"not provided"}}</li>
+				<li><a href="{% url 'account_email' %}">Change email</a></li>
+				<li><a href="{% url 'account_change_password' %}">Change password</a></li>
 			</ul>
+			{% endif %}
 		</div>
 	</div>
 </div>
