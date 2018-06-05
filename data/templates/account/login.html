@@ -1,6 +1,6 @@
 {% extends "account/base.html" %}
 
-{% load i18n %}
+{% load i18n bootstrap4 %}
 {% load account socialaccount %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
@@ -35,31 +35,20 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
 <form class="login" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
-
-  {% for field in form %}
-      <div class="form-group row">
-          {{ field.errors }}
-          <label class="col-sm-2 col-form-label" for="{{ field.id_for_label }}">{{field.label}}</label>
-          <div class="col-sm-10">
-            {{ field }}
-          </div>
-          {% if field.help_text %}
-          <p class="help">{{ field.help_text|safe }}</p>
-          {% endif %}
-      </div>
-  {% endfor %}
+  {% bootstrap_form form layout='horizontal' %}
 
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
+
+  {% buttons %}
   <div class="row">
-    <div class="col-xs-2">
+    <div class="offset-3 col-9">
+      <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
       <a class="btn btn-text" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
     </div>
-    <div class="col-xs-10">
-      <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
-    </div>
   </div>
+  {% endbuttons %}
 </form>
 
 {% endblock %}

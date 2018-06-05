@@ -6,6 +6,7 @@ from .models import Competition, Track, Submission, SubmissionUpload, Submission
 class CompetitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competition
+        fields = '__all__'
 
 class UploadReadOnlySerializer(serializers.ModelSerializer):
     upload = serializers.FileField(use_url=False)

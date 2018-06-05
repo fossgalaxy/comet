@@ -28,7 +28,7 @@ class CompetitionList(ListView):
 def download_submission(request, pk=None):
     upload_entry = get_object_or_404(SubmissionUpload, pk=pk)
 
-    if not request.user.is_admin():
+    if not request.user.is_staff:
         raise PermissionDenied()
 
     full_path = os.path.join(settings.MEDIA_ROOT, upload_entry.upload.name)
@@ -68,7 +68,14 @@ class TrackList(FilterView):
     def get_context_data(self, **kwargs):
         context = super(TrackList, self).get_context_data(**kwargs)
 
+        # Filter paramters - this is hacky
+        # if there is a better way without using the form we should do that instead...
         context['competitions'] = Competition.objects.all()
+        context['get_name'] = self.request.GET.get('name', '')
+        context['get_allow_submit'] = self.request.GET.get('allow_submit', None)
+
+        filter_comp = self.request.GET.get('competition', None)
+        context['get_competition'] = int(filter_comp) if filter_comp else None
 
         if self.request.user.is_authenticated:
             results = Submission.objects.filter(
@@ -85,6 +92,12 @@ class TrackList(FilterView):
 class SubmitterDashboard(TemplateView):
     """Mockup of submitter dashboard"""
     template_name = "fg_competitions/submitter_dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(TemplateView, self).get_context_data(**kwargs)
+        
+        context['tracks'] = Track.objects.all()
+        return context
 
 class CompetitionDetail(DetailView):
     """View details about a competition"""
@@ -137,7 +150,7 @@ class SubmissionCreate(CreateView):
 @method_decorator(login_required, name='dispatch')
 class SubmissionUpdate(UpdateView):
     model = Submission
-    fields = ['name', 'description']
+    fields = ['name', 'description', 'allow_download']
 
     def get_context_data(self, **kwargs):
         context = super(SubmissionUpdate, self).get_context_data(**kwargs)
