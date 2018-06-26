@@ -132,11 +132,6 @@ class SubmissionDetail(DetailView):
             {"name": "validate", "icon": "vial", "code": "V"}
         ]
 
-        upload_status = {}
-        for upload in self.object.uploads.all():
-            upload_status[upload.pk] = True
-        context['status'] = upload_status
-
         return context
 
 

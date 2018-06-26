@@ -3,8 +3,6 @@ from . import views, views_organiser
 
 urlpatterns = [
     url(r'^$', views.TrackList.as_view(), name="competitions"),
-    url(r'^odb$', views_organiser.Dashboard.as_view(), name="org_dashboard"),
-    url(r'^db$', views.SubmitterDashboard.as_view(), name="dashboard"),
     
     url(r'^tu/(?P<pk>\w+)$', views_organiser.TrackUpdate.as_view(), name="track_update"),
     
@@ -16,4 +14,10 @@ urlpatterns = [
     url(r'^s/(?P<submission>\w+)/upload$', views.UploadSubmission.as_view(), name="submission_upload"),
     url(r'^s/(?P<pk>\w+)/update$', views.SubmissionUpdate.as_view(), name="submission_update"),
     url(r'^d/(?P<pk>\w+)/$', views.download_submission, name="submission_download"),
+]
+
+# Alpha urls
+urlpatterns += [
+    url(r'^odb$', views_organiser.Dashboard.as_view(), name="org_dashboard"),
+    url(r'^db$', views.SubmitterDashboard.as_view(), name="dashboard"),
 ]
