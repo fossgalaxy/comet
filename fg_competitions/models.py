@@ -83,6 +83,9 @@ class Track(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['-allow_submit', 'name']
+
 class AllowedSubmissionType(models.Model):
     """Types of submissions allowed"""
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
