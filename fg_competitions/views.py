@@ -124,6 +124,22 @@ class SubmissionDetail(DetailView):
     model = Submission
     context_object_name = "submission"
 
+    def get_context_data(self, **kwargs):
+        context = super(SubmissionDetail, self).get_context_data(**kwargs)
+        context['pipeline'] = [
+            {"name": "upload", "icon": "upload", "code": "U"},
+            {"name": "build", "icon": "cogs", "code": "B"},
+            {"name": "validate", "icon": "vial", "code": "V"}
+        ]
+
+        upload_status = {}
+        for upload in self.object.uploads.all():
+            upload_status[upload.pk] = True
+        context['status'] = upload_status
+
+        return context
+
+
 @method_decorator(login_required, name='dispatch')
 class SubmissionCreate(CreateView):
     model = Submission
