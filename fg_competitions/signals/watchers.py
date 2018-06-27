@@ -1,10 +1,15 @@
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
-from . import tools
-from .models import SubmissionUpload
+from django.conf import settings
+from allauth.utils import build_absolute_uri
 
-print("signal file loaded")
+if "pinax.notifications" in settings.INSTALLED_APPS:
+    from pinax.notifications import models as notification
+else:
+    notification = None
+
+from fg_competitions.models import SubmissionUpload
 
 @receiver(pre_save, sender=SubmissionUpload)
 def onUploadChange(sender, **kwargs):
@@ -24,4 +29,11 @@ def onUploadChange(sender, **kwargs):
     if not owner.email:
         return
 
-    tools.emailBuildFailure(owner, obj) 
+    context = {
+        "upload": obj,
+        "url": build_absolute_uri(None, obj.get_absolute_url())
+    }
+
+    if notification:
+        notification.send([owner], "build_failure", context )
+
