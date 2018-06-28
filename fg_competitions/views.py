@@ -12,6 +12,7 @@ from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+from django.contrib import messages
 from django_filters.views import FilterView
 
 from django.conf import settings
@@ -142,6 +143,7 @@ class SubmissionCreate(CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         form.instance.track_id = self.kwargs.get('track')
+        messages.success(self.request, 'Submission created.')
         return super(SubmissionCreate, self).form_valid(form)
 
     def get_success_url(self, **kwargs):
@@ -166,6 +168,10 @@ class SubmissionUpdate(UpdateView):
             raise PermissionDenied()
 
         return context
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Submission updated.')
+        return super(SubmissionUpdate, self).form_valid(form)
 
 @method_decorator(login_required, name='dispatch')
 class TextSubmission(CreateView):
