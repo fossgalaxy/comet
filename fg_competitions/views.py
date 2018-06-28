@@ -97,9 +97,8 @@ class SubmitterDashboard(TemplateView):
         context = super(TemplateView, self).get_context_data(**kwargs)
    
         # All tracks I have presently entered
-        context['submissions'] = self.request.user.submission_set.all()
+        context['submissions'] = self.request.user.submission_set.filter(track__allow_update=True)
      
-        context['tracks'] = Track.objects.all()
         return context
 
 class CompetitionDetail(DetailView):
