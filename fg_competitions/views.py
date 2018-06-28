@@ -95,7 +95,10 @@ class SubmitterDashboard(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(TemplateView, self).get_context_data(**kwargs)
-        
+   
+        # All tracks I have presently entered
+        context['submissions'] = self.request.user.submission_set.all()
+     
         context['tracks'] = Track.objects.all()
         return context
 
