@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>{% block head_title %}{% endblock %}</title>
+		<title>{% if request.site %}{{request.site}} - {% endif %}{% block head_title %}{% endblock %}</title>
 		{% load bootstrap4 static %}
 
 		<!-- bootstrap -->
@@ -12,6 +12,9 @@
 		<!-- Optional theme -->
 		<link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}">
 
+		{% if request.site %}
+		<link rel="canonical" href="{% block canonical_url %}https://{{request.site}}{{request.get_full_path}}{% endblock %}">
+		{% endif %}
 
 		<!-- Latest compiled and minified JavaScript -->
                 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
