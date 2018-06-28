@@ -104,20 +104,24 @@ loading...
 		{% for stage in pipeline %}
 
 		{% with status=upload|build_status:stage.name %}
-		<li class="list-inline-item" data-toggle="tooltip" onclick="showError({{upload.pk}})" title="{{stage.name}} {{status}}">
+
+		<li class="list-inline-item" data-toggle="tooltip" onclick="showError({{upload.pk}})" data-pineapple-transform="up-6 left-6 shrink-8" title="{{stage.name}} {{status}}">
 			<span class="fa-stack">
 				<i class="fas fa-{{stage.icon}} fa-stack-1x"></i>
-					{% if status == "failed" %}
-					<i class="far fa-times-circle fa-stack-2x text-danger"></i>
-					{% elif status == "succeded" %}
-					<i class="far fa-check-circle fa-stack-2x text-success"></i>
-					{% elif status == "in progress" %}
-					<i class="fas fa-circle-notch fa-spin fa-stack-2x text-primary"></i>
-					{% elif status == "skipped" %}
-					<i class="far fa-circle fa-stack-2x text-muted"></i>
-					{% elif status == "pending" %}
-					<i class="far fa-circle fa-stack-2x"></i>
-					{% endif %}
+				{% if status == "failed" %}
+					<i class="fas fa-times text-danger fa-stack-1x" data-fa-transform="shrink-3 right-10 down-12"></i>
+				{% elif status == "succeded" %}
+					<i class="fas fa-check text-success fa-stack-1x" data-fa-transform="shrink-3 right-10 down-12"></i>
+				{% elif status == "in progress" %}
+					<!-- <i class="fas fa-circle-notch fa-spin fa-stack-2x text-primary"></i> -->
+					<i class="fas fa-play fa-stack-1x" data-fa-transform="shrink-4 right-10 down-12"></i>
+				{% elif status == "skipped" %}
+					<!--<i class="fas fa-fast-forward fa-stack-2x text-muted" data-fa-transform="shrink-8 right-6 down-6"></i>-->
+				{% elif status == "pending" %}
+					<i class="far fa-hourglass fa-stack-1x" data-fa-transform="shrink-4 right-10 down-12"></i>
+				{% elif status == "bad" %}
+					<i class="fas fa-ban fa-stack-1x text-danger" data-fa-transform="shrink-4 right-10 down-12"></i>
+				{% endif %}
 			</span>
 		</li>
 

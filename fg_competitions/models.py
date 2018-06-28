@@ -194,6 +194,9 @@ class BaseSubmission(models.Model):
         # self.status -> current status of the upload {BP, BF, ...}
         # BUILD_PIPELINE = [ (B, build, icon), (V, validate, icon)... ]
 
+        if self.status[0] == "D":
+            return "bad"
+
         before = True  
  
         for stage in BUILD_PIPELINE:

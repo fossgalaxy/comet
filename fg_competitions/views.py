@@ -128,7 +128,7 @@ class SubmissionDetail(DetailView):
         context = super(SubmissionDetail, self).get_context_data(**kwargs)
         context['pipeline'] = [
             {"name": "upload", "icon": "upload", "code": "U"},
-            {"name": "build", "icon": "cogs", "code": "B"},
+            {"name": "build", "icon": "cubes", "code": "B"},
             {"name": "validate", "icon": "vial", "code": "V"}
         ]
 
