@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+{% block page_head %}
+<h1>{{submission}}</h1>
+<p class="lead">{{submission.track}}</p>
+{% endblock %}
+
+<ul class="nav nav-tabs">
+  {% if submission.track.allow_sub_uploads %}
+  <li class="nav-item"><a class="nav-link {% if active_tab == 'upload' %}active{% endif %}" href="{% url 'submission_upload' submission=submission.pk %}">Upload</a></li>
+  {% endif %}
+
+  {% if submission.track.allow_sub_text %}
+  <li class="nav-item"><a class="nav-link {% if active_tab == 'text' %}active{% endif %}" href="{% url 'submission_text' submission=submission.pk %}">Plain Text</a></li>
+  {% endif %}
+</ul>
+
+{% block content %}
+{% endblock content %}
+{% endblock %}

@@ -59,7 +59,7 @@ $(function () {
   <tr>
   <td colspan="2" class="text-center">
 	There are no uploads for this submission
-        {% if submission.owner == user %}
+	{% if submission.owner == user and submission.track.allow_update %}
 		<a href="{% url 'submission_upload' submission=submission.pk %}">Upload submission</a>
         {% endif %}
   </td>
@@ -73,7 +73,7 @@ $(function () {
     <nav class="nav flex-column">
         <a class="nav-link btn btn-primary mt-md-2" href="{{submission.track.get_absolute_url}}">View Track</a>
         {% if submission.track.allow_download and submission.current_upload %}
-        {% if submission.is_public %}
+        {% if submission.is_public or user.is_staff %}
         <a class="nav-link btn btn-primary mt-md-2" href="{% url 'submission_download' pk=submission.current_upload.pk %}">Download</a>
         {% else %}
         <span class="d-inline-block" data-toggle="tooltip" title="Submission does not allow public download">
@@ -83,7 +83,11 @@ $(function () {
    </nav>
    <nav class="nav flex-column mt-3">
 	{% if submission.owner == user and submission.track.allow_update %}
+	{% if submission.track.allow_sub_uploads %}
 	<a class="nav-link btn btn-primary mt-md-2" href="{% url 'submission_upload' submission=submission.pk %}">Upload new Version</a>
+        {% elif submission.track.allow_sub_text %}
+	<a class="nav-link btn btn-primary mt-md-2" href="{% url 'submission_text' submission=submission.pk %}">Upload new Version</a>
+	{% endif %}
         <a class="nav-link btn btn-primary mt-md-2" href="{% url 'submission_update' pk=submission.pk %}">Update Details</a>
 	{% endif %}
     </nav>

@@ -182,6 +182,7 @@ class TextSubmission(CreateView):
         context = super(TextSubmission, self).get_context_data(**kwargs)
         submission = self.kwargs.get('submission')
         context['submission'] = get_object_or_404(Submission, id=submission)
+        context['active_tab'] = 'text'
 
         # if the user is not the owner of that submission, tell them off
         if not context['submission'].owner == self.request.user:
@@ -190,6 +191,10 @@ class TextSubmission(CreateView):
         # check that the track allows updates
         track = context['submission'].track
         if not track.allow_update:
+            raise PermissionDenied()
+
+        # check that the track allows text submissions
+        if not track.allow_sub_text:
             raise PermissionDenied()
 
         return context
@@ -214,6 +219,7 @@ class UploadSubmission(CreateView):
         context = super(UploadSubmission, self).get_context_data(**kwargs)
         submission = self.kwargs.get('submission')
         context['submission'] = get_object_or_404(Submission, id=submission)
+        context['active_tab'] = 'upload'
 
         # if the user is not the owner of that submission, tell them off
         if not context['submission'].owner == self.request.user:
@@ -222,6 +228,10 @@ class UploadSubmission(CreateView):
         # check that the track allows updates
         track = context['submission'].track
         if not track.allow_update:
+            raise PermissionDenied()
+
+        # check that the track allows file upload submissions
+        if not track.allow_sub_uploads:
             raise PermissionDenied()
 
         return context

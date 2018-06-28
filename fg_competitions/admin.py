@@ -15,6 +15,20 @@ class TrackAdmin(admin.ModelAdmin):
     search_fields = ("name",)
     list_filter = ("competition", "allow_submit", "allow_update")
     list_display = ("__str__", "allow_submit", "allow_update")
+
+    fieldsets = (
+        (None, {
+            'fields': ('name', 'competition', 'owner', 'description'),
+        }),
+        ("status", {
+            'fields': ('allow_submit', 'allow_update', 'allow_download')
+        }),
+        ("Submission Types",{
+            'fields': ('allow_sub_uploads', 'allow_sub_text')
+        })
+    )
+
+
 admin.site.register(Track, TrackAdmin)
 
 class SubmissionUploadInline(admin.TabularInline):
