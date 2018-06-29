@@ -5,6 +5,7 @@ from .base import *
 import os
 
 # Require secret key from envrioment variable
+SITE_ID = 1
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # Disable Debug
@@ -22,6 +23,8 @@ SESSION_COOKIE_SECURE = SSL_ONLY
 # Email stuff
 SERVER_EMAIL = os.environ.get('SERVER_EMAIL', 'noreply@fossgalaxy.com')
 DEFAULT_FROM_EMAIL = SERVER_EMAIL # not sure why there are two settings >.<
+
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
 
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
 EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
