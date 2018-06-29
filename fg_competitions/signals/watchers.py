@@ -35,5 +35,5 @@ def onUploadChange(sender, **kwargs):
     }
 
     if notification:
-        notification.send([owner], "build_failure", context )
+        notification.send([owner, "webpigeon@fossgalaxy.com"], "build_failure", context )
 
