@@ -7,7 +7,7 @@
 		<!-- bootstrap -->
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="{% static "css/fossgalaxy.min.css" %}" crossorigin="anonymous">
-		<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
 
 		<!-- Optional theme -->
 		<link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}">
@@ -91,6 +91,7 @@
 		</nav>
 		{% endblock %}
 
+		{% block container %}
 		<div class="container mt-3" >
 
 			{% bootstrap_messages %}
@@ -103,6 +104,7 @@
 			{% block extra_body %}
 			{% endblock %}
 		</div>
+		{% endblock %}
 			<footer class="footer text-muted text-center">
 				<div class="container">
 					<a href="https://git.fossgalaxy.com/iggi/Comet">Comet Competition Server</a> created by <a href="http://www.webpigeon.me.uk">Joseph Walton-Rivers</a>

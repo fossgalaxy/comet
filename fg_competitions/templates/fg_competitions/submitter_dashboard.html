@@ -1,35 +1,28 @@
-{% extends "base.html" %}
+{% extends "base_dashboard.html" %}
 
 {% block content %}
-
-<div class="">
-	<h3>Current Submissions</h3>
-	<table class="table">
-		<thead>
+<div class="my-4">
+	<h3 class="card-title">Active Submissions</h3>
+	<p class="lead">These are your submissions for tracks which are still accepting changes.</p>
+	<table class="table table-striped">
+		<thead class="thead-light">
 			<tr>
 				<th>Track</th>
-				<th>Name</th>
+				<th>Agent</th>
 				<th>Status</th>
+				<th>Score</th>
 			</tr>
 		</thead>
 		<tbody>
+		{% for submission in submissions %}
+			<tr>
+				<td><a href="{{submission.track.get_absolute_url}}">{{submission.track}}</a></td>
+				<td><a href="{{submission.get_absolute_url}}">{{submission}}</a></td>
+				<td>{{submission.current_upload.get_status_display}}</td>
+				<td>{{submission.ranking}}</td>
+			</tr>
+		{% endfor %}
 		</tbody>
 	</table>
 </div>
-
-<h3>Open Tracks</h3>
-<div class="card-columns">
-    {% for track in tracks %}
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">{{track.competition}}</h4>
-            <h5 class="card-subtitle mb-2 text-muted">{{track}}</h5>
-            <p class="card-text">{{track.description}}</p>
-            <a href="{{ track.get_absolute_url }}" class="card-link">Details</a>
-            <a href="{{ track.get_absolute_url }}" class="card-link">Enter</a>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-
 {% endblock %}

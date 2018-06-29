@@ -1,4 +1,5 @@
 {% extends "base_multicol.html" %}
+{% load extra_utils %}
 
 {% block head_title %}{{submission}}{% endblock %}
 
@@ -6,8 +7,31 @@
 <script type="text/javascript">
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
-})
+});
+
+
+  function showError(upload_id) {
+    $.getJSON("http://localhost:8000/api/upload/"+upload_id+"/", function(data){
+	$('#error-title').text("Build feedback");
+	$('#error-msg').text(data['feedback']);
+	$("#error-dialog").modal('show');
+    });
+  }
 </script>
+
+<style type="text/css">
+.modal-backdrop {
+	z-index: 10000 !important;
+}
+
+.modal {
+	z-index: 10001 !important;
+}
+
+.action {
+	cursor: help;
+}
+</style>
 {% endblock %}
 
 {% block content_top %}
@@ -41,23 +65,74 @@ $(function () {
 	</div>
 </div>
 
+<div class="modal fade" id="error-dialog" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+     <div class="modal-header">
+        <h5 class="modal-title" id="error-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+     </div>
+     <div class="modal-body">
+<pre id="error-msg">
+loading... 
+</pre>
+     </div>
+    </div>
+  </div>
+</div>
+
 <h2>Versions</h2>
 <table class="table table-striped">
   <thead class="thead-light">
   <tr>
     <th>Version</th>
     <th>Status</th>
+    <th class="text-center">Pipeline</th>
   </tr>
 </thead>
 <tbody>
     {% for upload in submission.uploads.all %}
   <tr {% if upload == submission.current_upload %}class="info"{% endif %}>
-    <th>{{upload.created}}</th>
-    <td>{{upload.get_status_display}}</td>
+    <th class="align-middle">{{upload.created}}</th>
+    <td class="align-middle">
+	{{upload.get_status_display}}
+    </td>
+    <td class="text-center align-middle">
+	<ul class="list-inline mb-0">
+		{% for stage in pipeline %}
+
+		{% with status=upload|build_status:stage.name %}
+
+		<li class="list-inline-item" data-toggle="tooltip" onclick="showError({{upload.pk}})" data-pineapple-transform="up-6 left-6 shrink-8" title="{{stage.name}} {{status}}">
+			<span class="fa-stack">
+				<i class="fas fa-{{stage.icon}} fa-stack-1x"></i>
+				{% if status == "failed" %}
+					<i class="fas fa-times text-danger fa-stack-1x" data-fa-transform="shrink-3 right-10 down-12"></i>
+				{% elif status == "succeded" %}
+					<i class="fas fa-check text-success fa-stack-1x" data-fa-transform="shrink-3 right-10 down-12"></i>
+				{% elif status == "in progress" %}
+					<!-- <i class="fas fa-circle-notch fa-spin fa-stack-2x text-primary"></i> -->
+					<i class="fas fa-play fa-stack-1x" data-fa-transform="shrink-4 right-10 down-12"></i>
+				{% elif status == "skipped" %}
+					<!--<i class="fas fa-fast-forward fa-stack-2x text-muted" data-fa-transform="shrink-8 right-6 down-6"></i>-->
+				{% elif status == "pending" %}
+					<i class="far fa-hourglass fa-stack-1x" data-fa-transform="shrink-4 right-10 down-12"></i>
+				{% elif status == "bad" %}
+					<i class="fas fa-ban fa-stack-1x text-danger" data-fa-transform="shrink-4 right-10 down-12"></i>
+				{% endif %}
+			</span>
+		</li>
+
+		{% endwith %}
+		{% endfor %}
+	</ul>
+    </td>
   </tr>
   {% empty %}
   <tr>
-  <td colspan="2" class="text-center">
+  <td colspan="3" class="text-center">
 	There are no uploads for this submission
         {% if submission.owner == user %}
 		<a href="{% url 'submission_upload' submission=submission.pk %}">Upload submission</a>
@@ -67,6 +142,7 @@ $(function () {
   {% endfor %}
 </tbody>
 </table>
+
 {% endblock %}
 
 {% block content_sidebar %}
