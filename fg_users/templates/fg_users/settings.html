@@ -1,0 +1,14 @@
+{% extends "base_dashboard.html" %}
+{% load account %}
+
+{% block head_title %}{% user_display profile %}{% endblock %}
+{% block nav_account %}active{% endblock %}
+
+{% block content %}
+<div class="my-4">
+	<h1>{% user_display profile %}</h1>
+
+	<h2>Change password</h2>
+	<p>You can change your password <a href="{% url 'account_change_password' %}">here</a></a>
+</div>
+{% endblock %}

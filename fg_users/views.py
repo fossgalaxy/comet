@@ -15,6 +15,13 @@ class ProfileView(TemplateView):
         else:
             context['profile'] = self.request.user
 
-        print(context)
+        return context
 
+class AccountSettings(TemplateView):
+    template_name = "fg_users/settings.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountSettings, self).get_context_data(**kwargs)
+
+        context['profile'] = self.request.user
         return context

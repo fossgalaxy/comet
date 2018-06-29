@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block extra_head %}
+<style type="text/css">
+/*
+ * Sidebar
+ */
+
+.sidebar {
+  position: fixed;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  border-right: 1px solid #eee;
+}
+
+/* Sidebar navigation */
+.sidebar {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.sidebar .nav {
+  margin-bottom: 20px;
+}
+
+.sidebar .nav-item {
+  width: 100%;
+}
+
+.sidebar .nav-item + .nav-item {
+  margin-left: 0;
+}
+
+.sidebar .nav-link {
+  border-radius: 0;
+}
+</style>
+{% endblock %}
+
+{% block container %}
+<div class="container-fluid">
+
+<div class="row">
+<nav class="col-sm-3 col-md-2 sidebar" style="background-color: #f5f5f5">
+  <ul class="nav nav-pills flex-column my-4">
+    <li class="nav-item"><a class="nav-link {% block nav_submissions %}{% endblock %}" href="{% url 'dashboard' %}">My Submissions</a></li>
+  </ul>
+
+  <ul class="nav nav-pills flex-column my-4">
+    <li class="nav-item"><a class="nav-link {% block nav_account %}{% endblock %}" href="{% url 'account_settings' %}">My Account</a></li>
+    <li class="nav-item"><a class="nav-link {% block nav_email %}{% endblock %}" href="{% url 'account_email' %}">Email Addresses</a></li>
+    <li class="nav-item"><a class="nav-link {% block nav_notice %}{% endblock %}" href="{% url 'pinax_notifications:notice_settings' %}">Notification Settings</a></li>
+  </ul>
+</nav>
+<div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2">
+{% bootstrap_messages %}
+
+{% block content %}
+	<h2>Dashboard content not overriden!</h2>
+{% endblock %}
+	{% block extra_body %}
+	{% endblock %}
+</div>
+</div>
+{% endblock %}

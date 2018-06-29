@@ -96,8 +96,10 @@ class SubmitterDashboard(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(TemplateView, self).get_context_data(**kwargs)
-        
-        context['tracks'] = Track.objects.all()
+   
+        # All tracks I have presently entered
+        context['submissions'] = self.request.user.submission_set.filter(track__allow_update=True)
+     
         return context
 
 class CompetitionDetail(DetailView):
@@ -124,6 +126,17 @@ class SubmissionDetail(DetailView):
     """View details about a submission"""
     model = Submission
     context_object_name = "submission"
+
+    def get_context_data(self, **kwargs):
+        context = super(SubmissionDetail, self).get_context_data(**kwargs)
+        context['pipeline'] = [
+            {"name": "upload", "icon": "upload", "code": "U"},
+            {"name": "build", "icon": "cubes", "code": "B"},
+            {"name": "validate", "icon": "vial", "code": "V"}
+        ]
+
+        return context
+
 
 @method_decorator(login_required, name='dispatch')
 class SubmissionCreate(CreateView):

@@ -1,0 +1,5 @@
+
+Your submission '{{upload.submission}}' failed to build correctly.
+
+You can find your submission at: {{url}}
+

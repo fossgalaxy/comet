@@ -39,5 +39,9 @@ urlpatterns = [
     url(r'^accounts/', include('fg_users.urls')),
     url(r'^competitions/', include('fg_competitions.urls')),
     url(r'^api/', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls'))
+
+    # 3rd party
+    url(r"^notifications/", include("pinax.notifications.urls", namespace="pinax_notifications")),
+    url(r'^api-auth/', include('rest_framework.urls')),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

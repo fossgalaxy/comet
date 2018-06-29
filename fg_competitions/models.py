@@ -5,10 +5,26 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.conf import settings
 
+BUILD_PIPELINE = [
+    ("U", "upload", "fa-upload"),
+    ("B", "build", "fa-build"),
+    ("V", "validate", "fa-check")
+]
+
 STATUS_LIST = [
+    # Complation/Build step
     ("BP", "Build pending"),
     ("BF", "Build failed"),
+
+    # Validation Step
+    ("VP", "Validation Pending"),
+    ("VF", "Validation Failed"),
+
+    # success states
     ("BS", "Build succeeded"),
+    ("VS", "Validation succeeded"),
+
+    # Disqualified
     ("DA", "Disqualified by admin")
 ]
 
@@ -22,7 +38,6 @@ YES_OR_NO = (
     ('y', 'Yes'),
     ('n', 'No')
 )
-
 
 @python_2_unicode_compatible
 class Competition(models.Model):
@@ -72,6 +87,9 @@ class Track(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['-allow_submit', 'name']
+
 class AllowedSubmissionType(models.Model):
     """Types of submissions allowed"""
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
@@ -119,7 +137,7 @@ class Submission(models.Model):
         curr_upload = self.current
         if not curr_upload:
             return "No submission"
-        elif curr_upload.status != "BS":
+        elif curr_upload.status not in ("BS", "VS"):
             return curr_upload.get_status_display()
         else:
             return self.ranking
@@ -138,7 +156,6 @@ class Submission(models.Model):
             return self.current_upload
         elif self.submission_type == "T":
             ct = self.current_text
-            print(ct)
             return ct
         else:
             raise ValueError("unknown submission type")
@@ -175,6 +192,37 @@ class BaseSubmission(models.Model):
     status = models.CharField(max_length=5, default="BP", choices=STATUS_LIST)
     created = models.DateTimeField(auto_now_add=True)
     feedback = models.TextField(blank=True, null=True)
+
+    def check_stage(self, check_stage):
+        # check_stage = {upload, build, validate}
+        # self.status -> current status of the upload {BP, BF, ...}
+        # BUILD_PIPELINE = [ (B, build, icon), (V, validate, icon)... ]
+
+        if self.status[0] == "D":
+            return "bad"
+
+        before = True  
+ 
+        for stage in BUILD_PIPELINE:
+            if stage[0] == self.status[0]:
+                before = False
+                if check_stage == stage[1]:
+                    if self.status[1] == "F":
+                        return "failed"
+                    elif self.status[1] == "S":
+                        return "succeded"
+                    elif self.status[1] == "P":
+                        return "in progress"
+                elif self.status[1] == "F":
+                    return "skipped"
+            elif check_stage == stage[1]:
+                if before:
+                    return "succeded"
+                else:
+                    return "pending"
+        
+        # was probably disqualifed... 
+        return "bad"
 
     class Meta:
         abstract = True
