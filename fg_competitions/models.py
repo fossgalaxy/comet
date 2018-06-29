@@ -76,6 +76,10 @@ class Track(models.Model):
     allow_update = models.BooleanField(default=True)
     allow_download = models.BooleanField(default=False)
 
+    # Submission types
+    allow_sub_uploads = models.BooleanField(default=True)
+    allow_sub_text = models.BooleanField(default=False)
+
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('track_detail', kwargs={'pk':self.pk})

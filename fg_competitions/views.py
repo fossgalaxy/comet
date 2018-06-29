@@ -12,6 +12,7 @@ from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+from django.contrib import messages
 from django_filters.views import FilterView
 
 from django.conf import settings
@@ -155,6 +156,7 @@ class SubmissionCreate(CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         form.instance.track_id = self.kwargs.get('track')
+        messages.success(self.request, 'Submission created.')
         return super(SubmissionCreate, self).form_valid(form)
 
     def get_success_url(self, **kwargs):
@@ -180,6 +182,10 @@ class SubmissionUpdate(UpdateView):
 
         return context
 
+    def form_valid(self, form):
+        messages.success(self.request, 'Submission updated.')
+        return super(SubmissionUpdate, self).form_valid(form)
+
 @method_decorator(login_required, name='dispatch')
 class TextSubmission(CreateView):
     model = SubmissionText
@@ -189,6 +195,7 @@ class TextSubmission(CreateView):
         context = super(TextSubmission, self).get_context_data(**kwargs)
         submission = self.kwargs.get('submission')
         context['submission'] = get_object_or_404(Submission, id=submission)
+        context['active_tab'] = 'text'
 
         # if the user is not the owner of that submission, tell them off
         if not context['submission'].owner == self.request.user:
@@ -197,6 +204,10 @@ class TextSubmission(CreateView):
         # check that the track allows updates
         track = context['submission'].track
         if not track.allow_update:
+            raise PermissionDenied()
+
+        # check that the track allows text submissions
+        if not track.allow_sub_text:
             raise PermissionDenied()
 
         return context
@@ -221,6 +232,7 @@ class UploadSubmission(CreateView):
         context = super(UploadSubmission, self).get_context_data(**kwargs)
         submission = self.kwargs.get('submission')
         context['submission'] = get_object_or_404(Submission, id=submission)
+        context['active_tab'] = 'upload'
 
         # if the user is not the owner of that submission, tell them off
         if not context['submission'].owner == self.request.user:
@@ -229,6 +241,10 @@ class UploadSubmission(CreateView):
         # check that the track allows updates
         track = context['submission'].track
         if not track.allow_update:
+            raise PermissionDenied()
+
+        # check that the track allows file upload submissions
+        if not track.allow_sub_uploads:
             raise PermissionDenied()
 
         return context

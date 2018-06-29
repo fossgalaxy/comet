@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "fg_competitions/base_upload.html" %}
 {% load account bootstrap4 %}
 
 {% block head_title %}{{competition}}{% endblock %}
@@ -13,11 +13,9 @@
 {% endblock %}
 
 {% block content %}
-<h1>Upload new revision of '{{submission}}'</h1>
 
-<ul>
-	<li>Files should be zip files</li>
-	<li>Maximum file size is</li>
+<ul class="my-3">
+  <li>Uploaded files <strong>must</strong> be zip files.</li>
 </ul>
 
 {% if submission.track.instructions %}
