@@ -30,6 +30,8 @@ EMAIL_USE_TLS = True # No, i'm not letting you turn this off.
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 
+PINAX_NOTIFICATIONS_QUEUE_ALL = True # Stop the email server killing the build scripts.
+
 # People to email with django explodes
 ADMINS = os.environ.get('ADMINS', '').split(",")
 
