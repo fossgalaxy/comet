@@ -1,0 +1,64 @@
+{% extends "base_dashboard.html" %}
+
+{% load i18n %}
+
+{% block body_id %}notification-settings{% endblock %}
+
+{% block nav_notice %}active{% endblock %}
+
+{% block head_title %}{% trans "Notification Settings" %}{% endblock %}
+
+{% block content %}
+
+<div class="my-4">
+
+    {% url "account_email" as email_url %}
+    {% if not request.user.email %}
+        {% blocktrans %}
+        <div class="alert alert-warning no-verified-email mt-4">
+            <span>Note</span>:
+            You do not have a verified email address to which notices can be sent. <a href="{{ email_url }}">Add one</a> now.
+        </div>
+        {% endblocktrans %}
+    {% endif %}
+
+    <form method="post" action=".">
+        {% csrf_token %}
+        <legend>{% trans "Notification Settings" %}</legend>
+        <table class="table table-striped notice-settings">
+         <thead class="thead-light">
+            <tr>
+                <th>{% trans "Notification Type" %}</th>
+                {% for header in notice_settings.column_headers %}
+                    <th class="text-center setting-header">
+                        {{ header.title }}
+                    </th>
+                {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in notice_settings.rows %}
+                <tr class="setting-row">
+                    <td>
+                        <strong>{{ row.notice_type.display }}</strong><br/>
+                        <span class="notice-type-description">
+                            {{ row.notice_type.description }}
+                        </span>
+                    </td>
+                    {% for cell in row.cells %}
+                        <td class="text-center align-middle setting">
+                            <input type="checkbox" name="{{ cell.0 }}" {% if cell.1 %}checked="yes"{% endif %} />
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <div class="form-actions float-right">
+            <button class="btn btn-primary">{% trans "Change" %}</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

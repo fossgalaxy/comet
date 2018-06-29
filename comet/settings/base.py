@@ -52,6 +52,9 @@ INSTALLED_APPS = [
     'bootstrap4',
     'fileprovider',
 
+    # 3rd party
+    'pinax.notifications',
+
     # Authentication Plugins
     'allauth',
     'allauth.account',
