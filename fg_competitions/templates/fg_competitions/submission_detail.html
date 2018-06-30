@@ -11,7 +11,7 @@ $(function () {
 
 
   function showError(upload_id) {
-    $.getJSON("http://localhost:8000/api/upload/"+upload_id+"/", function(data){
+    $.getJSON("{{request.scheme}}://{{request.site.domain}}/api/upload/"+upload_id+"/", function(data){
 	$('#error-title').text("Build feedback");
 	$('#error-msg').text(data['feedback']);
 	$("#error-dialog").modal('show');

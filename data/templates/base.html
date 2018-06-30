@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>{% if request.site %}{{request.site}} - {% endif %}{% block head_title %}{% endblock %}</title>
+		<title>{% if request.site %}{{request.site.name}} - {% endif %}{% block head_title %}{% endblock %}</title>
 		{% load bootstrap4 static %}
 
 		<!-- bootstrap -->
