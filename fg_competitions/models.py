@@ -143,6 +143,15 @@ class Submission(models.Model):
             return self.ranking
 
     @property
+    def versions(self):
+        if self.submission_type == "U":
+            return self.uploads.all()
+        elif self.submission_type == "T":
+            return self.text_submissions.all()
+        else:
+            raise ValueError("unknown submission type")
+
+    @property
     def current_upload(self):
         return self.uploads.first()
 
@@ -201,8 +210,8 @@ class BaseSubmission(models.Model):
         if self.status[0] == "D":
             return "bad"
 
-        before = True  
- 
+        before = True
+
         for stage in BUILD_PIPELINE:
             if stage[0] == self.status[0]:
                 before = False
@@ -220,8 +229,8 @@ class BaseSubmission(models.Model):
                     return "succeded"
                 else:
                     return "pending"
-        
-        # was probably disqualifed... 
+
+        # was probably disqualifed...
         return "bad"
 
     class Meta:
@@ -253,4 +262,3 @@ class SubmissionUpload(BaseSubmission):
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('submission_detail', kwargs={'pk':self.submission.pk})
-

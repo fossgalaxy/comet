@@ -96,10 +96,10 @@ class SubmitterDashboard(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(TemplateView, self).get_context_data(**kwargs)
-   
+
         # All tracks I have presently entered
         context['submissions'] = self.request.user.submission_set.filter(track__allow_update=True)
-     
+
         return context
 
 class CompetitionDetail(DetailView):
@@ -220,7 +220,10 @@ class TextSubmission(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.status = "BS"
+
         form.instance.submission.submission_type = "T"
+        form.instance.submission.save()
+
         return super(TextSubmission, self).form_valid(form)
 
 @method_decorator(login_required, name='dispatch')
@@ -256,5 +259,5 @@ class UploadSubmission(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.submission.submission_type = "U"
+        #form.instance.submission.submission_type = "U"
         return super(UploadSubmission, self).form_valid(form)
