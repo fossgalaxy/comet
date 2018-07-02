@@ -13,27 +13,29 @@ from fg_competitions.models import SubmissionUpload
 
 @receiver(pre_save, sender=SubmissionUpload)
 def onUploadChange(sender, **kwargs):
-    obj = kwargs['instance']
-    old = SubmissionUpload.objects.get(pk=obj.pk)
+    try:
+        obj = kwargs['instance']
+        old = SubmissionUpload.objects.get(pk=obj.pk)
 
-    # if the status didn't change we don't care
-    if obj.status == old.status:
-        return
+        # if the status didn't change we don't care
+        if obj.status == old.status:
+            return
 
-    # if this was not a failure, we don't care
-    if obj.status not in ("BF", "VF"):
-        return
+        # if this was not a failure, we don't care
+        if obj.status not in ("BF", "VF"):
+            return
 
-    # if the user doesn't have an email, we can't email them
-    owner = obj.submission.owner
-    if not owner.email:
-        return
+        # if the user doesn't have an email, we can't email them
+        owner = obj.submission.owner
+        if not owner.email:
+            return
 
-    context = {
-        "upload": obj,
-        "url": build_absolute_uri(None, obj.get_absolute_url())
-    }
+        context = {
+            "upload": obj,
+            "url": build_absolute_uri(None, obj.get_absolute_url())
+        }
 
-    if notification:
-        notification.send([owner], "build_failure", context )
-
+        if notification:
+            notification.send([owner], "build_failure", context )
+    except SubmissionUpload.DoesNotExist:
+        pass
