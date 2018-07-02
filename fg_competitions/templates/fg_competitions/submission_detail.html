@@ -10,8 +10,8 @@ $(function () {
 });
 
 
-  function showError(upload_id) {
-    $.getJSON("{{request.scheme}}://{{request.site.domain}}/api/upload/"+upload_id+"/", function(data){
+  function showError(upload_id, type) {
+    $.getJSON("{{request.scheme}}://{{request.site.domain}}/api/"+type+"/"+upload_id+"/", function(data){
 	$('#error-title').text("Build feedback");
 	$('#error-msg').text(data['feedback']);
 	$("#error-dialog").modal('show');
@@ -105,7 +105,7 @@ loading...
 
 		{% with status=upload|build_status:stage.name %}
 
-		<li class="list-inline-item" data-toggle="tooltip" onclick="showError({{upload.pk}})" data-pineapple-transform="up-6 left-6 shrink-8" title="{{stage.name}} {{status}}">
+		<li class="list-inline-item" data-toggle="tooltip" onclick="showError({{upload.pk}}, '{{upload.get_type}}')" data-pineapple-transform="up-6 left-6 shrink-8" title="{{stage.name}} {{status}}">
 			<span class="fa-stack">
 				<i class="fas fa-{{stage.icon}} fa-stack-1x"></i>
 				{% if status == "failed" %}

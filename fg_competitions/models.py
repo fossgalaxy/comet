@@ -246,6 +246,10 @@ class SubmissionText(BaseSubmission):
     def __str__(self):
         return "{0}".format(self.body)
 
+    @property
+    def get_type(self):
+        return "text"
+
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('submission_detail', kwargs={'pk':self.submission.pk})
@@ -255,6 +259,10 @@ class SubmissionUpload(BaseSubmission):
     """A version of a submission"""
     submission = models.ForeignKey(Submission, related_name='uploads', on_delete=models.CASCADE)
     upload = models.FileField(upload_to=submission_path, validators=[ExtensionValidator(['zip'])])
+
+    @property
+    def get_type(self):
+        return "upload"
 
     def __str__(self):
         return "{0}".format(self.upload)
