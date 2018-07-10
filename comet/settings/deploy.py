@@ -5,7 +5,7 @@ from .base import *
 import os
 
 # Require secret key from envrioment variable
-SITE_ID = 1
+SITE_ID = int(os.environ['SITE_ID'])
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # Disable Debug
