@@ -54,6 +54,14 @@
                     <ul class="dropdown-menu dropdown-menu-right mt-1">
                       <li class="p-3">
 			      <form class="form" action="{% url 'account_login' %}" method="post" role="form">
+
+				<div class="form-group text-xs-center">
+					<ul class="socialaccount_providers list-inline">
+					{% include "socialaccount/snippets/provider_inline.html" with process="login" %}
+					</ul>
+				</div>
+				<hr />
+
 				{% csrf_token %}
                                 <div class="form-group">
                                     <input id="emailInput" placeholder="Username" class="form-control form-control-sm" name="login" type="text" required="">
