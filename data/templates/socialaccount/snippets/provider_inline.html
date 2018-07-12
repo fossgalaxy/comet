@@ -1,4 +1,4 @@
-{% load socialaccount %}
+{% load socialaccount static %}
 
 {% get_providers as socialaccount_providers %}
 
@@ -13,8 +13,14 @@
 </li>
 {% endfor %}
 {% endif %}
-<li>
-  <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}} btn btn-default"
-     href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}" title="sign in with {{provider.name}}"><i class="fab fa-{{provider.name|lower}}"></i></a>
+<li class="list-inline-item">
+  <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}}"
+     href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}" title="sign in with {{provider.name}}">
+	{% if provider.id == "orcid" %}
+		<img src="{% static "/img/orcid_16x16.png" %}" alt="" />
+	{% else %}
+		<i class="fab fa-{{provider.name|lower}}"></i>
+	{% endif %}
+	</a>
 </li>
 {% endfor %}
