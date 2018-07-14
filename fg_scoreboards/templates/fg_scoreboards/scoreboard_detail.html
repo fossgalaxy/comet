@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+<h1>{{object.name}}</h1>
+
+<table class="table table-striped">
+  <thead class="thead-light">
+    <tr>
+      <th>Rank</th>
+      <th>Player</th>
+      <th>{{object.points_name|default:'Points'}}</th>
+      <th>Games Played</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for player in object.ordering %}
+    <tr>
+      <td>{{player.rank}}</td>
+      <td><a href="{{player.player.get_absolute_url}}">{{player.player}}</a></td>
+      <td>{{player.points|floatformat:3|intcomma}}</td>
+      <td>{{player.games|intcomma}}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="2">There are no players :(</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+
+<a href="{% url 'scoreboard_games' pk=object.pk %}">See Games</a>
+{% endblock %}

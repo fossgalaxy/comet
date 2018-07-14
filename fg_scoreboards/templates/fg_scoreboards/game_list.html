@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+{% for object in object_list %}
+<h1>{{object}}</h1>
+
+<table class="table table-striped">
+  <thead class="thead-light">
+    <tr>
+      <th>Player</th>
+      <th>Points</th>
+      <th>Result</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for entrant in object.stats.all %}
+    <tr>
+      <td>{{entrant}}</td>
+      <td>{{entrant.points|floatformat:3|intcomma}}</td>
+      <td>{{entrant.get_outcome_display}}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="3">There are no entrants :(</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+{% endfor %}
+
+<a href="{{scoreboard.get_absolute_url}}">Back to scoreboard</a>
+{% endblock %}

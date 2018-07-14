@@ -25,7 +25,7 @@ VAR_DIR = os.path.join(BASE_DIR, 'var') # non-versioned files
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ')f7h0klh14z$h!2i&g$c=(w(3yq3m3yzni7hp-+u!v#!zf)*!l'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'django.contrib.humanize',
 
     # django rest framework
     'rest_framework',
@@ -66,6 +67,7 @@ INSTALLED_APPS = [
 
     'fg_users',
     'fg_competitions',
+    'fg_scoreboards',
     'fg_portal',
     'corsheaders'
 ]

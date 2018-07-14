@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('fg_users.urls')),
     url(r'^competitions/', include('fg_competitions.urls')),
+    url(r'^boards/', include('fg_scoreboards.urls')),
     url(r'^api/', include(router.urls)),
 
     # 3rd party
