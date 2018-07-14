@@ -29,11 +29,11 @@ class ScoreBoard(models.Model):
 
     @property
     def ordering(self):
-        if self.type == 'win':
+        if self.scoring_system == 'win':
             return self.wins
-        elif self.type == 'sum':
+        elif self.scoring_system == 'sum':
             return self.total_points
-        elif self.type == 'avg':
+        elif self.scoring_system == 'avg':
             return self.avg_points
         else:
             return []
