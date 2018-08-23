@@ -54,3 +54,15 @@ django_test:
 #    script:
 #        - "docker build -t fossgalaxy/comet ."
 #        - "docker push fossgalaxy/comet"
+
+deploy_prod:
+  stage: deploy
+  script:
+    - echo "Deploy to production server"
+  environment:
+    name: production
+    url: https://comp.fopssgalaxy.com
+  when: manual
+  only:
+  - master
+
