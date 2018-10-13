@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django-allauth = "*"
+django-filter = "*"
+"django-bootstrap4" = "*"
+django-fileprovider = "*"
+djangorestframework = "*"
+pinax-notifications = "*"
+django-cors-headers = "*"
+Django = "*"
+Markdown = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
