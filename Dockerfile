@@ -2,7 +2,7 @@ FROM python:3
 ENV PYTHONUNBUFFERED 1
 
 # Setup webserver
-RUN pip install uwsgi psycopg2
+RUN pip install uwsgi psycopg2 pipenv
 #RUN apt-get update && apt-get install -y npm nodejs-legacy
 #RUN npm install -g bower
 
@@ -14,7 +14,7 @@ RUN chown -R django:django /home/django/website
 # install requirements
 WORKDIR /home/django/website/
 ADD requirements.txt /home/django/website/
-RUN pip install -r requirements.txt
+RUN pipenv install --system
 
 # Drop to non-root and setup django
 USER django
