@@ -4,7 +4,7 @@ variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
 
 before_script:
-    - pip install -r requirements.txt
+    - pipenv install --system
 
 stages:
     - validate
