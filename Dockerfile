@@ -13,7 +13,8 @@ RUN chown -R django:django /home/django/website
 
 # install requirements
 WORKDIR /home/django/website/
-ADD requirements.txt /home/django/website/
+ADD Pipfile /home/django/website/
+ADD Pipfile.lock /home/django/website/
 RUN pipenv install --system
 
 # Drop to non-root and setup django
