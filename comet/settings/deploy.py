@@ -35,18 +35,6 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 
 PINAX_NOTIFICATIONS_QUEUE_ALL = True # Stop the email server killing the build scripts.
 
-# Sentry Related
-sentry = os.environ.get('SENTRY_DSN', False)
-if sentry:
-	import sentry_sdk
-	from sentry_sdk.integrations.django import DjangoIntegration
-
-	sentry_sdk.init(
-	    dsn=sentry,
-	    integrations=[DjangoIntegration()]
-	)
-
-
 # People to email with django explodes
 ADMINS = os.environ.get('ADMINS', '').split(",")
 

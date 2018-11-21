@@ -191,3 +191,15 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+# sentry
+sentry = os.environ.get('SENTRY_DSN', False)
+if sentry:
+        import sentry_sdk
+        from sentry_sdk.integrations.django import DjangoIntegration
+
+        sentry_sdk.init(
+            dsn=sentry,
+            integrations=[DjangoIntegration()]
+        )
+
