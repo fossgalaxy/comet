@@ -60,3 +60,12 @@ TODO - just hints for now
 * DB_ENV_POSTGRES_USER - postgres user (defaults to postgres)
 * DB_ENV_POSTGRES_PASSWORD - postgres user password (defaults to blank)
 * DB_ENV_HOST - postgres database hosename (defaults to DB)
+
+## Pipenv Bug
+There seems to be a version problem with pipenv and pip from the Fedora repos, the current fix I'm using is:
+```
+pip3 install --user -U pip
+pip3 install --user -U pipenv
+```
+
+Then you can use ```/home/$USER/.local/bin/pipenv``` to run the pipenv that you've installed for your user account. The advantage of installing it as a "user" package rather than a system one is that it won't conflict with the dnf installed versions of pip or pipenv - in general it's a terrible, terrible idea to replace system installed packages with ones from a language's package manager.
