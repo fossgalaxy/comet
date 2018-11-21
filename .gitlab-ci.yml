@@ -18,6 +18,13 @@ check:
     except:
         - tags
 
+security:
+    stage: validate
+    script:
+        - pipenv check
+    except:
+        - tags
+
 migrate:
     stage: validate
     script:
