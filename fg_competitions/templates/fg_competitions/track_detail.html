@@ -56,7 +56,7 @@
   <tr {% if not submission.current %} class="warning" {% endif %}>
     <th><a href="{{submission.get_absolute_url}}">{{submission}}</a>{% if submission.sample %} <span class="label label-default">sample</span>{% endif %}</th>
     <td>{% user_display submission.owner %}</td>
-    <td>{{ submission.pretty_score|default:"wtf" }}</td>
+    <td>{{ submission.pretty_score }}</td>
   </tr>
   {% empty %}
   <tr>
