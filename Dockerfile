@@ -1,5 +1,21 @@
 FROM python:3
+LABEL maintainer="joseph@webpigeon.me.uk"
 ENV PYTHONUNBUFFERED 1
+
+ARG BUILD_DATE
+ARG BUILD_VERSION
+ARG GIT_COMMIT=unspecified
+
+# Label Schema
+LABEL org.label-schema.schema-version=1.0
+LABEL org.label-schema.build-date=$BUILD_DATE
+LABEL org.label-schema.name="fossgalaxy/comet"
+LABEL org.label-schema.description="website for running accademic competitions"
+#LABEL org.label-schema.url="https://www.fossgalaxy.com/projects/comet"
+LABEL org.label-schema.vcs-url="https://git.fossgalaxy.com/iggi/Comet/"
+LABEL org.label-schema.vcs-ref=$GIT_COMMIT
+LABEL org.label-schema.vendor="fossgalaxy"
+LABEL org.label-schema.version=$BUILD_VERSION
 
 # Setup webserver
 RUN pip install uwsgi psycopg2 pipenv
