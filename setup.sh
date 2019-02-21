@@ -12,8 +12,15 @@ pipenv sync
 pipenv run ./manage.py migrate
 
 # tell the user we finished
-echo ""
-echo "all done. If this is a new install, you'll need to create an admin account using:"
-echo "pipenv run ./manage.py createsuperuser"
-echo ""
-echo "oh, and you'll need to export DJANGO_SETTINGS_MODULE=comet.settings.local as well"
+if [ $# -ge 1 ]; then
+	case "$1" in
+		"serve") pipenv run ./manage.py runserver ;;
+	esac
+else
+	echo ""
+	echo "all done. If this is a new install, you'll need to create an admin account using:"
+	echo ""
+	echo "export DJANGO_SETTINGS_MODULE=comet.settings.local"
+	echo "pipenv run ./manage.py createsuperuser"
+	echo ""
+fi
