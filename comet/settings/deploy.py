@@ -4,9 +4,20 @@ Docker deployment config - should be hardened to stop bad things happening
 from .base import *
 import os
 
+# docker magic
+def get_secret(key):
+    # check if the _FILE varient is present
+    if key+"_FILE" in os.environ:
+        key_file = os.envrion[key+"_FILE"]
+        with open(key+"_FILE") as f:
+            return "".join(f.readlines()).strip()
+
+    # if not, default to the variable
+    return os.envrion[key]
+
 # Require secret key from envrioment variable
 SITE_ID = int(os.environ['SITE_ID'])
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = get_secret('SECRET_KEY')
 
 # Disable Debug
 DEBUG = bool(os.environ.get('DEBUG', False))
@@ -31,7 +42,7 @@ EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
 EMAIL_USE_TLS = True # No, i'm not letting you turn this off.
 
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_HOST_PASSWORD = get_secret('EMAIL_HOST_PASSWORD')
 
 PINAX_NOTIFICATIONS_QUEUE_ALL = True # Stop the email server killing the build scripts.
 
@@ -44,9 +55,9 @@ FILEPROVIDER_NAME = "nginx"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-	'NAME': os.environ.get('DB_ENV_DB', 'postgres'),
-	'USER': os.environ.get('DB_ENV_POSTGRES_USER', 'postgres'),
-        'PASSWORD': os.environ.get('DB_ENV_POSTGRES_PASSWORD', ''),
-	'HOST': os.environ.get('DB_ENV_HOST', 'db'),
+	'NAME': os.environ.get('POSTGRES_DB', 'postgres'),
+	'USER': os.environ.get('POSTGRES_USER', 'postgres'),
+        'PASSWORD': get_secret('POSTGRES_PASSWORD'),
+	'HOST': os.environ.get('POSTGRES_HOST', 'db'),
     }
 }
