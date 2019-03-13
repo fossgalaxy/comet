@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="h-100" lang="en" >
 	<head>
 		<title>{% if request.site %}{{request.site.name}} - {% endif %}{% block head_title %}{% endblock %}</title>
 		{% load bootstrap4 static %}
@@ -24,7 +24,8 @@
 		{% block extra_head %}
 		{% endblock %}
 	</head>
-	<body>
+	<body class="d-flex flex-column h-100">
+		<header>
 		{% block navbar %}
 		<nav class="navbar navbar-expand navbar-dark bg-dark" style="position: sticky; top: 0; z-index: 1071">
 			<a class="navbar-brand" href="{% url 'home' %}">Comet</a>
@@ -63,7 +64,9 @@
 					</div>
 		</nav>
 		{% endblock %}
+		</header>
 
+		<main class="flex-shrink-0" role="main">
 		{% block container %}
 		<div class="container mt-3" >
 
@@ -78,11 +81,13 @@
 			{% endblock %}
 		</div>
 		{% endblock %}
-			<footer class="footer text-muted text-center">
-				<div class="container">
-					<a href="https://git.fossgalaxy.com/iggi/Comet">Comet Competition Server</a> created by <a href="http://www.webpigeon.me.uk">Joseph Walton-Rivers</a>
-				</div>
-			</footer>
+		</main>
+
+		<footer class="mt-auto py-3 text-muted bg-light text-center">
+			<div class="container">
+				<a href="https://git.fossgalaxy.com/iggi/Comet">Comet Competition Server</a> created by <a href="http://www.webpigeon.me.uk">Joseph Walton-Rivers</a>
+			</div>
+		</footer>
 
 	</body>
 </html>
