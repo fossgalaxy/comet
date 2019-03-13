@@ -27,8 +27,8 @@
 		    {% for track in tracks %}
 		    <div class="card">
 			<div class="card-body">
-			    <h4 class="card-title"><a href="{{track.get_absolute_url}}">{{track.competition}}</a></h4>
-			    <h5 class="card-subtitle mb-2 text-muted">{{track}}</h5>
+			    <h4 class="card-title"><a href="{{track.get_absolute_url}}">{{track}}</a></h4>
+			    <h5 class="card-subtitle mb-2 text-muted">{{track.competition}}</h5>
 			    <p class="card-text">{{track.description}}</p>
 			</div>
 			<div class="card-footer">
