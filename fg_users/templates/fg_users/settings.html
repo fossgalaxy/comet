@@ -6,9 +6,13 @@
 
 {% block content %}
 <div class="my-4">
-	<h1>{% user_display profile %}</h1>
+	<h1 class="my-5">{% user_display profile %}</h1>
 
-	<h2>Change password</h2>
-	<p>You can change your password <a href="{% url 'account_change_password' %}">here</a></a>
+	<h2>Account options</h2>
+	<ul>
+		<li><a href="{% url 'account_change_password' %}">Change Password</a></li>
+		<li><a href="{% url 'socialaccount_connections' %}">Account Connections</a></li>
+	</ul>
+
 </div>
 {% endblock %}
