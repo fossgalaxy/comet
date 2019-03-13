@@ -1,46 +1,58 @@
 {% extends "base_multicol.html" %}
 {% load account %}
 
-{% block head_title %}{{competition}}{% endblock %}
+{% block head_title %}{{track}}{% endblock %}
 
 {% block content_main %}
-    <h1>{{track}}</h1>
-    <p>{{track.competition}}</p>
+    <div class="my-5">
+	    <h1>{{track}}</h1>
+	    <p class="lead"><a href="{% url 'competitions' %}?competition={{track.competition.pk}}">{{track.competition}}</a></p>
+    </div>
 
-    {% if track.owner %}
-    <p> Run by <a href="{{track.owner.get_absolute_url}}">{{track.owner}}</a></p>
-    {% endif %}
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+	<a class="nav-link active" href="#tab_detail" data-toggle="tab">Details</a>
+      </li>
+      <li class="nav-item">
+	<a class="nav-link" href="#tab_leaderboard" data-toggle="tab">Leaderboard</a>
+      </li>
+    </ul>
 
-    <p class="lead">{{track.description}}</p>
+   <div class="tab-content my-3">
 
-    <div class="row">
-    	<div class="col">
-    		<h3>Details</h3>
+    <div class="tab-pane fade show active" id="tab_detail">
+    	<h2 class="sr-only">Details</h2>
+	    <p class="lead">{{track.description}}</p>
+
+	    {% if track.owner %}
+	    <p> Run by <a href="{{track.owner.get_absolute_url}}">{{track.owner}}</a></p>
+	    {% endif %}
+
+
     		<dl class="row">
-    			<dt class="col-12 col-md-3">New</dt>
+    			<dt class="col-12 col-md-3">Registration</dt>
     			<dd class="col-12 col-md-9">
             {% if track.allow_submit %}
-             <i class="fas fa-check" aria-hidden="true"></i> Submissions Open
+             <i class="fas fa-check" aria-hidden="true"></i> Currently accepting new submissions
             {% else %}
-             <i class="fas fa-times" aria-hidden="true"></i> Submissions Closed
+             <i class="fas fa-times" aria-hidden="true"></i> Competition closed to new submissions
             {% endif %}
           </dd>
 
             <dt class="col-12 col-md-3">Updates</dt>
             <dd class="col-12 col-md-9">
               {% if track.allow_update %}
-               <i class="fas fa-check" aria-hidden="true"></i> Updates allowed
+               <i class="fas fa-check" aria-hidden="true"></i> Existing submissions can be updated
               {% else %}
                <i class="fas fa-times" aria-hidden="true"></i> Updates not allowed
               {% endif %}
             </dd>
     		</dl>
-    	</div>
-    	<div class="col">
-    	</div>
     </div>
 
-<h2>Submissions</h2>
+    <div class="tab-pane fade" id="tab_leaderboard">
+
+<h2 class="sr-only">Leaderboard</h2>
 <table class="table table-striped">
   <thead class="thead-light">
     <tr>
@@ -54,7 +66,7 @@
 {% for submission in track.submission_set.all %}
 
   <tr {% if not submission.current %} class="warning" {% endif %}>
-    <th><a href="{{submission.get_absolute_url}}">{{submission}}</a>{% if submission.sample %} <span class="label label-default">sample</span>{% endif %}</th>
+    <th><a href="{{submission.get_absolute_url}}">{{submission}}</a>{% if submission.sample %} <span class="badge badge-secondary">sample</span>{% endif %}</th>
     <td>{% user_display submission.owner %}</td>
     <td>{{ submission.pretty_score }}</td>
   </tr>
@@ -65,6 +77,12 @@
 {% endfor %}
 </tbody>
 </table>
+
+    </div>
+
+  </div>
+
+
 {% endblock %}
 
 {% block content_sidebar %}
