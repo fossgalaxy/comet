@@ -1,56 +1,33 @@
-{% extends "base.html" %}
+{% extends "base_dashboard.html" %}
+
+{% block nav_tracks %} active{% endblock %}
 
 {% block content %}
 
-<div class="row">
-	<div class="col-sm-8">
-		<div class="card mb-4">
-			<div class="card-body">
+<div class="my-4">
+	<h3 class="card-title">My Tracks</h3>
+	<p class="lead">These are the tracks you are looking after.</p>
 
-				<h2 class="card-heading">Tracks</h2>
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Competition</th>
-							<th>Track</th>
-							<th class="text-center">Entrants</th>
-							<th class="text-center">Students</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for track in tracks %}
-						<tr>
-							<th>{{track.competition}}</th>
-							<th><a href="{% url 'track_detail' track.pk %}">{{track.name}}</a></th>
-							<td class="text-center">{{track.submission__count}}</td>
-							<td class="text-center">TODO</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-			<div class="card-footer text-right">
-				<a href="#" class="btn btn-primary btn-sm"><i class="fas fa-plus-circle"></i> Create track</a>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-4">
-		<div class="card">
-			<div class="card-body">
-				<h2 class="card-heading">Alerts</h2>
-				<ul class="list-group list-group-flush">
-					{% for a in alerts %}
-					<li class="list-group-item">
-						<div class="d-flex w-100 justify-content-between">
-							<h3 class="mb-1">{{a.title}}</h3>
-							<small>{{a.published}}</small>
-						</div>
-						<p class="mb-1">{{a.lead}}</p>
-					</li>
-					{% endfor %}
-				</ul>
-			</div>
-		</div>
-	</div>
+	<table class="table table-striped">
+		<thead class="thead-light">
+			<tr>
+				<th>Track</th>
+				<th>Competition</th>
+				<th class="text-center">Entrants</th>
+				<th>Score</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for track in tracks %}
+			<tr>
+				<td><a href="{{track.get_absolute_url}}">{{track}}</a></td>
+				<td>{{track.competition}}</td>
+				<td class="text-center">{{track.submission__count}}</td>
+				<td>{{submission.ranking}}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
 </div>
+
 {% endblock %}
