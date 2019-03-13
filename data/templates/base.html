@@ -45,55 +45,20 @@
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
 
-			<ul class="nav navbar-nav flex-row justify-content-between ml-auto">
-				<li class="nav-item order-2 order-md-1"><a href="{% url 'admin:index' %}" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>
+			<div class="btn-group ml-auto" role="group">
+				{% if not user.is_active %}
+				<a href="{% url 'account_login' %}" class="btn btn-outline-light" role="button">Login</a>
+				<a href="{% url 'account_signup' %}" class="btn btn-outline-light" role="button">Register</a>
+				{% else %}
+					{% if user.is_staff %}
+					<a href="{% url 'admin:index' %}" class="btn btn-outline-light" role="button">Admin</a>
+					{% endif %}
+				<a href="{% url 'dashboard' %}" class="btn btn-outline-light" role="button">Dashboard</a>
+				<a href="{% url 'account_profile' %}" class="btn btn-outline-light" role="button">Profile</a>
+				<a href="{% url 'account_logout' %}" class="btn btn-outline-light" role="button">Logout</a>
+				{% endif %}
+			</div>
 
-			    {% if not user.is_active %}
-                <li class="dropdown order-1">
-                    <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-light dropdown-toggle">Login <span class="caret"></span></button>
-                    <ul class="dropdown-menu dropdown-menu-right mt-1">
-                      <li class="p-3">
-			      <form class="form" action="{% url 'account_login' %}" method="post" role="form">
-
-				<div class="form-group text-xs-center">
-					<ul class="socialaccount_providers list-inline">
-					{% include "socialaccount/snippets/provider_inline.html" with process="login" %}
-					</ul>
-				</div>
-				<hr />
-
-				{% csrf_token %}
-                                <div class="form-group">
-                                    <input id="emailInput" placeholder="Username" class="form-control form-control-sm" name="login" type="text" required="">
-                                </div>
-                                <div class="form-group">
-                                    <input id="passwordInput" placeholder="Password" class="form-control form-control-sm" name="password" type="password" required="">
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary btn-block">Login</button>
-                                </div>
-                                <div class="form-group text-xs-center">
-					<small><a href="{% url 'account_reset_password' %}">Forgot password?</a></small>
-                                </div>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
-                    <a class="nav-item order-3 btn btn-outline-light d-inline text-light" href="{% url 'account_signup' %}">Register</a>
-			{% else %}
-                <li class="dropdown order-2">
-			<button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">{{ user }} <span class="caret"></span></button>
-                    <ul class="dropdown-menu dropdown-menu-right mt-1">
-                      <li class="p-3">
-			      <a href="{% url 'account_profile' %}">profile</a>
-                      </li>
-                      <li class="p-3">
-			      <a href="{% url 'account_logout' %}">logout</a>
-                      </li>
-                    </ul>
-                </li>
-			   {% endif %}
-            </ul>
 
 					</div>
 		</nav>
