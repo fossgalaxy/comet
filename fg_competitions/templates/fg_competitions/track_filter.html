@@ -5,17 +5,23 @@
 {% block head_title %}Competitions{% endblock %}
 
 {% block content %}
-<h1 class="sr-only">Competition List</h1>
+<h2 class="my-5">Tracks</h2>
 
-<div class="row" style="margin-top: 15px">
+<ul class="nav nav-tabs">
+	<li class="nav-item">
+		<a class="nav-link {% if not get_allow_submit or get_allow_submit == '1' %}active{% endif %}" href="?{% url_replace allow_submit=1 %}">All</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link {% if get_allow_submit == '2' %}active{% endif %}" href="?{% url_replace allow_submit=2 %}">Active</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link {% if get_allow_submit == '3' %}active{% endif %}" href="?{% url_replace allow_submit=3 %}">Previous</a>
+	</li>
+</ul>
+
+
+<div class="row mt-2">
 	<div class="col-12 col-md">
-		<div class="d-flex">
-			<h2 class="align-self-center my-auto" class="text-align: center">Tracks</h2>
-			<span class="ml-auto btn btn-secondary align-self-center" style="text-align: center;" data-toggle="collapse" aria-toggle="collapse" href="#filters">
-			     <i class="fa fa-filter" aria-hidden="true"></i>
-			     Toggle filters
-			</span>
-                </div>
 
 		<i class="clearfix" ></i>
 
@@ -57,21 +63,14 @@
 
 	</div>
 
-	<div class="col-12 col-md-4 col-lg-3 collapse show" id="filters">
-		<h2 class="mb-3" >Filters</h2>
+	<div class="col-12 col-md-4 col-lg-3 my-3" id="filters">
+		<h2 class="sr-only" >Filters</h2>
 		<form action="?search" method="GET">
 		<div class="input-group">
 			<div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span></div>
 			<input type="text" class="form-control" placeholder="search..." value="{{get_name}}" name="name" />
 		</div>
 		</form>
-
-		<h4 class="mt-3">Allow uploads</h4>
-		<div id="filter-uploads" class="list-group">
-			<a class="list-group-item list-group-item-action {% if not get_allow_submit or get_allow_submit == '1' %}active{% endif %}" href="?{% url_replace allow_submit=1 %}">Either</a>
-			<a class="list-group-item list-group-item-action {% if get_allow_submit == '2' %}active{% endif %}" href="?{% url_replace allow_submit=2 %}">Yes</a>
-			<a class="list-group-item list-group-item-action {% if get_allow_submit == '3' %}active{% endif %}" href="?{% url_replace allow_submit=3 %}">No</a>
-		</div>
 
 		<h4 class="mt-3" >Competition</h4>
 		<div id="filter-competition" class="list-group">
