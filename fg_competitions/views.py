@@ -76,7 +76,10 @@ class TrackList(FilterView):
         context['get_allow_submit'] = self.request.GET.get('allow_submit', None)
 
         filter_comp = self.request.GET.get('competition', None)
-        context['get_competition'] = int(filter_comp) if filter_comp else None
+        try:
+            context['get_competition'] = int(filter_comp) if filter_comp else None
+        except ValueError:
+            context['get_competition'] = None
 
         if self.request.user.is_authenticated:
             results = Submission.objects.filter(

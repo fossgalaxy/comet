@@ -127,8 +127,9 @@ def url_replace(context, **kwargs):
     query = context['request'].GET.dict()
 
     for (arg,value) in kwargs.items():
-        if value is None and arg in query:
-            del query[arg]
+        if value is None:
+            if arg in query:
+                del query[arg]
         else:
             query[arg] = value
 
