@@ -15,6 +15,7 @@ Django = "*"
 Markdown = "*"
 sentry-sdk = "*"
 pygments = "*"
+martor = "*"
 
 [dev-packages]
 

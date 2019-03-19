@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 
 from django.conf import settings
-from django.conf.urls import url, include
 from django.conf.urls.static import static
+
+# new api for urls
+from django.urls import path, re_path, include
 
 from rest_framework import routers
 from fg_competitions import rest_views
@@ -34,15 +36,15 @@ router.register(r'upload', rest_views.UploadViewSet)
 router.register(r'text', rest_views.SubmissionTextViewSet)
 
 urlpatterns = [
-    url(r'^$', extra.Homepage.as_view(), name="home"),
-    url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('fg_users.urls')),
-    url(r'^competitions/', include('fg_competitions.urls')),
-    url(r'^boards/', include('fg_scoreboards.urls')),
-    url(r'^api/', include(router.urls)),
+    re_path(r'^$', extra.Homepage.as_view(), name="home"),
+    re_path(r'^admin/', admin.site.urls),
+    re_path(r'^accounts/', include('fg_users.urls')),
+    re_path(r'^competitions/', include('fg_competitions.urls')),
+    re_path(r'^boards/', include('fg_scoreboards.urls')),
+    re_path(r'^api/', include(router.urls)),
 
     # 3rd party
-    url(r"^notifications/", include("pinax.notifications.urls", namespace="pinax_notifications")),
-    url(r'^api-auth/', include('rest_framework.urls')),
-
+    re_path(r"^notifications/", include("pinax.notifications.urls", namespace="pinax_notifications")),
+    re_path(r'^api-auth/', include('rest_framework.urls')),
+    path('martor/', include('martor.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

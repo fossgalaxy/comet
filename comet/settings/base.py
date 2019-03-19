@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # Templating
     'bootstrap4',
     'fileprovider',
+    'martor',
 
     # 3rd party
     'pinax.notifications',
