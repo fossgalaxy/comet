@@ -14,6 +14,7 @@ django-cors-headers = "*"
 Django = "*"
 Markdown = "*"
 sentry-sdk = "*"
+pygments = "*"
 
 [dev-packages]
 
