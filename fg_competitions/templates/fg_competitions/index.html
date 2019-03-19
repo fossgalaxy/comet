@@ -13,7 +13,6 @@
 		<div class="col-12 col-lg-4">
 			<h1>Welcome to Comet</h1>
 			<p>Comet is a server that manages uploads, compilation and scoring for accademic competitions.</p>
-			<!-- <a class="btn btn-primary pull-right" href="{% url 'competitions' %}">View Tracks</a> -->
 		</div>
 	</div>
 	<hr />
@@ -22,19 +21,13 @@
 
 		<div class="col">
 
-		<h3>Open Tracks</h3>
-		<div class="card-deck my-3">
+		<h2>Open Tracks</h2>
+		<div class="my-3">
 		    {% for track in tracks %}
-		    <div class="card">
-			<div class="card-body">
-			    <h4 class="card-title"><a href="{{track.get_absolute_url}}">{{track}}</a></h4>
-			    <h5 class="card-subtitle mb-2 text-muted">{{track.competition}}</h5>
-			    <p class="card-text">{{track.description}}</p>
-			</div>
-			<div class="card-footer">
-			    <a href="{{ track.get_absolute_url }}" class="card-link">Details</a>
-			    <a href="{{ track.get_absolute_url }}" class="card-link">Enter</a>
-			</div>
+		    <div class="border rounded p-3 my-3">
+			    <h3><a href="{{track.get_absolute_url}}">{{track}}</a></h3>
+			    <p class="lead">{{track.competition}}</p>
+			    <p>{{track.description}}</p>
 		    </div>
 		    {% empty %}
 		    No open tracks
@@ -47,7 +40,7 @@
 		{% if not user.is_authenticated %}
 		<div class="col-4">
 
-			<h3>Sign In</h3>
+			<h2>Sign In</h2>
 			<p class="text-muted">no account? <a href="{% url 'account_signup' %}">sign up</a></p>
 
 			<form method="post" action="{% url 'account_login' %}" class="p-3 border rounded">
