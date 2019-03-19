@@ -15,6 +15,7 @@ pipenv run ./manage.py migrate
 if [ $# -ge 1 ]; then
 	case "$1" in
 		"serve") pipenv run ./manage.py runserver ;;
+		"makemigrations") pipenv run ./manage.py makemigrations ;;
 	esac
 else
 	echo ""

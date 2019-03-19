@@ -5,6 +5,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.conf import settings
 
+# Markdown Library
+from martor.models import MartorField
+
+
 BUILD_PIPELINE = [
     ("U", "upload", "fa-upload"),
     ("B", "build", "fa-build"),
@@ -71,9 +75,14 @@ class Track(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
-    # flags
-    allow_submit = models.BooleanField(default=True)
-    allow_update = models.BooleanField(default=True)
+    # Details page
+    #details = MartorField(blank=True, help_text="")
+
+    # submission permissions
+    allow_submit = models.BooleanField(default=True, help_text="Can new submissions be added")
+    allow_update = models.BooleanField(default=True, help_text="Can existing submissions be updated")
+
+    # public flags
     allow_download = models.BooleanField(default=False)
 
     # Submission types
@@ -89,6 +98,15 @@ class Track(models.Model):
 
     class Meta:
         ordering = ['-allow_submit', 'name']
+
+class TrackPage(models.Model):
+    """A page describing the competition"""
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    title = models.CharField(max_length=150)
+    body = MartorField(blank=True)
+
+    def __str__(self):
+        return self.title
 
 class AllowedSubmissionType(models.Model):
     """Types of submissions allowed"""

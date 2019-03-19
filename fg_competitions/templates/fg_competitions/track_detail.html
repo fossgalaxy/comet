@@ -1,26 +1,9 @@
-{% extends "base_multicol.html" %}
+{% extends "fg_competitions/base_track.html" %}
 {% load account %}
 
 {% block head_title %}{{track}}{% endblock %}
 
-{% block content_main %}
-    <div class="my-5">
-	    <h1>{{track}}</h1>
-	    <p class="lead"><a href="{% url 'competitions' %}?competition={{track.competition.pk}}">{{track.competition}}</a></p>
-    </div>
-
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-	<a class="nav-link active" href="#tab_detail" data-toggle="tab">Details</a>
-      </li>
-      <li class="nav-item">
-	<a class="nav-link" href="#tab_leaderboard" data-toggle="tab">Leaderboard</a>
-      </li>
-    </ul>
-
-   <div class="tab-content my-3">
-
-    <div class="tab-pane fade show active" id="tab_detail">
+{% block content_tab %}
     	<h2 class="sr-only">Details</h2>
 	    <p class="lead">{{track.description}}</p>
 
@@ -48,58 +31,4 @@
               {% endif %}
             </dd>
     		</dl>
-    </div>
-
-    <div class="tab-pane fade" id="tab_leaderboard">
-
-<h2 class="sr-only">Leaderboard</h2>
-<table class="table table-striped">
-  <thead class="thead-light">
-    <tr>
-      <th>Name</th>
-      <th>Owner</th>
-      <th>Ranking</th>
-    </tr>
-  </thead>
-
-<tbody>
-{% for submission in track.submission_set.all %}
-
-  <tr {% if not submission.current %} class="warning" {% endif %}>
-    <th><a href="{{submission.get_absolute_url}}">{{submission}}</a>{% if submission.sample %} <span class="badge badge-secondary">sample</span>{% endif %}</th>
-    <td>{% user_display submission.owner %}</td>
-    <td>{{ submission.pretty_score }}</td>
-  </tr>
-  {% empty %}
-  <tr>
-    <td colspan="3"><p class="text-center">There are presently no submissions</p></td>
-  </tr>
-{% endfor %}
-</tbody>
-</table>
-
-    </div>
-
-  </div>
-
-
-{% endblock %}
-
-{% block content_sidebar %}
-    <nav class="nav flex-column">
-    {% for link in track.competition.links.all %}
-      <a class="nav-link" href="{{link.url}}">{{link}}</a>
-    {% endfor %}
-    </nav>
-    <hr />
-
-    <nav class="nav flex-column">
-    {% if track.allow_submit and user.is_authenticated %}
-    {% if not submission %}
-    <a class="nav-link btn btn-primary" href="{% url 'submission_create' track=track.pk %}">Create Submission</a>
-    {% else %}
-    <a class="nav-link btn btn-primary" href="{{submission.get_absolute_url}}">View Submission</a>
-    {% endif %}
-    {% endif %}
-    </nav>
 {% endblock %}

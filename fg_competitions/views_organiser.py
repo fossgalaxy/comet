@@ -33,4 +33,7 @@ class TrackUpdate(UserPassesTestMixin, UpdateView):
     def test_func(self):
         """check the person attempting to edit the track is the owner"""
         obj = self.get_object()
+        if not obj or not obj.owner:
+            return False
+
         return obj.owner.pk == self.request.user.pk

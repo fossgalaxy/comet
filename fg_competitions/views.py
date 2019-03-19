@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse
 from django.http.response import HttpResponse, FileResponse
 
-from .models import Competition, Track, Submission, SubmissionUpload, SubmissionText, submission_path
+from .models import Competition, Track, TrackPage, Submission, SubmissionUpload, SubmissionText, submission_path
 from .forms import RegisterForm, UploadForm, SubmissionTextForm
 from .filters import TrackFilter
 
@@ -110,11 +110,29 @@ class CompetitionDetail(DetailView):
     model = Competition
     context_object_name = "competition"
 
+##
+# Begin track detail code
+##
 
-class TrackDetail(DetailView):
+class TrackTab(object):
+    """Mixin for track views"""
+
+    def get_context_data(self, **kwargs):
+        context = super(TrackTab, self).get_context_data(**kwargs)
+
+        context['tab_active'] = self.track_tab
+        context['tabs'] = {
+            'track_detail': 'Details',
+            'track_scores': 'Leaderboard'
+        }
+
+        return context
+
+class TrackDetail(TrackTab, DetailView):
     """View details about a track"""
     model = Track
     context_object_name = "track"
+    track_tab = 'track_detail'
 
     def get_context_data(self, **kwargs):
         context = super(TrackDetail, self).get_context_data(**kwargs)
@@ -124,6 +142,36 @@ class TrackDetail(DetailView):
             except ObjectDoesNotExist:
                 pass
         return context
+
+class TrackPageView(TrackTab, DetailView):
+    model = TrackPage
+    context_object_name = "track_page"
+    track_tab = 'track_detail'
+
+    def get_context_data(self, **kwargs):
+        context = super(TrackPageView, self).get_context_data(**kwargs)
+       
+        # track
+        context['track'] = get_object_or_404(Track, id=self.kwargs.get('track'))
+
+        return context
+
+class TrackScoreView(TrackTab, TemplateView):
+    template_name = 'fg_competitions/track_scores.html'
+    context_object_name = "track_page"
+    track_tab = 'track_scores'
+
+    def get_context_data(self, **kwargs):
+        context = super(TrackScoreView, self).get_context_data(**kwargs)
+       
+        # track
+        context['track'] = get_object_or_404(Track, id=self.kwargs.get('track'))
+
+        return context
+
+##
+# end track detail code
+##
 
 class SubmissionDetail(DetailView):
     """View details about a submission"""

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Competition, CompetitionLink, Track, Submission, SubmissionUpload, SubmissionText
+from .models import Competition, CompetitionLink, Track, TrackPage, Submission, SubmissionUpload, SubmissionText
 
 # Register your models here.
 class CompetitionLinkInline(admin.TabularInline):
@@ -30,6 +30,8 @@ class TrackAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Track, TrackAdmin)
+
+admin.site.register(TrackPage)
 
 class SubmissionUploadInline(admin.TabularInline):
     model = SubmissionUpload
