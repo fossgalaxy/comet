@@ -8,7 +8,7 @@ command -v pipenv || { echo "Couldn't find pipenv - do you have it installed and
 
 # do the python stuff
 export DJANGO_SETTINGS_MODULE=comet.settings.local
-pipenv sync
+pipenv sync --dev
 pipenv run ./manage.py migrate
 
 # tell the user we finished
