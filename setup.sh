@@ -16,6 +16,7 @@ if [ $# -ge 1 ]; then
 	case "$1" in
 		"serve") pipenv run ./manage.py runserver ;;
 		"makemigrations") pipenv run ./manage.py makemigrations ;;
+		*) echo "Don't know how to $1, valid commands are serve and makemigrations."; exit 1 ;;
 	esac
 else
 	echo ""
