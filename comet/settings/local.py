@@ -5,6 +5,7 @@ Local settings - debug friendly values for development
 from .base import *
 import os
 
+
 # SECURITY WARNING: development only values
 SECRET_KEY = 'VeryInsecureSecretKey'
 SITE_ID=1
@@ -20,3 +21,12 @@ DATABASES = {
 
 FILEPROVIDER_NAME = "python"
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# add debug toolbar
+INSTALLED_APPS += [ 'debug_toolbar' ]
+INTERNAL_IPS = ('127.0.0.1',)
+MIDDLEWARE += [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+

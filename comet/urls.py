@@ -48,3 +48,14 @@ urlpatterns = [
     re_path(r'^api-auth/', include('rest_framework.urls')),
     path('martor/', include('martor.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# Debug toolbar urls if in development mode
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+
+        # For django versions before 2.0:
+        # url(r'^__debug__/', include(debug_toolbar.urls)),
+
+    ] + urlpatterns
