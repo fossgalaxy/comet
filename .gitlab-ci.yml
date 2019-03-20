@@ -44,8 +44,6 @@ migrate:
 container:
   stage: publish
   image: tomkukral/buildah
-  dependencies:
-    - build
   before_script:
     - podman version
     - buildah version
