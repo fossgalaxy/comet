@@ -13,7 +13,7 @@ def get_secret(key):
             return "".join(f.readlines()).strip()
 
     # if not, default to the variable
-    return os.envrion[key]
+    return os.environ[key]
 
 # Require secret key from envrioment variable
 SITE_ID = int(os.environ['SITE_ID'])
