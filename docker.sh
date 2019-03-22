@@ -63,12 +63,10 @@ case $BUILD_TYPE in
 		;;
 esac
 
-exit 1;
 
 if [ -f /bin/buildah ]; then
 	buildah bud --label fossgalaxy/comet -t snapshot .
 	#buildah push fossgalaxy/comet:snapshot docker://docker.io/fossgalaxy/comet:snapshot
 else
-	docker build -t docker.io/fossgalaxy/comet .
-	#docker push docker.io/fossgalaxy/comet
+	docker push docker.io/fossgalaxy/comet:snapshot
 fi
