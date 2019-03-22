@@ -8,7 +8,7 @@ import os
 def get_secret(key):
     # check if the _FILE varient is present
     if key+"_FILE" in os.environ:
-        key_file = os.envrion[key+"_FILE"]
+        key_file = os.environ[key+"_FILE"]
         with open(key+"_FILE") as f:
             return "".join(f.readlines()).strip()
 
