@@ -9,7 +9,7 @@ def get_secret(key):
     # check if the _FILE varient is present
     if key+"_FILE" in os.environ:
         key_file = os.environ[key+"_FILE"]
-        with open(key+"_FILE") as f:
+        with open(key_file) as f:
             return "".join(f.readlines()).strip()
 
     # if not, default to the variable
