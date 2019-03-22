@@ -16,6 +16,8 @@
 		<link rel="canonical" href="{% block canonical_url %}https://{{request.site}}{{request.get_full_path}}{% endblock %}">
 		{% endif %}
 
+		<link rel="icon" href="{% static "img/com.aiclash.Comet.png" %}" />
+
 		<!-- Latest compiled and minified JavaScript -->
                 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
@@ -28,7 +30,7 @@
 		<header>
 		{% block navbar %}
 		<nav class="navbar navbar-expand navbar-dark bg-dark" style="position: sticky; top: 0; z-index: 1071">
-			<a class="navbar-brand" href="{% url 'home' %}">Comet</a>
+			<a class="navbar-brand" href="{% url 'home' %}"><img src="{% static "img/com.aiclash.Comet.png" %}" style="width: 40px; height: 40px" alt="Comet" /></a>
 			<ul class="navbar-nav">
 			   <li class="nav-item">
 				<a class="nav-link" href="{% url 'competitions' %}">Competitions</a>
