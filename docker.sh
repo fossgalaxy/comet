@@ -58,6 +58,7 @@ case $BUILD_TYPE in
 		buildah bud --label $IMAGE_NAME -t snapshot .
 		;;
 	"docker")
+		systemctl start docker
 		docker build -t comet-build --build-arg GIT_COMMIT=$GIT_COMMIT --build-arg BUILD_VERSION=$GIT_COMMIT --build-arg BUILD_DATE=$BUILD_DATE .
 		docker tag comet-build docker.io/$IMAGE_NAME:snapshot
 		;;
