@@ -9,6 +9,9 @@
 * Django
 * Django REST framework
 
+## Test Instance
+There is a test/demo instance online at [https://test.aiclash.com/](https://test.aiclash.com/)
+
 ## Getting Started
 There are two supported methods for getting the app running, development mode with sqlite and staging/production mode with docker+postgresql.
 
