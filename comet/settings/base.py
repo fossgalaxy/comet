@@ -196,11 +196,14 @@ REST_FRAMEWORK = {
 # sentry
 sentry = os.environ.get('SENTRY_DSN', False)
 if sentry:
-        import sentry_sdk
-        from sentry_sdk.integrations.django import DjangoIntegration
+    sentry_env = os.environ.get('SENTRY_ENV', 'unknown')
 
-        sentry_sdk.init(
-            dsn=sentry,
-            integrations=[DjangoIntegration()]
-        )
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=sentry,
+        environment=sentry_env,
+        integrations=[DjangoIntegration()]
+    )
 
