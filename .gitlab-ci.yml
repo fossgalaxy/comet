@@ -15,7 +15,7 @@ stages:
 check:
     stage: validate
     script:
-        - pipenv install
+        - pipenv install --dev
         - pipenv run ./manage.py check
     except:
         - tags
@@ -23,7 +23,7 @@ check:
 security:
     stage: validate
     script:
-        - pipenv install
+        - pipenv install --dev
         - pipenv check
     except:
         - tags
@@ -31,7 +31,7 @@ security:
 migrate:
     stage: validate
     script:
-        - pipenv install
+        - pipenv install --dev
         - pipenv run ./manage.py migrate
     except:
         - tags
