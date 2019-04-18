@@ -2,6 +2,7 @@ image: python:3.7-alpine
 
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+  IMAGE_NAME: ${REGISTRY_SERVER}/fossgalaxy/comet
 
 before_script:
     - pip install pipenv
@@ -52,7 +53,7 @@ container:
     - podman login --username "${REGISTRY_USERNAME}" --password "${REGISTRY_PASSWORD}" "${REGISTRY_SERVER}"
   script:
     - buildah bud -t ${IMAGE_NAME}:${CI_COMMIT_SHA} .
-    - buildah push ${IMAGE_NAME}:${CI_COMMIT_SHA} docker://${IMAGE_NAME}:${CI_COMMIT_SHA}
+    - buildah push ${IMAGE_NAME}:${CI_COMMIT_SHA} docker://${IMAGE_NAME}:nightly
   after_script:
     - podman logout "${REGISTRY_SERVER}"
 
