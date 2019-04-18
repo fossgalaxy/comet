@@ -54,6 +54,7 @@ container:
   script:
     - buildah bud -t ${IMAGE_NAME}:${CI_COMMIT_SHA} .
     - buildah push ${IMAGE_NAME}:${CI_COMMIT_SHA} docker://${IMAGE_NAME}:snapshot
+    - ls ${XDG_RUNTIME_DIR}/containers/auth.json
   after_script:
     - podman logout "${REGISTRY_SERVER}"
 
