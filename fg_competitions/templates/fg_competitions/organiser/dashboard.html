@@ -14,7 +14,6 @@
 				<th>Track</th>
 				<th>Competition</th>
 				<th class="text-center">Entrants</th>
-				<th>Score</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -23,7 +22,6 @@
 				<td><a href="{{track.get_absolute_url}}">{{track}}</a></td>
 				<td>{{track.competition}}</td>
 				<td class="text-center">{{track.submission__count}}</td>
-				<td>{{submission.ranking}}</td>
 			</tr>
 		{% endfor %}
 		</tbody>
