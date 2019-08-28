@@ -9,8 +9,13 @@ class ScoreBoardView(DetailView):
 
 class GameList(ListView):
     model = Game
+    paginate_by = 50
+
+    def get_queryset(self):
+        self.scoreboard = get_object_or_404(ScoreBoard, pk=int(self.kwargs.get('pk')))
+        return Game.objects.filter(board=self.scoreboard).select_related('board').prefetch_related('stats', 'stats__player')
 
     def get_context_data(self, **kwargs):
         data = super(GameList, self).get_context_data(**kwargs)
-        data['scoreboard'] = get_object_or_404(ScoreBoard, pk=int(self.kwargs.get('pk')))
+        data['scoreboard'] = self.scoreboard
         return data
