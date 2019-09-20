@@ -161,6 +161,10 @@ class Submission(models.Model):
             return self.ranking
 
     @property
+    def is_valid(self):
+        return self.current and self.current.status in ('BS', 'VS')
+
+    @property
     def versions(self):
         if self.submission_type == "U":
             return self.uploads.all()

@@ -21,7 +21,11 @@
   <tr {% if not submission.current %} class="warning" {% endif %}>
     <th><a href="{{submission.get_absolute_url}}">{{submission}}</a>{% if submission.sample %} <span class="badge badge-secondary">sample</span>{% endif %}</th>
     <td>{% user_display submission.owner %}</td>
+    {% if submission.is_valid %}
     <td>{{ submission.pretty_score|floatformat:3 }}</td>
+    {% else %}
+    <td>{{ submission.pretty_score }}</td>
+    {% endif %}
   </tr>
   {% empty %}
   <tr>
