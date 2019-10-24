@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.functional import cached_property
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
@@ -67,8 +68,14 @@ class CompetitionLink(models.Model):
     def __str__(self):
         return self.name
 
+class TrackManager(models.Manager):
+    def get_queryset(self):
+        return super(TrackManager, self).get_queryset().prefetch_related('competition')
+
 @python_2_unicode_compatible
 class Track(models.Model):
+    objects = TrackManager()
+
     """A variation in the rules of a competition"""
     name = models.CharField(max_length=100)
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
@@ -155,14 +162,11 @@ class Submission(models.Model):
         curr_upload = self.current
         if not curr_upload:
             return "No submission"
-        elif curr_upload.status not in ("BS", "VS"):
-            return curr_upload.get_status_display()
-        else:
-            return self.ranking
+        return self.ranking
 
     @property
     def is_valid(self):
-        return self.current and self.current.status in ('BS', 'VS')
+        return self.current and self.current.is_valid
 
     @property
     def versions(self):
@@ -173,15 +177,15 @@ class Submission(models.Model):
         else:
             raise ValueError("unknown submission type")
 
-    @property
+    @cached_property
     def current_upload(self):
         return self.uploads.first()
 
-    @property
+    @cached_property
     def current_text(self):
         return self.text_submissions.first()
 
-    @property
+    @cached_property
     def current(self):
         if self.submission_type == "U":
             return self.current_upload
@@ -223,6 +227,10 @@ class BaseSubmission(models.Model):
     status = models.CharField(max_length=5, default="BP", choices=STATUS_LIST)
     created = models.DateTimeField(auto_now_add=True)
     feedback = models.TextField(blank=True, null=True)
+
+    @property
+    def is_valid(self):
+        return self.status in ('BS', 'VS')
 
     def check_stage(self, check_stage):
         # check_stage = {upload, build, validate}
