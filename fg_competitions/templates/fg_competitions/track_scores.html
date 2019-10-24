@@ -25,7 +25,7 @@
     {% elif not current.is_valid %}
       <td>{{ current.get_status_display }}</td>
     {% else %}
-      <td>{{ submission.pretty_score|floatformat:3 }}</td>
+      <td>{{ submission.ranking|floatformat:3 }}</td>
     {% endif %}
   </tr>
   {% endwith %}
