@@ -161,7 +161,7 @@ class Submission(models.Model):
         curr_upload = self.current
         if not curr_upload:
             return "No submission"
-        return curr_upload.pretty_score
+        return self.ranking
 
     @property
     def is_valid(self):
@@ -226,13 +226,6 @@ class BaseSubmission(models.Model):
     status = models.CharField(max_length=5, default="BP", choices=STATUS_LIST)
     created = models.DateTimeField(auto_now_add=True)
     feedback = models.TextField(blank=True, null=True)
-
-    @property
-    def pretty_score(self):
-        if not self.is_valid():
-            return self.get_status_display()
-        else:
-            return self.ranking
 
     @property
     def is_valid(self):
