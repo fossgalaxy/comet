@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.functional import cached_property
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
@@ -176,15 +177,15 @@ class Submission(models.Model):
         else:
             raise ValueError("unknown submission type")
 
-    @property
+    @cached_property
     def current_upload(self):
         return self.uploads.first()
 
-    @property
+    @cached_property
     def current_text(self):
         return self.text_submissions.first()
 
-    @property
+    @cached_property
     def current(self):
         if self.submission_type == "U":
             return self.current_upload
