@@ -1,11 +1,11 @@
 {% extends "fg_competitions/base_track.html" %}
-{% load account %}
+{% load account martortags %}
 
 {% block head_title %}{{track}}{% endblock %}
 
 {% block content_tab %}
     	<h2 class="sr-only">Details</h2>
-	    <p class="lead">{{track.description}}</p>
+	    <p class="lead">{{track.description|safe_markdown}}</p>
 
 	    {% if track.owner %}
 	    <p> Run by <a href="{{track.owner.get_absolute_url}}">{{track.owner}}</a></p>

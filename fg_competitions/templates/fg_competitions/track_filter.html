@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load extra_utils %}
+{% load extra_utils martortags %}
 
 {% block head_title %}Competitions{% endblock %}
 
@@ -32,7 +32,7 @@
 			<div class="card-body">
 				<h3 class="card-title"><a href="{{track.get_absolute_url}}">{{track}}</a></h3>
 				<h4 class="card-subtitle mb-2 text-muted">{{track.competition}}</h4>
-				<p class="card-text">{{track.description|default:""}}</p>
+				<p class="card-text">{{track.description|default:""|safe_markdown}}</p>
 			</div>
 			<div class="card-footer">
 				<div class="d-flex" style="text-algin: center">
