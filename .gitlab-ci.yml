@@ -53,9 +53,11 @@ container:
     - podman login --username "${REGISTRY_USERNAME}" --password "${REGISTRY_PASSWORD}" --authfile /tmp/docker.json "${REGISTRY_SERVER}"
   script:
     - buildah bud -t ${IMAGE_NAME}:${CI_COMMIT_SHA} .
-    - buildah push ${IMAGE_NAME}:${CI_COMMIT_SHA} --authfile /tmp/docker.json docker://${IMAGE_NAME}:snapshot
+    - buildah push --authfile /tmp/docker.json ${IMAGE_NAME}:${CI_COMMIT_SHA} docker://${IMAGE_NAME}:snapshot
   after_script:
     - podman logout --authfile /tmp/docker.json "${REGISTRY_SERVER}"
+  only:
+    - master
 
 #dist_ci:
 #    image: docker:latest

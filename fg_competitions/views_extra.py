@@ -8,6 +8,6 @@ class Homepage(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(TemplateView, self).get_context_data(**kwargs)
-        context['tracks'] = Track.objects.order_by('?').filter(allow_submit=True)[:3]
+        context['tracks'] = Track.objects.order_by('?').filter(allow_submit=True).select_related('competition')[:3]
         return context
 
