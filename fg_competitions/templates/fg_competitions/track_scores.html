@@ -4,7 +4,6 @@
 {% block head_title %}{{track}}{% endblock %}
 
 {% block content_tab %}
-
 <h2 class="sr-only">Leaderboard</h2>
 <table class="table table-striped">
   <thead class="thead-light">
@@ -16,17 +15,18 @@
   </thead>
 
 <tbody>
-{% for submission in track.submission_set.all %}
-
-  <tr {% if not submission.current %} class="warning" {% endif %}>
+{% for submission in submissions %}
+  {% with current=submission.current %}
+  <tr {% if not current %} class="warning" {% endif %}>
     <th><a href="{{submission.get_absolute_url}}">{{submission}}</a>{% if submission.sample %} <span class="badge badge-secondary">sample</span>{% endif %}</th>
     <td>{% user_display submission.owner %}</td>
-    {% if submission.is_valid %}
-    <td>{{ submission.pretty_score|floatformat:3 }}</td>
+    {% if current and current.is_valid %}
+    <td>{{ current.pretty_score|floatformat:3 }}</td>
     {% else %}
-    <td>{{ submission.pretty_score }}</td>
+    <td>{{ current.pretty_score|default:"No Submission" }}</td>
     {% endif %}
   </tr>
+  {% endwith %}
   {% empty %}
   <tr>
     <td colspan="3"><p class="text-center">There are presently no submissions</p></td>
