@@ -67,8 +67,14 @@ class CompetitionLink(models.Model):
     def __str__(self):
         return self.name
 
+class TrackManager(models.Manager):
+    def get_queryset(self):
+        return super(TrackManager, self).get_queryset().prefetch_related('competition')
+
 @python_2_unicode_compatible
 class Track(models.Model):
+    objects = TrackManager()
+
     """A variation in the rules of a competition"""
     name = models.CharField(max_length=100)
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
