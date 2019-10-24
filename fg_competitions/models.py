@@ -136,6 +136,7 @@ class Submission(models.Model):
     submission_type = models.CharField(max_length=1, default="U", choices=SUBMISSION_TYPES)
 
     # Extras
+    paper = models.URLField(blank=True, null=True, help_text="Provide a link to your research paper")
     allow_download = models.BooleanField(default=True, verbose_name="Make public", help_text="Allow public distribution after results publication")
     is_student = models.CharField(max_length=1, choices=YES_OR_NO, verbose_name="Student Submission", help_text="Is this submission by a student?")
     sample = models.BooleanField(default=False)

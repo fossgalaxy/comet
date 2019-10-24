@@ -217,7 +217,7 @@ class SubmissionCreate(CreateView):
 @method_decorator(login_required, name='dispatch')
 class SubmissionUpdate(UpdateView):
     model = Submission
-    fields = ['name', 'description', 'allow_download']
+    fields = ['name', 'description', 'paper', 'allow_download', 'is_student']
 
     def get_context_data(self, **kwargs):
         context = super(SubmissionUpdate, self).get_context_data(**kwargs)

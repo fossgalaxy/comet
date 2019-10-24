@@ -147,24 +147,36 @@ loading...
 
 {% block content_sidebar %}
     <nav class="nav flex-column">
-        <a class="nav-link btn btn-primary mt-md-2" href="{{submission.track.get_absolute_url}}">View Track</a>
-        {% if submission.track.allow_download and submission.current_upload %}
-        {% if submission.is_public or user.is_staff %}
-        <a class="nav-link btn btn-primary mt-md-2" href="{% url 'submission_download' pk=submission.current_upload.pk %}">Download</a>
-        {% else %}
-        <span class="d-inline-block" data-toggle="tooltip" title="Submission does not allow public download">
-        <a class="nav-link btn btn-primary disabled mt-md-2" href="#">Download</a> </span>
+        <a class="nav-link btn btn-outline-primary mt-md-2" href="{{submission.track.get_absolute_url}}">View Track</a>
+        {% if submission.paper %}
+          <a class="nav-link btn btn-outline-primary mt-md-2" href="{{submission.paper}}">View Paper</a>
         {% endif %}
+        {% if submission.current_upload and submission.track.allow_download %}
+          {% if submission.is_public %}
+            <a class="nav-link btn btn-outline-primary mt-md-2" href="{% url 'submission_download' pk=submission.current_upload.pk %}">Download</a>
+          {% else %}
+            <span class="d-inline-block" data-toggle="tooltip" title="Submission does not allow public download">
+            <a class="nav-link btn btn-outline-primary disabled mt-md-2" href="#">Download</a> </span>
+          {% endif %}
         {% endif %}
    </nav>
+   {% if submission.owner == user %}
+   <hr />
    <nav class="nav flex-column mt-3">
-	{% if submission.owner == user and submission.track.allow_update %}
+        <a class="nav-link btn btn-primary mt-md-2" href="{% url 'submission_update' pk=submission.pk %}">Edit Details</a>
 	{% if submission.track.allow_sub_uploads %}
 	<a class="nav-link btn btn-primary mt-md-2" href="{% url 'submission_upload' submission=submission.pk %}">Upload new Version</a>
         {% elif submission.track.allow_sub_text %}
 	<a class="nav-link btn btn-primary mt-md-2" href="{% url 'submission_text' submission=submission.pk %}">Upload new Version</a>
 	{% endif %}
-        <a class="nav-link btn btn-primary mt-md-2" href="{% url 'submission_update' pk=submission.pk %}">Update Details</a>
-	{% endif %}
     </nav>
+  {% endif %}
+
+   {% if submission.track.owner == user %}
+     <hr />
+     <nav class="nav flex-column mt-3">
+       <a class="nav-link btn btn-outline-secondary mt-md-2" href="{% url 'submission_download' pk=submission.current_upload.pk %}">Download (admin)</a>
+       <a class="nav-link btn btn-outline-secondary mt-md-2" href="{% url 'submission_update' pk=submission.current_upload.pk %}">Edit (admin)</a>
+     </nav>
+   {% endif %}
 {% endblock %}
