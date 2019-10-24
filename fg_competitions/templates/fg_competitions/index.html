@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load static bootstrap4 %}
+{% load static bootstrap4 martortags %}
 {% load account socialaccount %}
 
 {% block head_title %}Competitions{% endblock %}
@@ -27,7 +27,7 @@
 		    <div class="border rounded p-3 my-3">
 			    <h3><a href="{{track.get_absolute_url}}">{{track}}</a></h3>
 			    <p class="lead">{{track.competition}}</p>
-			    <p>{{track.description}}</p>
+			    <p>{{track.description|safe_markdown}}</p>
 		    </div>
 		    {% empty %}
 		    No open tracks
