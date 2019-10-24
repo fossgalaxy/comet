@@ -69,7 +69,6 @@ INSTALLED_APPS = [
     'fg_users',
     'fg_competitions',
     'fg_scoreboards',
-    'fg_portal',
     'corsheaders'
 ]
 
