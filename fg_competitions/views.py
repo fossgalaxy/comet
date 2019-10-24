@@ -166,7 +166,7 @@ class TrackScoreView(TrackTab, TemplateView):
        
         # track
         context['track'] = get_object_or_404(Track.objects.select_related('competition'), id=self.kwargs.get('track'))
-        context['submissions'] = context['track'].submission_set.all()
+        context['submissions'] = context['track'].submission_set.all().select_related('owner')
 
         return context
 
