@@ -1,7 +1,12 @@
 *.py[co]
 *.swp
+
+# django stuff
 db.sqlite3
 var/
-.venv/
 .env/
+
+# Git/Virtualenv
+.venv/
 .git/
+.vscode
