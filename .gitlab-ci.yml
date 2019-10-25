@@ -52,6 +52,7 @@ container:
     - buildah version
     - podman login --username "${REGISTRY_USERNAME}" --password "${REGISTRY_PASSWORD}" --authfile /tmp/docker.json "${REGISTRY_SERVER}"
   script:
+    - export STORAGE_DRIVER=vfs
     - buildah bud -t ${IMAGE_NAME}:${CI_COMMIT_SHA} .
     - buildah push --authfile /tmp/docker.json ${IMAGE_NAME}:${CI_COMMIT_SHA} docker://${IMAGE_NAME}:snapshot
   after_script:
