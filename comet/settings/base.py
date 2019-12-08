@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     #'allauth.socialaccount.providers.facebook',
     #'allauth.socialaccount.providers.google',
-#    'allauth.socialaccount.providers.orcid',
+    #'allauth.socialaccount.providers.orcid',
     'allauth.socialaccount.providers.github',
 
     'fg_users',
@@ -191,18 +191,4 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
-
-# sentry
-sentry = os.environ.get('SENTRY_DSN', False)
-if sentry:
-    sentry_env = os.environ.get('SENTRY_ENV', 'unknown')
-
-    import sentry_sdk
-    from sentry_sdk.integrations.django import DjangoIntegration
-
-    sentry_sdk.init(
-        dsn=sentry,
-        environment=sentry_env,
-        integrations=[DjangoIntegration()]
-    )
 
