@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -44,7 +43,6 @@ YES_OR_NO = (
     ('n', 'No')
 )
 
-@python_2_unicode_compatible
 class Competition(models.Model):
     """A high-level descripiton of a topic"""
     name = models.CharField(max_length=100)
@@ -58,7 +56,6 @@ class Competition(models.Model):
     def __str__(self):
         return self.name
 
-@python_2_unicode_compatible
 class CompetitionLink(models.Model):
     """A link to a document for the competition"""
     name = models.CharField(max_length=100)
@@ -72,7 +69,6 @@ class TrackManager(models.Manager):
     def get_queryset(self):
         return super(TrackManager, self).get_queryset().prefetch_related('competition')
 
-@python_2_unicode_compatible
 class Track(models.Model):
     objects = TrackManager()
 
@@ -126,7 +122,6 @@ class AllowedSubmissionType(models.Model):
     class Meta:
         unique_together = ( ("track", "submission_type"), )
 
-@python_2_unicode_compatible
 class Submission(models.Model):
     """An individual entry into the competition"""
     # meta-data
@@ -268,7 +263,6 @@ class BaseSubmission(models.Model):
         abstract = True
         ordering = ["-created"]
 
-@python_2_unicode_compatible
 class SubmissionText(BaseSubmission):
     """A textual version of a submission"""
     submission = models.ForeignKey(Submission, related_name='text_submissions', on_delete=models.CASCADE)
@@ -285,7 +279,6 @@ class SubmissionText(BaseSubmission):
         from django.urls import reverse
         return reverse('submission_detail', kwargs={'pk':self.submission.pk})
 
-@python_2_unicode_compatible
 class SubmissionUpload(BaseSubmission):
     """A version of a submission"""
     submission = models.ForeignKey(Submission, related_name='uploads', on_delete=models.CASCADE)
