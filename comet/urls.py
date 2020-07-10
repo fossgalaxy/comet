@@ -44,7 +44,7 @@ urlpatterns = [
     re_path(r'^api/', include(router.urls)),
 
     # 3rd party
-    re_path(r"^notifications/", include("pinax.notifications.urls", namespace="pinax_notifications")),
+    #re_path(r"^notifications/", include("pinax.notifications.urls", namespace="pinax_notifications")),
     re_path(r'^api-auth/', include('rest_framework.urls')),
     path('martor/', include('martor.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

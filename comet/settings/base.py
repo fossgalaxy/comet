@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'martor',
 
     # 3rd party
-    'pinax.notifications',
+#    'pinax.notifications',
 
     # Authentication Plugins
     'allauth',

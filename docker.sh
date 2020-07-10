@@ -15,7 +15,7 @@ IMAGE_NAME=fossgalaxy/comet
 # Sanity Check: run pipenv checks to make sure we don't deploy broken stuff.
 ##
 export DJANGO_SETTINGS_MODULE=comet.settings.local
-pipenv check
+#pipenv check # NO LONGER POSSIBLE
 pipenv sync
 
 ##
