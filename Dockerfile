@@ -37,7 +37,7 @@ RUN pipenv install --system
 USER django
 
 WORKDIR /home/django/website/
-RUN mkdir -p var/{static,uploads}
+RUN mkdir -p var/static var/uploads
 ADD . /home/django/website/
 
 EXPOSE 8000
