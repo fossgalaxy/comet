@@ -25,6 +25,7 @@ RUN pip install uwsgi psycopg2 pipenv
 # setup enviroment
 RUN adduser --disabled-password --gecos "" django
 RUN mkdir -p /home/django/website
+RUN mkdir -p /home/django/website/var/static /home/django/website/var/uploads
 RUN chown -R django:django /home/django/website
 
 # install requirements
@@ -35,9 +36,6 @@ RUN pipenv install --system
 
 # Drop to non-root and setup django
 USER django
-
-WORKDIR /home/django/website/
-RUN mkdir -p var/static var/uploads
 ADD . /home/django/website/
 
 EXPOSE 8000
