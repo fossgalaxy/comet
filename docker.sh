@@ -48,6 +48,8 @@ else
 	exit 1;
 fi
 
+BUILD_TYPE=docker
+
 # grab the commit ID
 GIT_COMMIT=$(git rev-parse HEAD)
 BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') 
@@ -65,9 +67,9 @@ case $BUILD_TYPE in
 esac
 
 
-if [ -f /bin/buildah ]; then
+#if [ -f /bin/buildah ]; then
 	buildah bud --label fossgalaxy/comet -t snapshot .
 	#buildah push fossgalaxy/comet:snapshot docker://docker.io/fossgalaxy/comet:snapshot
-else
+#else
 	docker push docker.io/fossgalaxy/comet:snapshot
-fi
+#fi
