@@ -1,4 +1,4 @@
-image: python:3.7-alpine
+image: python:3.8-alpine
 
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
