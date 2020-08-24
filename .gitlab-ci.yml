@@ -5,7 +5,7 @@ variables:
   IMAGE_NAME: ${REGISTRY_SERVER}/fossgalaxy/comet
 
 include:
-  - template: SAST.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
 
 before_script:
     - pip install pipenv
