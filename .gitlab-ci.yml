@@ -4,6 +4,9 @@ variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
   IMAGE_NAME: ${REGISTRY_SERVER}/fossgalaxy/comet
 
+include:
+  - template: SAST.gitlab-ci.yml
+
 before_script:
     - pip install pipenv
 
